@@ -1,27 +1,34 @@
-INSTAGRAM-PROFIL – Vorlage zum Abtippen
-=======================================
+INSTAGRAM-PROFIL – bestehender Account "HHReselling"
+===================================================
 
-Benutzername (der Reihe nach probieren, der erste freie gewinnt):
-  1. guesstheplayer.daily
-  2. careerpath.quiz
-  3. whoisit.football
-  4. guess.the.footballer
+Der Bot postet auf deinen bestehenden Account HHReselling.
+Claude braucht dafür KEIN Passwort. Der Bot meldet sich nur über
+das Meta-Token an (siehe ANLEITUNG.txt, Schritt 2). Falls du dein
+Passwort irgendwo in einen Chat geschrieben hast: bitte jetzt in
+Instagram ändern.
 
-Anzeigename:
-  Guess The Player ⚽
+Was am Account nötig ist:
+  - Professionelles Konto: Einstellungen > Kontoart und Tools >
+    Zu professionellem Konto wechseln > "Creator" (oder
+    "Unternehmen", geht auch).
+  - Konto öffentlich (nicht privat).
+  - Eine Facebook-Seite ist NICHT nötig. Der Bot nutzt die
+    Schnittstelle mit Instagram-Login, die ohne Seite auskommt.
 
-Bio (max. 150 Zeichen):
-  Guess the player from his career path 🧠
-  New football quiz every day at 6 PM
-  Comment your answer before the reveal 👇
+Empfohlen, weil der Account jetzt Fußball-Quiz-Reels zeigt:
+  Benutzername (optional ändern, alte Follower bleiben):
+    1. guesstheplayer.daily
+    2. careerpath.quiz
+    3. whoisit.football
+  Anzeigename:
+    Guess The Player ⚽
+  Bio (max. 150 Zeichen):
+    Guess the player from his career path 🧠
+    New football quiz every day at 6 PM
+    Comment your answer before the reveal 👇
+  Profilbild: einfarbiger Hintergrund mit großem weißem
+    Fragezeichen. Kein Vereinslogo, kein Spielerfoto.
 
-Kategorie (bei Creator-Konto): "Gaming-Video-Creator" oder
-  "Unterhaltung" bzw. "Entertainment"
-
-Profilbild: einfarbiger Hintergrund (z. B. dunkelblau) mit
-  großem weißem Fragezeichen. Kein Vereinslogo, kein Spielerfoto.
-
-Einstellungen:
-  - Professionelles Konto > Creator
-  - Konto öffentlich (nicht privat)
-  - Kontakt-Buttons: aus
+Hinweis: Alte Reselling-Beiträge kannst du archivieren
+(Beitrag > ... > Archivieren), damit neue Besucher sofort sehen,
+worum es geht. Das ist optional.

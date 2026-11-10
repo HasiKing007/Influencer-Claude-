@@ -12,19 +12,15 @@ Wenn etwas anders heißt als hier, such nach dem sinngemäß gleichen
 Punkt oder schick mir einen Screenshot.
 
 
-SCHRITT 1 – Instagram-Account anlegen (Handy, 5 Min.)
------------------------------------------------------
-1. Neuen Instagram-Account anlegen. Namensvorschläge:
-   careerpath.quiz / guesstheplayer.daily / whoisit.football
-2. Auf professionelles Konto umstellen:
+SCHRITT 1 – Instagram-Account vorbereiten (Handy, 5 Min.)
+---------------------------------------------------------
+Es wird dein bestehender Account HHReselling genutzt.
+1. Auf professionelles Konto umstellen (falls noch nicht):
    Einstellungen > Kontoart und Tools > Zu professionellem Konto
    wechseln > "Creator" wählen.
-3. Konto muss öffentlich sein (nicht privat).
-4. Bio (Vorschlag):
-   Guess the player from his career path
-   New quiz every day
-5. Profilbild: irgendein eigenes, einfaches Bild (kein Vereinslogo,
-   kein Spielerfoto).
+2. Konto muss öffentlich sein (nicht privat).
+3. Eine Facebook-Seite braucht es nicht.
+4. Name, Bio und Profilbild: siehe INSTAGRAM-PROFIL.txt.
 
 
 SCHRITT 2 – Meta-App und Token (Browser, 10 Min.)
@@ -37,8 +33,8 @@ SCHRITT 2 – Meta-App und Token (Browser, 10 Min.)
 3. Die App im ENTWICKLUNGSMODUS lassen. Nicht live schalten,
    kein App Review beantragen.
 4. In der App: Instagram > "API-Einrichtung mit Instagram-Login".
-5. Dort "Zugriffstoken generieren" > Konto hinzufügen > mit dem
-   neuen Instagram-Account anmelden und alle Berechtigungen erlauben.
+5. Dort "Zugriffstoken generieren" > Konto hinzufügen > mit
+   HHReselling anmelden und alle Berechtigungen erlauben.
    (Falls verlangt: den Account unter App-Rollen als
    "Instagram-Tester" eintragen und die Einladung in Instagram unter
    Einstellungen > Apps und Websites annehmen.)
