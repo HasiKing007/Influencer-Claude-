@@ -1,0 +1,26 @@
+name: Refresh Instagram token
+
+on:
+  schedule:
+    - cron: "41 4 1,15 * *"
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refresh token and store it as secret
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          response=$(curl -sS "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${IG_ACCESS_TOKEN}")
+          new_token=$(echo "$response" | jq -r '.access_token // empty')
+          if [ -z "$new_token" ]; then
+            echo "Token konnte nicht erneuert werden:"
+            echo "$response" | jq 'del(.access_token)'
+            exit 1
+          fi
+          echo "::add-mask::$new_token"
+          gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" --body "$new_token"
+          echo "Token erneuert, gueltig fuer $(echo "$response" | jq -r '.expires_in') Sekunden"

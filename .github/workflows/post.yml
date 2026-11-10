@@ -1,0 +1,61 @@
+name: Post daily reel
+
+on:
+  schedule:
+    - cron: "17 17 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Nur rendern, nichts veroeffentlichen"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency: post
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          pip install -q -r requirements.txt
+      - name: Git identity
+        run: |
+          git config user.name "reelbot"
+          git config user.email "reelbot@users.noreply.github.com"
+      - name: Render and post
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+        run: python post.py
+      - name: Update stats
+        if: always()
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python stats.py
+      - name: Save state
+        if: always()
+        run: |
+          git add data/state.json 2>/dev/null || true
+          git add data/stats.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Update state and stats"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Keep rendered video as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel
+          path: out/reel.mp4
+          retention-days: 7
+          if-no-files-found: ignore

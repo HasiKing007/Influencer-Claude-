@@ -1,0 +1,129 @@
+REELBOT – EINRICHTUNG (einmalig, ca. 30 Minuten)
+=================================================
+
+Ziel: Ein Instagram-Account, der jeden Tag automatisch ein
+"Guess the player"-Reel postet. Nach dieser Einrichtung musst du
+nichts mehr tun.
+
+Du brauchst: reelbot.zip (liegt bei), ein Handy, einen Browser.
+
+Hinweis: Die Bezeichnungen der Menüpunkte bei Meta ändern sich öfter.
+Wenn etwas anders heißt als hier, such nach dem sinngemäß gleichen
+Punkt oder schick mir einen Screenshot.
+
+
+SCHRITT 1 – Instagram-Account anlegen (Handy, 5 Min.)
+-----------------------------------------------------
+1. Neuen Instagram-Account anlegen. Namensvorschläge:
+   careerpath.quiz / guesstheplayer.daily / whoisit.football
+2. Auf professionelles Konto umstellen:
+   Einstellungen > Kontoart und Tools > Zu professionellem Konto
+   wechseln > "Creator" wählen.
+3. Konto muss öffentlich sein (nicht privat).
+4. Bio (Vorschlag):
+   Guess the player from his career path
+   New quiz every day
+5. Profilbild: irgendein eigenes, einfaches Bild (kein Vereinslogo,
+   kein Spielerfoto).
+
+
+SCHRITT 2 – Meta-App und Token (Browser, 10 Min.)
+-------------------------------------------------
+1. https://developers.facebook.com öffnen, mit einem Facebook-Konto
+   anmelden und als Entwickler registrieren.
+2. "App erstellen" > als Anwendungsfall etwas wie
+   "Messaging und Inhalte auf Instagram verwalten" wählen.
+   App-Name z. B. "reelbot".
+3. Die App im ENTWICKLUNGSMODUS lassen. Nicht live schalten,
+   kein App Review beantragen.
+4. In der App: Instagram > "API-Einrichtung mit Instagram-Login".
+5. Dort "Zugriffstoken generieren" > Konto hinzufügen > mit dem
+   neuen Instagram-Account anmelden und alle Berechtigungen erlauben.
+   (Falls verlangt: den Account unter App-Rollen als
+   "Instagram-Tester" eintragen und die Einladung in Instagram unter
+   Einstellungen > Apps und Websites annehmen.)
+6. Das angezeigte Token kopieren und sicher zwischenspeichern.
+   Das Token ist wie ein Passwort. Schick es niemandem, auch mir
+   nicht in den Chat.
+
+
+SCHRITT 3 – GitHub-Repo (Browser, 10 Min.)
+------------------------------------------
+1. Das Repo existiert schon: HasiKing007/Influencer-Claude-
+   Der Code liegt darin (Branch von Claude, per Pull Request).
+   Pull Request mergen, damit der Code auf dem Hauptbranch liegt.
+2. Repo auf PUBLIC stellen: Settings > General > ganz unten
+   "Danger Zone" > "Change visibility" > Public.
+   (Noetig, weil Instagram das Video von einer oeffentlichen
+   Adresse abholt. Das Token bleibt trotzdem geheim.)
+3. Kontrolle: Im Repo muss es die Datei
+   .github/workflows/post.yml geben.
+4. Token hinterlegen: Settings > Secrets and variables > Actions >
+   "New repository secret"
+     Name:  IG_ACCESS_TOKEN
+     Wert:  das Token aus Schritt 2
+5. Zweites Secret für die automatische Token-Erneuerung:
+   a) Rechts oben Profilbild > Settings > Developer settings >
+      Personal access tokens > Fine-grained tokens > Generate new
+      token.
+      - Repository access: "Only select repositories" > Influencer-Claude-
+      - Permissions > Repository permissions > Secrets:
+        "Read and write"
+      - Ablauf: die längste angebotene Laufzeit
+   b) Im Repo wieder "New repository secret":
+     Name:  GH_PAT
+     Wert:  der eben erzeugte GitHub-Token
+6. Settings > Actions > General > Workflow permissions:
+   "Read and write permissions" auswählen und speichern.
+
+
+SCHRITT 4 – Testlauf (2 Min.)
+-----------------------------
+1. Im Repo auf den Reiter "Actions" gehen (Workflows aktivieren,
+   falls gefragt).
+2. Links "Post daily reel" > rechts "Run workflow" > "Run workflow".
+3. Nach 3 bis 5 Minuten sollte der Lauf grün sein und das erste
+   Reel auf dem Instagram-Account stehen.
+4. Wenn der Lauf rot ist: auf den Lauf klicken, den Text des roten
+   Schritts kopieren und mir schicken. (Das Token steht dort nicht
+   drin.)
+
+Ab jetzt postet der Bot jeden Tag um ca. 18:17 Uhr (Winterzeit)
+selbstständig. Der Vorrat reicht für 32 Tage.
+
+
+SCHRITT 5 – Claude-Projekt (optional, 2 Min.)
+---------------------------------------------
+Ein Projekt konnte ich nicht selbst anlegen. Lege in Claude ein
+Projekt "Reelbot" an, lade diese Anleitung hinein und füge als
+Projektanweisung ein:
+
+  Dieses Projekt betreut einen automatischen Instagram-Account mit
+  "Guess the player"-Fußball-Quiz-Reels (Englisch). Der Code liegt
+  im GitHub-Repo <dein-name>/reelbot. Ein GitHub-Actions-Lauf postet
+  täglich ein Reel aus data/quizzes.json. Kennzahlen stehen in
+  data/stats.json. Ziel: über 10.000 Follower. Es werden keine
+  fremden Videos, Fotos oder Logos verwendet.
+
+
+SCHRITT 6 – Mir Bescheid geben
+------------------------------
+Schreib mir im Chat den Repo-Namen (z. B. "meinname/reelbot") und
+ob der Testlauf grün war. Dann richte ich die wöchentliche Aufgabe
+ein, die neue Quizze nachfüllt und das Format anhand der Kennzahlen
+anpasst. Dafür muss Claude Zugriff auf das Repo haben; falls das
+noch fehlt, sage ich dir, wo du es freigibst.
+
+
+WAS DU WISSEN SOLLTEST
+----------------------
+- Den Bot habe ich hier gebaut und das Rendern getestet. Das
+  Hochladen zu Instagram konnte ich ohne deinen Account nicht
+  testen. Der Testlauf in Schritt 4 ist der erste echte Versuch.
+- Ob Instagram das Posten im Entwicklungsmodus ohne App Review
+  zulässt, stützt sich auf Angaben Dritter. Bleibt das Reel privat
+  oder kommt ein Berechtigungsfehler, melde dich.
+- Stoppen: Im Repo unter Actions > "Post daily reel" > "..." >
+  "Disable workflow".
+- 10.000 Follower kann niemand garantieren. Das hier ist das
+  Experiment, ob es klappt.

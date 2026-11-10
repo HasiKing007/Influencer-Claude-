@@ -1,0 +1,27 @@
+INSTAGRAM-PROFIL – Vorlage zum Abtippen
+=======================================
+
+Benutzername (der Reihe nach probieren, der erste freie gewinnt):
+  1. guesstheplayer.daily
+  2. careerpath.quiz
+  3. whoisit.football
+  4. guess.the.footballer
+
+Anzeigename:
+  Guess The Player ⚽
+
+Bio (max. 150 Zeichen):
+  Guess the player from his career path 🧠
+  New football quiz every day at 6 PM
+  Comment your answer before the reveal 👇
+
+Kategorie (bei Creator-Konto): "Gaming-Video-Creator" oder
+  "Unterhaltung" bzw. "Entertainment"
+
+Profilbild: einfarbiger Hintergrund (z. B. dunkelblau) mit
+  großem weißem Fragezeichen. Kein Vereinslogo, kein Spielerfoto.
+
+Einstellungen:
+  - Professionelles Konto > Creator
+  - Konto öffentlich (nicht privat)
+  - Kontakt-Buttons: aus
