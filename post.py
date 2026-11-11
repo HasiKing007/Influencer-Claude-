@@ -105,9 +105,30 @@ def post_reel(urls, caption):
     raise SystemExit(f"Veroeffentlichen fehlgeschlagen: {last_error}")
 
 
+SLOT_GAP_MIN = 150   # Slots liegen 4 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
+MAX_PER_DAY = 3
+
+
+def already_posted_in_slot(state):
+    """Nur fuer geplante Laeufe: verhindert Doppelposts durch Ersatz-Termine."""
+    if os.environ.get("EVENT_NAME") != "schedule":
+        return False
+    now = datetime.datetime.utcnow()
+    dates = [datetime.datetime.strptime(p["date"], "%Y-%m-%dT%H:%MZ") for p in state["posted"] if p.get("date")]
+    if any((now - d).total_seconds() < SLOT_GAP_MIN * 60 for d in dates):
+        print("In diesem Slot wurde schon gepostet, ueberspringe.")
+        return True
+    if sum(d.date() == now.date() for d in dates) >= MAX_PER_DAY:
+        print("Tageslimit erreicht, ueberspringe.")
+        return True
+    return False
+
+
 def main():
     quizzes = load(QUIZZES, [])
     state = load(STATE, {"posted": []})
+    if already_posted_in_slot(state):
+        return
     quiz = pick(quizzes, state)
     out = render.render(quiz, os.path.join(ROOT, "out", "reel.mp4"))
     caption_idx = len(state["posted"]) % len(CAPTIONS)
