@@ -3,10 +3,18 @@
     {
       "date": "2026-11-11",
       "followers": 3,
-      "posts": 1
+      "posts": 2
     }
   ],
   "media": [
+    {
+      "id": "17994868971005869",
+      "comments_count": 0,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/Dfm7jVXsgI_/",
+      "timestamp": "2026-11-11T16:39:57+0000",
+      "insights_error": "Instagram API 17994868971005869/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+    },
     {
       "id": "18080217737430393",
       "comments_count": 0,
