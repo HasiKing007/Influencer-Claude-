@@ -1,5 +1,12 @@
 # Reelbot Auswertungen
 
+> Hinweise fuer jede Auswertung (Stand 2026-11-11, von Jacob gewuenscht):
+> - Ziel sind maximale Views. Bei jedem Lauf per Websuche vergleichen, was aktuell top-performende Fussball-Quiz-Reels/Shorts machen
+>   (Schnitt, Tempo, Footage, Idee/Format, Sound, Effekte, Hook in der ersten Sekunde), und eins bis zwei Punkte davon uebernehmen.
+> - Keine urheberrechtlich geschuetzten Spielszenen/TV-Clips (Jacob wollte sie, Claude hat abgelehnt). Erlaubt: frei lizenziertes
+>   Stock-Footage (Pexels/Pixabay), sobald Jacob einen API-Key als Secret hinterlegt; eigene Animationen und eigener Sound.
+> - Pruefen, ob alle Slots des Tages gepostet haben; fehlende per Workflow-Dispatch ohne Inputs nachholen (Sperre verhindert Doppelposts).
+
 ## 2026-11-11 14:45 (Wien)
 - Bisher 1 Reel (ibrahimovic, 06:52 UTC, manuell gestartet): 2 Likes, 0 Kommentare nach 7 h; 3 Follower.
 - Views/Reach fehlen: Insights-Abfrage scheitert mit "(#10) Application does not have permission" -> Token braucht die Berechtigung instagram_business_manage_insights (Jacob muss Token neu erzeugen).
