@@ -14,6 +14,10 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
+          case "$IG_ACCESS_TOKEN" in
+            IG*) ;;
+            *) echo "Systemnutzer-Token (Unified Login) laeuft nicht ab, nichts zu tun."; exit 0 ;;
+          esac
           response=$(curl -sS "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${IG_ACCESS_TOKEN}")
           new_token=$(echo "$response" | jq -r '.access_token // empty')
           if [ -z "$new_token" ]; then

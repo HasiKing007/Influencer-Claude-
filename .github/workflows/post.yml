@@ -36,12 +36,14 @@ jobs:
       - name: Render and post
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ vars.IG_USER_ID }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
         run: python post.py
       - name: Update stats
         if: always()
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ vars.IG_USER_ID }}
         run: python stats.py
       - name: Save state
         if: always()

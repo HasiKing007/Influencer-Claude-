@@ -6,18 +6,13 @@ import datetime
 import json
 import os
 
-import requests
+import igapi
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-API = "https://graph.instagram.com"
-TOKEN = os.environ.get("IG_ACCESS_TOKEN", "")
 
 
 def get(path, **params):
-    params["access_token"] = TOKEN
-    r = requests.get(f"{API}/{path}", params=params, timeout=60)
-    r.raise_for_status()
-    return r.json()
+    return igapi.call("GET", path, **params)
 
 
 def main():
@@ -26,8 +21,9 @@ def main():
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             stats = json.load(f)
-    me = get("me", fields="username,followers_count,media_count")
-    media = get("me/media", fields="id,caption,timestamp,like_count,comments_count,permalink", limit=50).get("data", [])
+    ig_id = igapi.ig_user_id()
+    me = get(ig_id, fields="username,followers_count,media_count")
+    media = get(f"{ig_id}/media", fields="id,caption,timestamp,like_count,comments_count,permalink", limit=50).get("data", [])
     for m in media:
         m.pop("caption", None)
         try:

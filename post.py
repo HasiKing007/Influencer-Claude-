@@ -14,12 +14,12 @@ import time
 
 import requests
 
+import igapi
 import render
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
 QUIZZES = os.path.join(ROOT, "data", "quizzes.json")
-API = "https://graph.instagram.com" + ("/" + os.environ["IG_API_VERSION"] if os.environ.get("IG_API_VERSION") else "")
 
 CAPTIONS = [
     "Can you guess the player from his career path? Comment your answer before the reveal!",
@@ -77,20 +77,12 @@ def reachable(url, tries=12):
     return False
 
 
-def api(method, path, **params):
-    params["access_token"] = os.environ["IG_ACCESS_TOKEN"]
-    r = requests.request(method, f"{API}/{path}", data=params if method == "POST" else None,
-                         params=params if method == "GET" else None, timeout=60)
-    body = r.json()
-    if r.status_code != 200 or "error" in body:
-        raise RuntimeError(f"Instagram API {path}: {json.dumps(body.get('error', body))}")
-    return body
+api = igapi.call
 
 
 def post_reel(urls, caption):
-    me = api("GET", "me", fields="user_id,username")
-    ig_id = me["user_id"]
-    print("Account:", me.get("username"))
+    ig_id = igapi.ig_user_id()
+    print("Account:", api("GET", ig_id, fields="username").get("username"))
     last_error = None
     for url in urls:
         if not reachable(url):
