@@ -35,10 +35,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install tools
+        timeout-minutes: 5
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg
-          pip install -q -r requirements.txt
+          # ffmpeg als statisches Binary von PyPI (apt-get hing am 2026-11-11 ueber 15 min)
+          pip install -q -r requirements.txt imageio-ffmpeg
+          mkdir -p "$HOME/bin"
+          ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$HOME/bin/ffmpeg"
+          echo "$HOME/bin" >> "$GITHUB_PATH"
       - name: Git identity
         run: |
           git config user.name "reelbot"
