@@ -110,13 +110,14 @@ def main():
     state = load(STATE, {"posted": []})
     quiz = pick(quizzes, state)
     out = render.render(quiz, os.path.join(ROOT, "out", "reel.mp4"))
-    caption = CAPTIONS[len(state["posted"]) % len(CAPTIONS)] + "\n\n" + TAGS
+    caption_idx = len(state["posted"]) % len(CAPTIONS)
+    caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
     print("Gerendert:", quiz["id"], out)
     if os.environ.get("DRY_RUN") == "1":
         print("DRY_RUN: nichts veroeffentlicht")
         return
     media_id = post_reel(publish_file(out), caption)
-    state["posted"].append({"id": quiz["id"], "media_id": media_id,
+    state["posted"].append({"id": quiz["id"], "media_id": media_id, "caption": caption_idx,
                             "date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")})
     with open(STATE, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2, ensure_ascii=False)

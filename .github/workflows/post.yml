@@ -2,7 +2,8 @@ name: Post daily reel
 
 on:
   schedule:
-    - cron: "17 17 * * *"
+    # 3 Reels pro Tag: 11:17, 15:17, 19:17 Wiener Winterzeit
+    - cron: "17 10,14,18 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
