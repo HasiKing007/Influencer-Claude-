@@ -105,13 +105,13 @@ def post_reel(urls, caption):
     raise SystemExit(f"Veroeffentlichen fehlgeschlagen: {last_error}")
 
 
-SLOT_GAP_MIN = 150   # Slots liegen 4 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
-MAX_PER_DAY = 3
+SLOT_GAP_MIN = 90    # Slots liegen 4 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
+MAX_PER_DAY = 4     # Sicherheitsgrenze (Regel: nie mehr als 5)
 
 
 def already_posted_in_slot(state):
-    """Nur fuer geplante Laeufe: verhindert Doppelposts durch Ersatz-Termine."""
-    if os.environ.get("EVENT_NAME") != "schedule":
+    """Verhindert Doppelposts durch Ersatz-Termine und externe Ausloeser (ausser FORCE=1)."""
+    if os.environ.get("FORCE") == "1":
         return False
     now = datetime.datetime.utcnow()
     dates = [datetime.datetime.strptime(p["date"], "%Y-%m-%dT%H:%MZ") for p in state["posted"] if p.get("date")]

@@ -13,6 +13,10 @@ on:
         description: "Nur rendern, nichts veroeffentlichen"
         type: boolean
         default: false
+      force:
+        description: "Sofort posten, auch wenn gerade erst gepostet wurde"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -44,7 +48,7 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ vars.IG_USER_ID }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
-          EVENT_NAME: ${{ github.event_name }}
+          FORCE: ${{ inputs.force && '1' || '0' }}
         run: python post.py
       - name: Update stats
         if: always()
