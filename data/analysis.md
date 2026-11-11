@@ -11,3 +11,9 @@
 - GitHub-Cron hat auch 14:17/14:47/15:17 UTC nicht gestartet; zusaetzlich hing apt-get (ffmpeg) >15 min.
 - Fix: ffmpeg jetzt via imageio-ffmpeg (PyPI), Sperre gilt fuer alle Ausloeser (90 min Abstand, max. 4/Tag), externer Waechter um 10:38/14:38/18:38 UTC startet den Workflow, falls ein Slot fehlt.
 - Nachhol-Reel ronaldinho um 16:40 UTC gepostet (Caption-Variante 1).
+
+## 2026-11-11 22:45 (Wien)
+- Heute 4 Reels: ibrahimovic 2 Likes (15 h), ronaldinho 1 Like (5 h), henry 2 Likes (3 h), tevez 0 Likes (20 min, spaet um 22:27 Wien gepostet). 0 Kommentare, 3 Follower (unveraendert).
+- Views/Reach weiterhin nicht abrufbar ((#10) fehlende Berechtigung instagram_business_manage_insights) -> neuer Token von Jacob am 12.11. noetig.
+- Likes allein (0-2) sind zu wenig Signal, um Captions/Spieler zu vergleichen; Konto ist erst 1 Tag alt.
+- Geaendert: nichts am Inhalt, damit die ersten Tage eine saubere Vergleichsbasis liefern. 28 Quizze noch in der Warteschlange (Ziel >=15 erfuellt).
