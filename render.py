@@ -27,7 +27,7 @@ REGULAR = os.path.join(ROOT, "fonts", "DejaVuSansCondensed.ttf")
 SAFE_LEFT, SAFE_RIGHT = 70, 930
 LIST_TOP, LIST_BOTTOM = 520, 1440
 
-INTRO = 0.9
+INTRO = 0.3   # erste Station sofort zeigen (vorher 0.9 s leerer Einstieg)
 COUNTDOWN = 3.0
 REVEAL = 3.6
 

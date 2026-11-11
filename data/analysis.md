@@ -17,3 +17,9 @@
 - Views/Reach weiterhin nicht abrufbar ((#10) fehlende Berechtigung instagram_business_manage_insights) -> neuer Token von Jacob am 12.11. noetig.
 - Likes allein (0-2) sind zu wenig Signal, um Captions/Spieler zu vergleichen; Konto ist erst 1 Tag alt.
 - Geaendert: nichts am Inhalt, damit die ersten Tage eine saubere Vergleichsbasis liefern. 28 Quizze noch in der Warteschlange (Ziel >=15 erfuellt).
+
+## 2026-11-11 22:50 (Wien)
+- 4 Reels heute (ibrahimovic, ronaldinho, henry, tevez); laut Jacobs Screenshot 132 bzw. 138 Views bei den aelteren Reels, 1-2 Likes, weiter 3 Follower.
+- Problem: Alle Titelbilder im Profil sind identisch und leer (nur "GUESS THE PLAYER"), erster Frame 0.9 s ohne Inhalt.
+- Geaendert: Titelbild jetzt = komplette Karriere-Liste (thumb_offset kurz vor Countdown); erste Station erscheint nach 0.3 s statt 0.9 s.
+- Keine Spielszenen-Clips: Urheberrecht der Ligen/Sender, Gefahr von Sperren.

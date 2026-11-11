@@ -80,7 +80,7 @@ def reachable(url, tries=12):
 api = igapi.call
 
 
-def post_reel(urls, caption):
+def post_reel(urls, caption, thumb_offset_ms=None):
     ig_id = igapi.ig_user_id()
     print("Account:", api("GET", ig_id, fields="username").get("username"))
     last_error = None
@@ -89,7 +89,14 @@ def post_reel(urls, caption):
             print("Nicht erreichbar:", url)
             continue
         try:
-            container = api("POST", f"{ig_id}/media", media_type="REELS", video_url=url, caption=caption)["id"]
+            extra = {"thumb_offset": thumb_offset_ms} if thumb_offset_ms else {}
+            try:
+                container = api("POST", f"{ig_id}/media", media_type="REELS", video_url=url, caption=caption, **extra)["id"]
+            except RuntimeError as e:
+                if not extra:
+                    raise
+                print("Titelbild-Parameter abgelehnt, poste ohne:", e)
+                container = api("POST", f"{ig_id}/media", media_type="REELS", video_url=url, caption=caption)["id"]
             for _ in range(20):
                 time.sleep(30)
                 status = api("GET", container, fields="status_code,status")
@@ -137,7 +144,10 @@ def main():
     if os.environ.get("DRY_RUN") == "1":
         print("DRY_RUN: nichts veroeffentlicht")
         return
-    media_id = post_reel(publish_file(out), caption)
+    # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
+    stations_end = render.timing(len(quiz["clubs"]))[1]
+    thumb_ms = int((stations_end - 0.05) * 1000)
+    media_id = post_reel(publish_file(out), caption, thumb_ms)
     state["posted"].append({"id": quiz["id"], "media_id": media_id, "caption": caption_idx,
                             "date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")})
     with open(STATE, "w", encoding="utf-8") as f:
