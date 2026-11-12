@@ -9,6 +9,9 @@
 >   synthetisiertem ASMR-Sound, Szenen escape/grow/fill/slice/stack, Physik in physics.py; Jacob mag huepfende Baelle + Abwechslung, nicht zu hektisch, Physik muss realistisch wirken; Pastell-Version lehnte er ab; gern neue Szenen ergaenzen). Reihenfolge und erlaubte Szenen in data/formats.json.
 >   Jacob hat die Content-Entscheidung komplett an Claude uebertragen: Views pro Format/Szene vergleichen (state.json hat format+scene
 >   je Post) und formats.json selbststaendig anpassen; Ziel ist eine Nische, sobald klar ist, was besser laeuft. Account/Name bleiben.
+> - Explorative Forschung ausdruecklich erwuenscht (Jacob, 2026-11-12): neben kleinen Stellschrauben auch ganz neue Formate,
+>   Hooks, Laengen, Stile testen. Ziel ist >=10.000 Views pro Reel; ~130 Views gelten als Misserfolg. Pro Lauf mindestens
+>   ein mutiges Experiment einplanen und klar markieren, damit der Effekt messbar bleibt (nur die Reels mit diesem Merkmal vergleichen).
 > - Pruefen, ob alle Slots des Tages gepostet haben; fehlende per Workflow-Dispatch ohne Inputs nachholen (Sperre verhindert Doppelposts).
 
 ## 2026-11-11 14:45 (Wien)
