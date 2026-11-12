@@ -2,7 +2,7 @@
 Jede Szene endet so, wie sie beginnt (Endlos-Loop); der Ton laeuft im Ringpuffer nahtlos weiter.
 
 Kein fremdes Material: jedes Bild und jeder Ton entsteht hier im Code.
-Szenen: grow, escape, galton, slice, stack (siehe SCENES).
+Szenen: grow, escape, galton, slice, stack, duel (siehe SCENES).
 
 Aufruf:  python satisfying.py <szene> [seed] [ausgabe.mp4]
 """
@@ -835,7 +835,172 @@ class Stack(Scene):
         mx.add(self.sink_t, snd_whoosh(0.6, mx.rng), 0.4)
 
 
-SCENES = {c.name: c for c in (Grow, Escape, Fill, Slice, Stack)}   # Galton: Physik-Version bildet noch keine saubere Glocke
+MATCHUPS = [  # (Name, Kuerzel, Farbe) - nur Laendernamen/-farben, keine Logos
+    (("BRAZIL", "BRA", (250, 215, 30)), ("ARGENTINA", "ARG", (110, 190, 255))),
+    (("ENGLAND", "ENG", (245, 245, 245)), ("GERMANY", "GER", (230, 40, 50))),
+    (("SPAIN", "ESP", (235, 30, 45)), ("PORTUGAL", "POR", (20, 170, 80))),
+    (("FRANCE", "FRA", (40, 90, 230)), ("ITALY", "ITA", (30, 200, 120))),
+    (("NETHERLANDS", "NED", (255, 130, 20)), ("BELGIUM", "BEL", (220, 30, 40))),
+    (("MESSI", "M10", (110, 190, 255)), ("RONALDO", "CR7", (235, 30, 45))),
+]
+
+
+class Duel(Scene):
+    """Zwei Baelle (zwei Teams) in denselben rotierenden Ringen: wer zuerst ganz draussen ist, gewinnt.
+    Ein Ring zerplatzt, sobald irgendein Ball durch seine Luecke kommt. Baelle stossen elastisch aneinander."""
+    name = "duel"
+    thumb = 0.15
+    R = 30
+
+    def __init__(self, seed):
+        super().__init__(seed)
+        self.teams = MATCHUPS[seed % len(MATCHUPS)]
+        a, b = self.teams[0][0], self.teams[1][0]
+        self.hook = f"{a} vs {b}\nWho escapes first?"
+        self.caption = f"{a.title()} or {b.title()}? Pick your side in the comments BEFORE it ends"
+
+    def setup(self, rng):
+        self.rings = []
+        for i in range(5):
+            self.rings.append({"r": 170 + i * 62, "w": rng.uniform(0.7, 1.15) * (1 if i % 2 else -1),
+                               "ph": rng.uniform(0, 2 * math.pi), "gap": math.radians(rng.uniform(40, 48))})
+
+    def simulate(self, seed, record=False):
+        rng = random.Random(seed)
+        self.setup(rng)
+        c = np.array([CX, CY])
+        ps = [c + np.array([-45.0, 0.0]), c + np.array([45.0, 0.0])]
+        vs = []
+        for _ in range(2):
+            a = rng.uniform(0, 2 * math.pi)
+            vs.append(np.array([math.cos(a), math.sin(a)]) * rng.uniform(600, 800))
+        r, g, sub = self.R, 1000.0, 10
+        dt = 1 / (FPS * sub)
+        cur, t, hits, pops, out, winner, t_win = 0, 0.0, [], [], [], None, None
+        while t < 16:
+            for _ in range(sub):
+                t += dt
+                for i in range(2):
+                    vs[i][1] += g * dt
+                    ps[i] = ps[i] + vs[i] * dt
+                d = ps[1] - ps[0]
+                dist = np.linalg.norm(d)
+                if 0 < dist < 2 * r:
+                    n = d / dist
+                    rel = (vs[0] - vs[1]) @ n
+                    if rel > 0:
+                        vs[0] = vs[0] - rel * n
+                        vs[1] = vs[1] + rel * n
+                        hits.append((t, -1, float(ps[0][0] + d[0] / 2), 0.0))
+                    over = 2 * r - dist
+                    ps[0] = ps[0] - n * over / 2
+                    ps[1] = ps[1] + n * over / 2
+                for i in range(2):
+                    if cur >= len(self.rings):
+                        continue
+                    ring = self.rings[cur]
+                    dd = ps[i] - c
+                    dl = np.linalg.norm(dd)
+                    if dl + r >= ring["r"] - 4:
+                        th = math.atan2(dd[1], dd[0])
+                        rel = (th - ring["ph"] - ring["w"] * t + math.pi) % (2 * math.pi) - math.pi
+                        if abs(rel) < ring["gap"] / 2 - r / ring["r"]:
+                            pops.append((t, cur, float(ps[i][0]), i))
+                            cur += 1
+                            if cur == len(self.rings):
+                                winner, t_win = i, t
+                            continue
+                        n = dd / dl
+                        vn = vs[i] @ n
+                        if vn > 0:
+                            vs[i] = vs[i] - 2 * vn * n
+                            hits.append((t, cur, float(ps[i][0]), 0.0))
+                        ps[i] = c + n * (ring["r"] - 4 - r)
+            if record:
+                out.append(([p.copy() for p in ps], cur))
+            if winner is not None and t > t_win + 1.6:
+                break
+        return t, cur, hits, pops, out, winner, t_win
+
+    def frames(self):
+        seed = self.seed
+        for k in range(300):
+            res = self.simulate(seed)
+            t, cur, hits, pops, _, winner, t_win = res
+            if winner is not None and 7 <= t_win <= 12.5:
+                by = [sum(1 for p in pops if p[3] == i) for i in range(2)]
+                if min(by) >= 2:   # knappes Rennen: beide Teams sprengen mindestens 2 Ringe
+                    break
+            seed = self.seed * 1000 + k + 1
+        t, cur, hits, pops, states, winner, t_win = self.simulate(seed, record=True)
+        self.hits, self.pops, self.winner, self.t_win = hits, pops, winner, t_win
+        n_loop = int(0.6 * FPS)
+        self.duration = (len(states) + n_loop) / FPS
+        rng = random.Random(seed)
+        shards = []
+        for (pt, idx, _, who) in pops:
+            ring = self.rings[idx]
+            col = self.teams[who][2]
+            for j in range(48):
+                a = j / 48 * 2 * math.pi
+                sp = rng.uniform(150, 520)
+                shards.append((pt, col, CX + ring["r"] * math.cos(a), CY + ring["r"] * math.sin(a),
+                               math.cos(a) * sp, math.sin(a) * sp - 200))
+        f_lab = ImageFont.truetype(BOLD, 19 * S)
+        f_win = ImageFont.truetype(BOLD, 88 * S)
+        start = [np.array([CX - 45.0, CY]), np.array([CX + 45.0, CY])]
+        for k in range(len(states) + n_loop):
+            t = k / FPS
+            img = BASE.copy()
+            pen = Pen(img)
+            if k < len(states):
+                ps, cur = states[k]
+                fade = 1.0
+            else:
+                q = ease((k - len(states)) / n_loop)
+                cur, fade, ps = 0, q, start
+            for i, ring in enumerate(self.rings):
+                if i < cur:
+                    continue
+                col = mix(BG_BOTTOM, hsv(0.55 + i * 0.07, 0.35, 0.95), fade)
+                ph = ring["ph"] + ring["w"] * (t if k < len(states) else 0)
+                gg = ring["gap"] / 2
+                pen.arc(CX, CY, ring["r"], math.degrees(ph + gg), math.degrees(ph + 2 * math.pi - gg), col, 9)
+            for (pt, col, x0, y0, vx, vy) in shards:
+                age = t - pt
+                if 0 <= age < 1.1 and k < len(states):
+                    x, y = x0 + vx * age, y0 + vy * age + 900 * age * age
+                    pen.circle(x, y, 7 * (1 - age / 1.1) + 1, fill=mix(col, BG_BOTTOM, age / 1.1))
+            for i in range(2):
+                x, y = ps[i]
+                col = self.teams[i][2]
+                pen.circle(x, y, self.R, fill=col, outline=(255, 255, 255), width=3)
+                pen.d.text((x * S, y * S), self.teams[i][1], font=f_lab, fill=(10, 10, 20), anchor="mm")
+            if k < len(states) and t >= self.t_win:
+                a = ease((t - self.t_win) / 0.25)
+                txt = self.teams[self.winner][0] + " WINS!"
+                col = mix(BG_BOTTOM, self.teams[self.winner][2], a)
+                pen.d.text((CX * S, 1620 * S), txt, font=f_win, fill=col, anchor="mm",
+                           stroke_width=6 * S, stroke_fill=(0, 0, 0))
+            yield img
+
+    def sound(self, mx):
+        last = -1
+        for i, (t, ring, x, _) in enumerate(self.hits):
+            if t - last < 0.04:
+                continue
+            last = t
+            note = arpeggio(i) + (ring * 2 if ring >= 0 else 7)
+            mx.add(t, snd_pluck(midi(note)), 0.4, pan_of(x))
+        for (t, ring, x, _) in self.pops:
+            mx.add(t, snd_pop(mx.rng), 0.6, pan_of(x))
+            for j, n in enumerate((84, 88, 91)):
+                mx.add(t + 0.03 * j, snd_pluck(midi(n + ring), 0.8, 1.4), 0.18, pan_of(x))
+        for j, n in enumerate((72, 76, 79, 84, 88)):
+            mx.add(self.t_win + 0.08 * j, snd_pluck(midi(n), 2.0), 0.35, (j - 2) / 2)
+
+
+SCENES = {c.name: c for c in (Grow, Escape, Fill, Slice, Stack, Duel)}   # Galton: Physik-Version bildet noch keine saubere Glocke
 CAPTIONS = {
     "grow": "Each bounce makes it bigger... wait for the last one",
     "escape": "Did you think it would make it out?",
@@ -854,10 +1019,14 @@ def hook_layer(text):
     d = ImageDraw.Draw(img)
     size = 78
     f = ImageFont.truetype(BOLD, size)
-    while d.textlength(text, font=f) > 900 and size > 44:
+    lines = text.split("\n")
+    while max(d.textlength(l, font=f) for l in lines) > 900 and size > 44:
         size -= 4
         f = ImageFont.truetype(BOLD, size)
-    d.text((W / 2, 300), text, font=f, fill=(255, 255, 255), anchor="mm", stroke_width=6, stroke_fill=(0, 0, 0))
+    y0 = 300 - (len(lines) - 1) * size * 0.6
+    for i, line in enumerate(lines):
+        d.text((W / 2, y0 + i * size * 1.2), line, font=f, fill=(255, 255, 255), anchor="mm",
+               stroke_width=6, stroke_fill=(0, 0, 0))
     return img
 
 
@@ -901,7 +1070,7 @@ def render(scene_name, seed, out_path):
     os.remove(silent)
     os.remove(audio)
     return {"path": out_path, "duration": scene.duration, "thumb_ms": int(scene.duration * scene.thumb * 1000),
-            "caption": CAPTIONS[scene_name], "tags": TAGS}
+            "caption": getattr(scene, "caption", None) or CAPTIONS[scene_name], "tags": TAGS}
 
 
 if __name__ == "__main__":

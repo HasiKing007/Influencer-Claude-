@@ -56,3 +56,10 @@
 ## 2026-11-12 20:50 (Wien), Sofortmassnahme
 - Jacob: ~130 Views sind viel zu wenig, Ziel >=10.000 pro Reel. Hauptproblem laut Daten: Wiedergabe 4-7 s bei ~15 s Laenge.
 - Geaendert: Quiz-Reel von ~15 s auf ~9 s gekuerzt (Stationen max. 4,5 s statt 9 s, Countdown 2 s statt 3 s, Aufloesung 2,2 s statt 3,6 s). Ziel: Durchschauquote und Loops rauf. Messen: ig_reels_avg_watch_time im Verhaeltnis zur Laenge, Views nach 24 h.
+
+## 2026-11-12 22:50 (Wien)
+- Frische Insights (21:48 UTC): Satisfying-Reel "fill" steht nach 3,5 h weiter bei 139 Views/106 Reach -> auch der schnellere Start ist bei ~110 Reach eingefroren. Alle 7 Reels: 113-139 Views, 0 Shares, 0 Saves, 0 Kommentare, 3 Follower.
+- Wiedergabe: fill 6,7 s von ~12 s (~55 %), Quiz-Reels 4,1-7,3 s von ~15 s (~27-48 %). Satisfying haelt besser, aber ohne Interaktion (Kommentare/Shares) gibt Instagram keinen zweiten Schub.
+- Schluss: Uns fehlt ein Grund zum Kommentieren und Zuendeschauen. Top-Reels im Physik-Nischenbereich sind "Ball-Battles" (zwei Farben/Teams, wer gewinnt?): Zuschauer waehlen eine Seite, kommentieren und schauen bis zum Ende.
+- MUTIGES EXPERIMENT (Markierung scene=duel): neue Szene "duel" = zwei Laender-Baelle (z. B. BRAZIL vs ARGENTINA, nur Namen/Farben, keine Logos) in rotierenden Ringen, echte Physik inkl. Ball-gegen-Ball-Stoss; Hook "X vs Y / Who escapes first?", Caption ruft zum Tippen in den Kommentaren auf, am Ende "X WINS!". Verbindet Fussball-Nische mit Satisfying-Physik.
+- Geaendert: duel steht in formats.json als naechste Satisfying-Szene (morgen frueh). Messen: Kommentare + Views nach 24 h gegen fill (139) und Quiz (113-138). Quiz-Kuerzung (9 s) laeuft parallel, erstes kurzes Quiz morgen.
