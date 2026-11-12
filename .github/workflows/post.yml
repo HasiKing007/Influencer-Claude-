@@ -22,7 +22,7 @@ on:
         type: string
         default: ""
       scene:
-        description: "Nur fuer satisfying: escape, grow, galton, slice, stack (leer = automatisch)"
+        description: "Nur fuer satisfying: escape, grow, fill, slice, stack (leer = automatisch)"
         type: string
         default: ""
 

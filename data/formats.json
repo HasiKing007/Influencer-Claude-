@@ -1,5 +1,5 @@
 {
-  "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (escape, grow, galton, slice, stack). Die Auswertung passt das anhand der Views an.",
-  "rotation": ["quiz"],
-  "scenes": ["escape", "grow", "galton", "slice", "stack"]
+  "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (escape, grow, fill, slice, stack). Die Auswertung passt das anhand der Views an.",
+  "rotation": ["satisfying", "satisfying", "quiz"],
+  "scenes": ["fill", "escape", "grow", "slice", "stack"]
 }

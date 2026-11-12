@@ -15,6 +15,8 @@ import sys
 import wave
 
 import numpy as np
+
+import physics
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -267,9 +269,6 @@ class Grow(Scene):
                     vn = v @ n
                     if vn > 0:
                         v -= 2 * vn * n
-                        sp = np.linalg.norm(v)
-                        if sp < 1000:
-                            v *= 1000 / sp
                         r = min(self.R, r + grow)
                         hits.append((t, float(p[0] + n[0] * r), float(p[1] + n[1] * r), r))
                     p = c + n * (self.R - r)
@@ -380,11 +379,6 @@ class Escape(Scene):
                     vn = v @ n
                     if vn > 0:
                         v -= 2 * vn * n
-                        tang = np.array([-n[1], n[0]])
-                        v += tang * rng.uniform(-120, 120)
-                        sp = np.linalg.norm(v)
-                        target = max(sp, 720 + 30 * cur)
-                        v *= target / sp
                         hits.append((t, cur, float(p[0]), float(p[1])))
                     p = np.array([CX, CY]) + n * (ring["r"] - 4 - r)
             if record:
@@ -454,149 +448,163 @@ class Escape(Scene):
 
 
 class Galton(Scene):
-    """Kugeln fallen durch Nagelbrett und bilden eine perfekte Glockenkurve."""
-    name, hook = "galton", "250 balls. One perfect curve."
-    thumb = 0.75
+    """Echtes Nagelbrett: jede Kugel wird physikalisch simuliert (Stifte, Waende, Kugeln untereinander)."""
+    name, hook = "galton", "Will they make a bell curve?"
+    thumb = 0.7
     ROWS, DX, DY, TOP = 12, 66, 52, 470
     BIN_TOP, FLOOR = 1150, 1580
-    BALL = 9.5
+    BALL = 13.0
+    N = 110
+
+    def build(self):
+        rows, DX = self.ROWS, self.DX
+        w = physics.World(gravity=1300, e_ball=0.1, e_wall=0.1, e_peg=0.25, friction=0.1, drag_x=2.0)
+        w.pegs = np.array([(CX + (i - j / 2) * DX, self.TOP + j * self.DY + self.DY * 0.5, 8)
+                           for j in range(rows) for i in range(j + 1)])
+        xb = (rows + 1) / 2 * DX
+        bottom = self.TOP + rows * self.DY
+        w.add_seg("wl", CX - 34, self.TOP - 30, CX - xb, bottom, 16)
+        w.add_seg("wr", CX + 34, self.TOP - 30, CX + xb, bottom, 16)
+        w.add_seg("wl2", CX - xb, bottom, CX - xb, self.FLOOR, 16)
+        w.add_seg("wr2", CX + xb, bottom, CX + xb, self.FLOOR, 16)
+        for b in range(1, rows + 1):
+            x = CX + (b - (rows + 1) / 2) * DX
+            w.add_seg(f"bin{b}", x, self.BIN_TOP, x, self.FLOOR, 10)
+        w.add_seg("floor", CX - xb, self.FLOOR, CX + xb, self.FLOOR, 8, kind="floor")
+        return w
 
     def frames(self):
         rng = self.rng
-        rows = self.ROWS
-        n = 250
-        counts = [round(n * math.comb(rows, b) / 2 ** rows) for b in range(rows + 1)]
-        bins = [b for b in range(rows + 1) for _ in range(counts[b])]
-        rng.shuffle(bins)
-        n = len(bins)
-        spawn_end = 9.0
-        balls = []
-        for i, b in enumerate(bins):
-            u = i / n
-            ts = spawn_end * (u ** 0.62)        # wird schneller
-            path = [1] * b + [0] * (rows - b)
-            rng.shuffle(path)
-            balls.append({"ts": ts, "bin": b, "path": path})
-        hop = 0.1
-        filled = [0] * (rows + 1)
-        for bl in balls:   # Landezeit und Stapelplatz
-            fall_start = bl["ts"] + (rows + 1) * hop
-            bl["slot"] = filled[bl["bin"]]
-            filled[bl["bin"]] += 1
-            bx, by = self.slot_pos(bl["bin"], bl["slot"])
-            y0 = self.TOP + rows * self.DY
-            bl["fall0"] = fall_start
-            bl["land"] = fall_start + math.sqrt(2 * max(0, by - y0) / 2400)
-            bl["target"] = (bx, by)
-        self.balls = balls
-        last_land = max(b["land"] for b in balls)
-        curve_t = last_land + 0.15
-        drain = curve_t + 1.2
-        self.curve_t, self.drain_t = curve_t, drain
-        self.duration = drain + 0.75
+        w = self.build()
         base = BASE.copy()
         bp = Pen(base)
-        for j in range(rows):
-            for i in range(j + 1):
-                x = CX + (i - j / 2) * self.DX
-                bp.circle(x, self.TOP + j * self.DY + self.DY * 0.5, 5.5, fill=(150, 150, 175))
-        for b in range(rows + 2):
-            x = CX + (b - (rows + 1) / 2) * self.DX
-            bp.rect(x - 2.5, self.BIN_TOP, x + 2.5, self.FLOOR, fill=(70, 70, 100))
-        bp.rect(CX - (rows + 1) / 2 * self.DX - 3, self.FLOOR, CX + (rows + 1) / 2 * self.DX + 3, self.FLOOR + 6,
-                fill=(90, 90, 120))
-        bp.poly([(CX - 120, self.TOP - 120), (CX - 14, self.TOP - 20), (CX - 8, self.TOP - 20), (CX - 110, self.TOP - 120)],
-                (90, 90, 120))
-        bp.poly([(CX + 120, self.TOP - 120), (CX + 14, self.TOP - 20), (CX + 8, self.TOP - 20), (CX + 110, self.TOP - 120)],
-                (90, 90, 120))
-        empty = base.copy()
-        baked = set()
-        order = sorted(range(len(balls)), key=lambda i: balls[i]["land"])
-        oi = 0
-        total = int(self.duration * FPS)
-        for k in range(total):
+        for (x, y, r) in w.pegs:
+            bp.circle(x, y, r, fill=(150, 150, 175))
+        for name, (ax, ay, bx, by, th, _, _) in w.segs.items():
+            if name != "floor":
+                bp.line([(ax, ay), (bx, by)], (80, 80, 110), th)
+        spawns, ts = [], 0.0
+        for i in range(self.N):      # Strom aus dem Rohr, wird langsam dichter
+            spawns.append(ts)
+            ts += 0.09
+        drain_at = None
+        self.drain_t = 0
+        bp.rect(CX - 16, self.TOP - 190, CX + 16, self.TOP - 30, fill=(60, 62, 90), radius=6)   # Rohr
+        sub = 12
+        dt = 1 / (FPS * sub)
+        k, si = 0, 0
+        while True:
             t = k / FPS
-            while oi < len(order) and balls[order[oi]]["land"] <= t:
-                bl = balls[order[oi]]
-                Pen(base).circle(*bl["target"], self.BALL, fill=self.col(bl["bin"]))
-                baked.add(order[oi])
-                oi += 1
-            if t >= drain:   # Loop: Boden oeffnet sich, alle Kugeln fallen raus
-                dy = 0.5 * 4000 * (t - drain) ** 2
-                img = empty.copy()
-                pen = Pen(img)
-                pen.rect(CX - (rows + 1) / 2 * self.DX - 3, self.FLOOR, CX + (rows + 1) / 2 * self.DX + 3, self.FLOOR + 6,
-                         fill=BG_BOTTOM)
-                for bl in balls:
-                    x, y = bl["target"]
-                    if y + dy < H + 20:
-                        pen.circle(x, y + dy, self.BALL, fill=self.col(bl["bin"]))
-                yield img
-                continue
+            while si < self.N and spawns[si] <= t:
+                w.add_ball(CX + rng.uniform(-2, 2), self.TOP - 45, self.BALL, rng.uniform(-8, 8), 260,
+                           tag=hsv(self.hue + si / self.N * 0.8, 0.7))
+                si += 1
+            settled = si == self.N and (w.p[w.alive, 1] > self.BIN_TOP).all() and \
+                (np.abs(w.v[w.alive]) < 40).all()
+            if drain_at is None and (settled or t >= spawns[-1] + 5):
+                drain_at = t + 0.6
+                self.drain_t = drain_at
+            if drain_at is not None and t >= drain_at and w.segs["floor"][5]:
+                w.segs["floor"][5] = False          # Boden oeffnet sich -> Loop beginnt leer von vorn
+                for seg in w.segs.values():
+                    if seg[3] >= self.FLOOR - 1:
+                        seg[3] = self.FLOOR + 60
+            for _ in range(sub):
+                w.step(dt)
+            w.cull(H + 40)
             img = base.copy()
             pen = Pen(img)
-            for i, bl in enumerate(balls):
-                if i in baked or t < bl["ts"]:
-                    continue
-                pen.circle(*self.pos(bl, t), self.BALL, fill=self.col(bl["bin"]))
-            if t >= curve_t:
-                q = ease((t - curve_t) / 0.8)
-                pts = []
-                for j in range(int(q * 120) + 1):
-                    xb = -0.5 + (rows + 1) * j / 120
-                    mu, sd = rows / 2, math.sqrt(rows) / 2
-                    c = n * math.exp(-((xb - mu) ** 2) / (2 * sd * sd)) / (sd * math.sqrt(2 * math.pi))
-                    layers = c / 3
-                    pts.append((CX + (xb - rows / 2) * self.DX, self.FLOOR - layers * self.BALL * 1.75 - self.BALL * 2))
-                if len(pts) > 1:
-                    pen.line(pts, (255, 255, 255), 7)
+            if w.segs["floor"][5]:
+                ax, ay, bx, by, th, _, _ = w.segs["floor"]
+                pen.line([(ax, ay), (bx, by)], (90, 90, 120), th)
+            for i in np.nonzero(w.alive)[0]:
+                pen.circle(w.p[i, 0], w.p[i, 1], self.BALL, fill=w.tag[i])
             yield img
-
-    def col(self, b):
-        return hsv(self.hue + b / (self.ROWS + 1) * 0.75, 0.7)
-
-    def slot_pos(self, b, slot):
-        lay, k = divmod(slot, 3)
-        x = CX + (b - self.ROWS / 2) * self.DX + (k - 1) * (self.BALL * 2.05)
-        y = self.FLOOR - self.BALL - 1 - lay * self.BALL * 1.75
-        if lay % 2:
-            x += 0 if k != 1 else 0
-        return x, y
-
-    def pos(self, bl, t):
-        rows, hop = self.ROWS, 0.1
-        s = (t - bl["ts"]) / hop
-        if s < 1:   # aus dem Trichter auf den ersten Nagel
-            return CX, self.TOP - 30 + s * 25
-        s -= 1
-        if s < rows:
-            j = int(s)
-            f = s - j
-            i = sum(bl["path"][:j])
-            x0 = CX + (i - j / 2) * self.DX
-            x1 = CX + (i + bl["path"][j] - (j + 1) / 2) * self.DX
-            y0 = self.TOP + j * self.DY - 5
-            x = x0 + (x1 - x0) * f
-            y = y0 + self.DY * f * f - 26 * math.sin(math.pi * f) * (1 - f)
-            return x, y
-        x0, y0 = bl["target"][0], self.TOP + rows * self.DY
-        dt = t - bl["fall0"]
-        bx = CX + (bl["bin"] - rows / 2) * self.DX
-        return bx + (x0 - bx) * min(1, dt * 6), min(bl["target"][1], y0 + 0.5 * 2400 * dt * dt)
+            k += 1
+            if (drain_at is not None and t > drain_at and not w.alive.any()) or t > 18:
+                break
+        self.events = w.events
 
     def sound(self, mx):
         rng = mx.rng
-        hop = 0.1
-        for bl in self.balls:
-            for j in range(self.ROWS):
-                if rng.random() < 0.45:
-                    t = bl["ts"] + (j + 1) * hop
-                    x = CX + (sum(bl["path"][:j]) - j / 2) * self.DX
-                    mx.add(t, snd_tick(rng.uniform(2600, 4200), rng), 0.05, pan_of(x))
-            mx.add(bl["land"], snd_tok(rng.uniform(700, 1000)), 0.10, pan_of(bl["target"][0]))
-        for j, n in enumerate((60, 64, 67, 72, 76, 79, 84)):
-            mx.add(self.curve_t + j * 0.11, snd_pluck(midi(n), 2.0), 0.3, -0.8 + j * 0.27)
-        mx.add(self.drain_t, snd_whoosh(0.6, rng), 0.5)
+        for (t, kind, x, y, s) in self.events:
+            if kind == "peg":
+                mx.add(t, snd_tick(rng.uniform(2600, 4200), rng), 0.10 * (0.3 + s), pan_of(x))
+            elif kind == "ball":
+                mx.add(t, snd_tick(rng.uniform(1500, 2400), rng), 0.07 * (0.3 + s), pan_of(x))
+            else:
+                mx.add(t, snd_tok(rng.uniform(700, 1000)), 0.12 * (0.3 + s), pan_of(x))
+        mx.add(self.drain_t, snd_whoosh(0.7, rng), 0.45)
+
+
+class Fill(Scene):
+    """Kugeln prasseln in ein Glas, bis es genau bis zum Rand voll ist; dann geht der Boden auf."""
+    name, hook = "fill", "Will it fill up perfectly?"
+    thumb = 0.72
+    GL, GR, GT, GB = CX - 190, CX + 190, 1000, 1560
+    R = 22
+
+    def frames(self):
+        rng = self.rng
+        w = physics.World(gravity=1700, e_ball=0.2, e_wall=0.3, friction=0.3)
+        w.add_seg("left", self.GL, self.GT, self.GL, self.GB, 10, kind="glass")
+        w.add_seg("right", self.GR, self.GT, self.GR, self.GB, 10, kind="glass")
+        w.add_seg("floor", self.GL, self.GB, self.GR, self.GB, 10, kind="glass")
+        colors = [hsv(self.hue + k * 0.11, 0.65) for k in range(8)]
+        base = BASE.copy()
+        bp = Pen(base)
+        glass = mix(BG_BOTTOM, (120, 150, 220), 0.12)
+        bp.rect(self.GL, self.GT, self.GR, self.GB, fill=glass)
+        bp.rect(CX - 30, 360, CX + 30, 560, fill=(60, 62, 90), radius=8)       # Rohr
+        bp.rect(CX - 36, 548, CX + 36, 566, fill=(90, 92, 125), radius=6)
+        line_y = self.GT + 4
+        sub = 8
+        dt = 1 / (FPS * sub)
+        k, n, stop, drain = 0, 0, None, None
+        next_spawn = 0.0
+        while True:
+            t = k / FPS
+            if stop is None and t >= next_spawn and n >= 136:
+                stop = t                                   # so viele passen genau bis zum Rand
+            if stop is None and t >= next_spawn:
+                w.add_ball(CX + rng.uniform(-4, 4), 540, self.R, rng.uniform(-30, 30), 700,
+                           tag=colors[(n // 22) % len(colors)])
+                n += 1
+                next_spawn = t + 0.06
+            if stop is not None and drain is None and t >= stop + 1.4:
+                drain = t
+                w.segs["floor"][5] = False
+                w.segs["left"][3] = w.segs["right"][3] = self.GB + 80
+            for _ in range(sub):
+                w.step(dt)
+            w.cull(H + 60)
+            img = base.copy()
+            pen = Pen(img)
+            for i in np.nonzero(w.alive)[0]:
+                x, y = w.p[i]
+                pen.circle(x, y, self.R, fill=w.tag[i])
+                pen.circle(x - self.R * 0.32, y - self.R * 0.35, self.R * 0.28, fill=mix(w.tag[i], (255, 255, 255), 0.55))
+            edge = (200, 215, 255)
+            pen.line([(self.GL, self.GT - 10), (self.GL, self.GB)], edge, 8)
+            pen.line([(self.GR, self.GT - 10), (self.GR, self.GB)], edge, 8)
+            if w.segs["floor"][5]:
+                pen.line([(self.GL, self.GB), (self.GR, self.GB)], edge, 8)
+            for x in range(int(self.GL + 10), int(self.GR - 10), 34):     # Markierung "voll"
+                pen.line([(x, line_y), (x + 18, line_y)], (255, 255, 255), 3)
+            yield img
+            k += 1
+            if (drain is not None and not w.alive.any()) or t > 22:
+                break
+        self.events, self.drain_t = w.events, drain or 0
+
+    def sound(self, mx):
+        rng = mx.rng
+        for (t, kind, x, y, s) in self.events:
+            if kind == "glass":
+                mx.add(t, snd_pluck(rng.uniform(1900, 2600), 0.35, 1.3), 0.10 * (0.25 + s), pan_of(x))
+            else:
+                mx.add(t, snd_tick(rng.uniform(1200, 2200), rng), 0.12 * (0.3 + s), pan_of(x))
+        mx.add(self.drain_t, snd_whoosh(0.8, rng), 0.5)
 
 
 class Slice(Scene):
@@ -631,7 +639,33 @@ class Slice(Scene):
         tex *= (1 + 0.07 * grain)[:, :, None]
         return Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8))
 
+    def simulate_fall(self):
+        """Scheibe kippt als starrer Koerper ueber die Plattformkante, loest sich und faellt frei."""
+        w, h, g = self.SW, self.BOTTOM - self.TOP, 2600.0
+        px, py = self.KX - 6, self.BOTTOM                 # Drehpunkt: Plattformkante
+        rx, ry = self.KX - w / 2 - px, -h / 2             # Schwerpunkt relativ zum Drehpunkt
+        I = (w * w + h * h) / 12 + rx * rx + ry * ry
+        th, om, dt, t, out = 0.0, 0.0, 1 / 600, 0.0, []
+        while th < 0.9:
+            off_x = rx * math.cos(th) + ry * math.sin(th)
+            om += -g * off_x / I * dt
+            th += om * dt
+            t += dt
+            out.append((t, px + rx * math.cos(th) + ry * math.sin(th), py - rx * math.sin(th) + ry * math.cos(th), th))
+        vx = om * (-rx * math.sin(th) + ry * math.cos(th))
+        vy = om * (-rx * math.cos(th) - ry * math.sin(th))
+        cx, cy = out[-1][1], out[-1][2]
+        while cy < H + 500:
+            vy += g * dt
+            cx += vx * dt
+            cy += vy * dt
+            th += om * dt
+            t += dt
+            out.append((t, cx, cy, th))
+        return np.array(out)
+
     def frames(self):
+        self.fall = self.simulate_fall()
         n_vis = int((W - self.KX) / self.SW) + 3
         cycles = 10
         L = (cycles) * self.SW
@@ -673,12 +707,11 @@ class Slice(Scene):
                     continue
                 off = ((cc % cycles) * self.SW + self.SW) % L
                 sl = tex.crop((int(off * S), 0, int((off + self.SW) * S), int(hgt * S))).convert("RGBA")
-                ang = min(90, 60 * rel + 260 * rel * rel)
-                cx = self.KX - self.SW / 2 - 140 * rel
-                cy = (self.TOP + self.BOTTOM) / 2 + 0.5 * 2600 * rel * rel
-                if cy - hgt > H:
+                if rel > self.fall[-1, 0]:
                     continue
-                rot = sl.rotate(ang, resample=Image.BICUBIC, expand=True)
+                fi = min(int(np.searchsorted(self.fall[:, 0], rel)), len(self.fall) - 1)
+                _, cx, cy, th = self.fall[fi]
+                rot = sl.rotate(math.degrees(th), resample=Image.BICUBIC, expand=True)
                 img.paste(rot, (int(cx * S - rot.width / 2), int(cy * S - rot.height / 2)), rot)
             for (ct, cy0, vx, vy, sz) in crumbs:
                 age = t - ct
@@ -802,11 +835,12 @@ class Stack(Scene):
         mx.add(self.sink_t, snd_whoosh(0.6, mx.rng), 0.4)
 
 
-SCENES = {c.name: c for c in (Grow, Escape, Galton, Slice, Stack)}
+SCENES = {c.name: c for c in (Grow, Escape, Fill, Slice, Stack)}   # Galton: Physik-Version bildet noch keine saubere Glocke
 CAPTIONS = {
     "grow": "Each bounce makes it bigger... wait for the last one",
     "escape": "Did you think it would make it out?",
-    "galton": "250 random balls and still a perfect curve. Math is satisfying.",
+    "galton": "200 balls, all bouncing randomly. Did they make the curve?",
+    "fill": "Kept watching to see if it fits. Sound on",
     "slice": "Turn the sound on and watch it loop",
     "stack": "Not a single block off. Watch it again.",
 }

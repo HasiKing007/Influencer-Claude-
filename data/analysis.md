@@ -6,7 +6,7 @@
 > - Keine urheberrechtlich geschuetzten Spielszenen/TV-Clips (Jacob wollte sie, Claude hat abgelehnt). Erlaubt: frei lizenziertes
 >   Stock-Footage (Pexels/Pixabay), sobald Jacob einen API-Key als Secret hinterlegt; eigene Animationen und eigener Sound.
 > - Seit 2026-11-12: zwei Formate. "quiz" (render.py) und "satisfying" (satisfying.py, selbst gerenderte Neon-Physik-Endlos-Loops mit
->   synthetisiertem ASMR-Sound, Szenen escape/grow/galton/slice/stack; Jacob mag huepfende Baelle + Abwechslung, nur nicht zu hektisch; Pastell-Version lehnte er ab). Reihenfolge und erlaubte Szenen in data/formats.json.
+>   synthetisiertem ASMR-Sound, Szenen escape/grow/fill/slice/stack, Physik in physics.py; Jacob mag huepfende Baelle + Abwechslung, nicht zu hektisch, Physik muss realistisch wirken; Pastell-Version lehnte er ab; gern neue Szenen ergaenzen). Reihenfolge und erlaubte Szenen in data/formats.json.
 >   Jacob hat die Content-Entscheidung komplett an Claude uebertragen: Views pro Format/Szene vergleichen (state.json hat format+scene
 >   je Post) und formats.json selbststaendig anpassen; Ziel ist eine Nische, sobald klar ist, was besser laeuft. Account/Name bleiben.
 > - Pruefen, ob alle Slots des Tages gepostet haben; fehlende per Workflow-Dispatch ohne Inputs nachholen (Sperre verhindert Doppelposts).
