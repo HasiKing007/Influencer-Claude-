@@ -22,7 +22,8 @@
         "views": 139,
         "reach": 106,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 6652
       }
     },
     {
@@ -35,7 +36,8 @@
         "views": 120,
         "reach": 92,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 5558
       }
     },
     {
@@ -48,7 +50,8 @@
         "views": 130,
         "reach": 109,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 5764
       }
     },
     {
@@ -61,7 +64,8 @@
         "views": 113,
         "reach": 103,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 4893
       }
     },
     {
@@ -74,7 +78,8 @@
         "views": 134,
         "reach": 117,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 4110
       }
     },
     {
@@ -87,7 +92,8 @@
         "views": 138,
         "reach": 102,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 7268
       }
     },
     {
@@ -100,14 +106,15 @@
         "views": 138,
         "reach": 108,
         "shares": 0,
-        "saved": 0
+        "saved": 0,
+        "ig_reels_avg_watch_time": 6130
       }
     }
   ],
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-12T19:43Z",
+    "checked": "2026-11-12T19:44Z",
     "granted": [
       "ads_management",
       "ads_read",
