@@ -18,7 +18,12 @@
       "like_count": 0,
       "permalink": "https://www.instagram.com/reel/DfpsHTEhktP/",
       "timestamp": "2026-11-12T18:22:49+0000",
-      "insights_error": "Instagram API 18120258389090547/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 139,
+        "reach": 106,
+        "shares": 0,
+        "saved": 0
+      }
     },
     {
       "id": "17998120649843920",
@@ -26,7 +31,12 @@
       "like_count": 1,
       "permalink": "https://www.instagram.com/reel/DfpSuw2yqU8/",
       "timestamp": "2026-11-12T14:40:59+0000",
-      "insights_error": "Instagram API 17998120649843920/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 120,
+        "reach": 92,
+        "shares": 0,
+        "saved": 0
+      }
     },
     {
       "id": "18106251824375753",
@@ -34,7 +44,12 @@
       "like_count": 2,
       "permalink": "https://www.instagram.com/reel/Dfo3HkxTsQf/",
       "timestamp": "2026-11-12T10:39:39+0000",
-      "insights_error": "Instagram API 18106251824375753/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 130,
+        "reach": 109,
+        "shares": 0,
+        "saved": 0
+      }
     },
     {
       "id": "18027983867924052",
@@ -42,7 +57,12 @@
       "like_count": 2,
       "permalink": "https://www.instagram.com/reel/Dfnca78Tzlf/",
       "timestamp": "2026-11-11T21:27:08+0000",
-      "insights_error": "Instagram API 18027983867924052/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 113,
+        "reach": 103,
+        "shares": 0,
+        "saved": 0
+      }
     },
     {
       "id": "17929004208431654",
@@ -50,7 +70,12 @@
       "like_count": 2,
       "permalink": "https://www.instagram.com/reel/DfnJanqhcR8/",
       "timestamp": "2026-11-11T18:41:13+0000",
-      "insights_error": "Instagram API 17929004208431654/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 134,
+        "reach": 117,
+        "shares": 0,
+        "saved": 0
+      }
     },
     {
       "id": "17994868971005869",
@@ -58,7 +83,12 @@
       "like_count": 1,
       "permalink": "https://www.instagram.com/reel/Dfm7jVXsgI_/",
       "timestamp": "2026-11-11T16:39:57+0000",
-      "insights_error": "Instagram API 17994868971005869/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 138,
+        "reach": 102,
+        "shares": 0,
+        "saved": 0
+      }
     },
     {
       "id": "18080217737430393",
@@ -66,22 +96,41 @@
       "like_count": 2,
       "permalink": "https://www.instagram.com/reel/Dfl4TDTOJiK/",
       "timestamp": "2026-11-11T06:52:17+0000",
-      "insights_error": "Instagram API 18080217737430393/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+      "insights": {
+        "views": 138,
+        "reach": 108,
+        "shares": 0,
+        "saved": 0
+      }
     }
   ],
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-12T19:39Z",
+    "checked": "2026-11-12T19:43Z",
     "granted": [
       "ads_management",
       "ads_read",
+      "business_management",
+      "catalog_management",
       "instagram_basic",
+      "instagram_branded_content_ads_brand",
+      "instagram_branded_content_brand",
+      "instagram_branded_content_creator",
       "instagram_content_publish",
+      "instagram_creator_marketplace_discovery",
       "instagram_manage_comments",
+      "instagram_manage_contents",
+      "instagram_manage_engagement",
+      "instagram_manage_events",
+      "instagram_manage_insights",
       "instagram_manage_messages",
+      "instagram_manage_upcoming_events",
+      "instagram_shopping_tag_products",
+      "pages_read_engagement",
+      "pages_show_list",
       "public_profile"
     ],
-    "account_insights": "Instagram API 17841446420705976/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+    "account_insights": "ok"
   }
 }
