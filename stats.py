@@ -15,6 +15,24 @@ def get(path, **params):
     return igapi.call("GET", path, **params)
 
 
+def auth_info(ig_id):
+    """Diagnose ohne Token-Inhalt: Token-Art, API-Host, erteilte Rechte, Konto-Insights."""
+    info = {"token_type": "instagram-login" if igapi.is_instagram_token() else "facebook-login",
+            "host": igapi.base_url(), "checked": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")}
+    if not igapi.is_instagram_token():
+        try:
+            perms = get("me/permissions").get("data", [])
+            info["granted"] = sorted(p["permission"] for p in perms if p.get("status") == "granted")
+        except Exception as e:
+            info["permissions_error"] = str(e)[:120]
+    try:
+        get(f"{ig_id}/insights", metric="reach", period="day")
+        info["account_insights"] = "ok"
+    except Exception as e:
+        info["account_insights"] = str(e)[:120]
+    return info
+
+
 def main():
     path = os.path.join(ROOT, "data", "stats.json")
     stats = {"history": []}
@@ -22,6 +40,7 @@ def main():
         with open(path, encoding="utf-8") as f:
             stats = json.load(f)
     ig_id = igapi.ig_user_id()
+    stats["auth"] = auth_info(ig_id)
     me = get(ig_id, fields="username,followers_count,media_count")
     media = get(f"{ig_id}/media", fields="id,caption,timestamp,like_count,comments_count,permalink", limit=50).get("data", [])
     for m in media:
