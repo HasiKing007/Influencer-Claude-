@@ -60,5 +60,20 @@
       "timestamp": "2026-11-11T06:52:17+0000",
       "insights_error": "Instagram API 18080217737430393/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
     }
-  ]
+  ],
+  "auth": {
+    "token_type": "facebook-login",
+    "host": "https://graph.facebook.com",
+    "checked": "2026-11-12T17:16Z",
+    "granted": [
+      "ads_management",
+      "ads_read",
+      "instagram_basic",
+      "instagram_content_publish",
+      "instagram_manage_comments",
+      "instagram_manage_messages",
+      "public_profile"
+    ],
+    "account_insights": "Instagram API 17841446420705976/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+  }
 }
