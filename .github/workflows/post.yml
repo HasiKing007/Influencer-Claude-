@@ -17,6 +17,14 @@ on:
         description: "Sofort posten, auch wenn gerade erst gepostet wurde"
         type: boolean
         default: false
+      format:
+        description: "Leer = laut data/formats.json, sonst quiz oder satisfying"
+        type: string
+        default: ""
+      scene:
+        description: "Nur fuer satisfying: escape, grow, galton, slice, stack (leer = automatisch)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -52,6 +60,8 @@ jobs:
           IG_USER_ID: ${{ vars.IG_USER_ID }}
           DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
           FORCE: ${{ inputs.force && '1' || '0' }}
+          FORMAT: ${{ inputs.format }}
+          SCENE: ${{ inputs.scene }}
         run: python post.py
       - name: Update stats
         if: always()

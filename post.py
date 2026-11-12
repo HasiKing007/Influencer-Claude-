@@ -8,6 +8,7 @@ Umgebungsvariablen:
 import datetime
 import json
 import os
+import random
 import subprocess
 import sys
 import time
@@ -16,10 +17,12 @@ import requests
 
 import igapi
 import render
+import satisfying
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
 QUIZZES = os.path.join(ROOT, "data", "quizzes.json")
+FORMATS = os.path.join(ROOT, "data", "formats.json")
 
 CAPTIONS = [
     "Can you guess the player from his career path? Comment your answer before the reveal!",
@@ -132,25 +135,57 @@ def already_posted_in_slot(state):
     return False
 
 
+def choose_format(state):
+    """Reihenfolge der Formate steht in data/formats.json (die Auswertung passt sie an). FORMAT=... ueberschreibt."""
+    cfg = load(FORMATS, {"rotation": ["quiz"], "scenes": []})
+    forced = os.environ.get("FORMAT", "").strip()
+    if forced:
+        return forced, cfg
+    rotation = cfg["rotation"]
+    return rotation[len(state["posted"]) % len(rotation)], cfg
+
+
+def next_scene(state, cfg):
+    """Die Szene, die am laengsten nicht dran war."""
+    scenes = cfg.get("scenes") or list(satisfying.SCENES)
+    used = [p.get("scene") for p in state["posted"]]
+    def last_use(s):
+        return max((i for i, u in enumerate(used) if u == s), default=-1)
+    return min(scenes, key=last_use)
+
+
 def main():
     quizzes = load(QUIZZES, [])
     state = load(STATE, {"posted": []})
     if already_posted_in_slot(state):
         return
-    quiz = pick(quizzes, state)
-    out = render.render(quiz, os.path.join(ROOT, "out", "reel.mp4"))
-    caption_idx = len(state["posted"]) % len(CAPTIONS)
-    caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
-    print("Gerendert:", quiz["id"], out)
+    out_path = os.path.join(ROOT, "out", "reel.mp4")
+    fmt, cfg = choose_format(state)
+    if fmt == "satisfying":
+        scene = os.environ.get("SCENE", "").strip() or next_scene(state, cfg)
+        seed = random.randint(1, 10 ** 6)
+        info = satisfying.render(scene, seed, out_path)
+        caption = info["caption"] + "\n\n" + info["tags"]
+        entry = {"id": f"sat-{scene}-{seed}", "format": "satisfying", "scene": scene, "seed": seed}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: Satisfying", scene, seed, f"{info['duration']:.1f}s")
+    else:
+        quiz = pick(quizzes, state)
+        render.render(quiz, out_path)
+        quiz_posts = [p for p in state["posted"] if p.get("format", "quiz") == "quiz"]
+        caption_idx = len(quiz_posts) % len(CAPTIONS)
+        caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
+        entry = {"id": quiz["id"], "format": "quiz", "caption": caption_idx}
+        # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
+        thumb_ms = int((render.timing(len(quiz["clubs"]))[1] - 0.05) * 1000)
+        print("Gerendert: Quiz", quiz["id"])
     if os.environ.get("DRY_RUN") == "1":
         print("DRY_RUN: nichts veroeffentlicht")
         return
-    # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
-    stations_end = render.timing(len(quiz["clubs"]))[1]
-    thumb_ms = int((stations_end - 0.05) * 1000)
-    media_id = post_reel(publish_file(out), caption, thumb_ms)
-    state["posted"].append({"id": quiz["id"], "media_id": media_id, "caption": caption_idx,
-                            "date": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")})
+    media_id = post_reel(publish_file(out_path), caption, thumb_ms)
+    entry["media_id"] = media_id
+    entry["date"] = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")
+    state["posted"].append(entry)
     with open(STATE, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=2, ensure_ascii=False)
     print("Veroeffentlicht, Media-ID:", media_id)
