@@ -48,3 +48,4 @@
 - Alle Reels bleiben bei ~100 Reach haengen = Instagram zeigt sie nur der ersten Testgruppe, ohne Shares/Saves gibt es keinen Push.
 - Erstes Satisfying-Reel (18:22 UTC): 139 Views nach 1,3 h, also schnellster Start; Quiz-Reels brauchten dafuer ~1 Tag. Noch zu frueh fuer ein Urteil.
 - Geaendert: stats.py fragt zusaetzlich die durchschnittliche Wiedergabezeit ab (zeigt, ob Leute bis zur Aufloesung bleiben).
+- Wiedergabezeit im Schnitt 4,1-7,3 s, das Quiz-Reel dauert aber ~15 s (Aufloesung erst ab ~12 s) -> die meisten springen vor der Aufloesung ab. Kandidat fuer die naechste Aenderung: kuerzer/schneller bis zum Countdown.
