@@ -1,5 +1,5 @@
 {
   "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (pendulum, marbles, slice, stack). Die Auswertung passt das anhand der Views an.",
-  "rotation": ["satisfying", "satisfying", "quiz"],
+  "rotation": ["quiz"],
   "scenes": ["pendulum", "marbles", "slice", "stack"]
 }
