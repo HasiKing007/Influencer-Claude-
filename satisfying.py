@@ -1,11 +1,12 @@
-"""Rendert "oddly satisfying"-Reels komplett selbst: Animation in Python, Sound synthetisiert.
+"""Rendert "oddly satisfying"-Reels komplett selbst: Physik/Animation in Python, Sound synthetisiert.
+Jede Szene endet so, wie sie beginnt (Endlos-Loop); der Ton laeuft im Ringpuffer nahtlos weiter.
 
 Kein fremdes Material: jedes Bild und jeder Ton entsteht hier im Code.
-Stil: ruhig, weiche Pastellfarben, natuerliche Bewegung (echte Pendel-/Roll-/Kipp-Physik).
-Jede Szene ist ein nahtloser Endlos-Loop: das letzte Bild geht exakt in das erste ueber, der Ton auch.
+Szenen: grow, escape, galton, slice, stack (siehe SCENES).
 
 Aufruf:  python satisfying.py <szene> [seed] [ausgabe.mp4]
 """
+import colorsys
 import math
 import os
 import random
@@ -14,49 +15,38 @@ import sys
 import wave
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageFont
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 W, H, FPS = 1080, 1920, 30
 S = 2                      # Supersampling fuer glatte Kanten
 RATE = 44100
-CX, CY = W / 2, 1040
+CX, CY = W / 2, 1010
 BOLD = os.path.join(ROOT, "fonts", "DejaVuSansCondensed-Bold.ttf")
+BG_TOP, BG_BOTTOM = (16, 14, 34), (4, 4, 12)
 
-PALETTES = [  # (Hintergrund oben, unten)
-    ((248, 231, 226), (238, 212, 216)),
-    ((226, 238, 248), (208, 222, 242)),
-    ((234, 242, 226), (214, 230, 208)),
-    ((241, 232, 250), (222, 211, 242)),
-    ((250, 240, 222), (240, 224, 200)),
-]
-COLORS = [(255, 138, 128), (255, 190, 110), (120, 210, 175), (150, 160, 255),
-          (255, 150, 196), (110, 195, 240), (245, 210, 95)]
-TEXT = (52, 46, 72)
+
+def hsv(h, s=0.75, v=1.0):
+    r, g, b = colorsys.hsv_to_rgb(h % 1.0, s, v)
+    return int(r * 255), int(g * 255), int(b * 255)
 
 
 def mix(a, b, k):
     return tuple(int(a[i] + (b[i] - a[i]) * k) for i in range(3))
 
 
-def smooth(t):
-    """Weiches Anfahren und Abbremsen (ease-in-out)."""
-    t = max(0.0, min(1.0, t))
-    return t * t * (3 - 2 * t)
-
-
-def ease_out(t):
+def ease(t):
     t = max(0.0, min(1.0, t))
     return 1 - (1 - t) ** 3
 
 
-def background(top, bottom):
+def background():
     y = np.linspace(0, 1, H * S)[:, None, None]
-    top, bot = np.array(top, float), np.array(bottom, float)
+    top, bot = np.array(BG_TOP, float), np.array(BG_BOTTOM, float)
     grad = top + (bot - top) * y
     xs = np.linspace(-1, 1, W * S)[None, :, None]
     ys = np.linspace(-1, 1, H * S)[:, None, None]
-    vign = 1 - 0.10 * np.clip(xs ** 2 + (ys * 0.8) ** 2, 0, 1)
+    vign = 1 - 0.35 * np.clip(xs ** 2 + (ys * 0.8) ** 2, 0, 1)
     arr = np.broadcast_to(grad * vign, (H * S, W * S, 3)).astype(np.uint8)
     return Image.fromarray(arr)
 
@@ -64,12 +54,15 @@ def background(top, bottom):
 class Pen:
     """Zeichnet in 1x-Koordinaten auf eine S-fach vergroesserte Leinwand."""
 
-    def __init__(self, img, shadow):
-        self.img, self.d, self.shadow = img, ImageDraw.Draw(img), shadow
+    def __init__(self, img):
+        self.img, self.d = img, ImageDraw.Draw(img)
 
     def circle(self, x, y, r, fill=None, outline=None, width=0):
         self.d.ellipse(((x - r) * S, (y - r) * S, (x + r) * S, (y + r) * S),
                        fill=fill, outline=outline, width=int(width * S))
+
+    def arc(self, x, y, r, a0, a1, fill, width):
+        self.d.arc(((x - r) * S, (y - r) * S, (x + r) * S, (y + r) * S), a0, a1, fill=fill, width=int(width * S))
 
     def rect(self, x0, y0, x1, y1, fill, radius=0):
         if radius:
@@ -82,23 +75,6 @@ class Pen:
 
     def line(self, pts, fill, width):
         self.d.line([(x * S, y * S) for x, y in pts], fill=fill, width=int(width * S), joint="curve")
-
-    def ball_shadow(self, x, y, r):
-        self.circle(x + r * 0.28, y + r * 0.42, r * 1.02, fill=self.shadow)
-
-    def ball(self, x, y, r, col, spin=None):
-        self.circle(x, y, r, fill=col)
-        self.circle(x + r * 0.08, y + r * 0.1, r * 0.86, fill=mix(col, (0, 0, 0), 0.07))
-        self.circle(x - r * 0.05, y - r * 0.05, r * 0.8, fill=col)
-        if spin is not None:  # kleiner Punkt zeigt das Rollen
-            self.circle(x + math.cos(spin) * r * 0.55, y + math.sin(spin) * r * 0.55, r * 0.16,
-                        fill=mix(col, (255, 255, 255), 0.55))
-        self.circle(x - r * 0.33, y - r * 0.36, r * 0.24, fill=mix(col, (255, 255, 255), 0.6))
-
-    def block(self, x0, y0, x1, y1, col, radius=8):
-        self.rect(x0, y0, x1, y1, col, radius)
-        self.rect(x0 + 6, y0 + 4, x1 - 6, y0 + 10, mix(col, (255, 255, 255), 0.4), 3)
-        self.rect(x0 + 4, y1 - 9, x1 - 4, y1 - 3, mix(col, (0, 0, 0), 0.10), 3)
 
 
 # ---------------------------------------------------------------- Sound
@@ -244,431 +220,626 @@ def arpeggio(i, octave=12):
     return note
 
 
-PENTA = [0, 2, 4, 7, 9]
-
-
-def penta(i, base=60):
-    return base + 12 * (i // 5) + PENTA[i % 5]
-
+# ---------------------------------------------------------------- Szenen
 
 class Scene:
     name = ""
     hook = ""
-    period = 12.0          # Loop-Laenge in Sekunden
+    duration = 12.0
     thumb = 0.5            # Anteil der Laenge fuer das Titelbild
 
     def __init__(self, seed):
         self.seed = seed
         self.rng = random.Random(seed)
-        top, bottom = self.rng.choice(PALETTES)
-        self.bg_top, self.bg_bottom = top, bottom
-        self.shadow = mix(bottom, (40, 30, 60), 0.16)
-        self.colors = COLORS[:]
-        self.rng.shuffle(self.colors)
-        self.base = background(top, bottom)
+        self.hue = self.rng.random()
+        self.events = []    # (t, art, parameter...)
 
-    def pen(self):
-        img = self.base.copy()
-        return img, Pen(img, self.shadow)
-
-    def frame(self, t):
+    def frames(self):
         raise NotImplementedError
 
     def sound(self, mx):
         raise NotImplementedError
 
 
-class Pendulum(Scene):
-    """Pendelwelle von oben: 12 Pendel mit leicht verschiedener Laenge, alle 15 s wieder in einer Linie."""
-    name, hook = "pendulum", "Watch them line up again"
-    period = 15.0
-    thumb = 0.5
-    N, R, AMP = 12, 27, 330
+class Grow(Scene):
+    """Ball springt im Kreis, waechst bei jedem Aufprall; jeder Aufprall spielt die naechste Note."""
+    name, hook = "grow", "Wait for the last bounce..."
+    thumb = 0.8
+    R, R0 = 420, 26
 
-    def setup(self):
-        self.xs = [150 + i * (780 / (self.N - 1)) for i in range(self.N)]
-        self.ns = [7 + i for i in range(self.N)]     # Schwingungen pro Loop
-
-    def frame(self, t):
-        if not hasattr(self, "xs"):
-            self.setup()
-        img, pen = self.pen()
-        top, bot = CY - self.AMP - 50, CY + self.AMP + 50
-        for x in self.xs:
-            pen.rect(x - 3, top, x + 3, bot, mix(self.bg_bottom, (40, 30, 60), 0.08), 3)
-        pen.rect(110, top - 30, 970, top - 14, mix(self.bg_bottom, (40, 30, 60), 0.12), 8)
-        pen.rect(110, bot + 14, 970, bot + 30, mix(self.bg_bottom, (40, 30, 60), 0.12), 8)
-        ys = [CY - self.AMP * math.cos(2 * math.pi * n * t / self.period) for n in self.ns]
-        for x, y in zip(self.xs, ys):
-            pen.ball_shadow(x, y, self.R)
-        for i, (x, y) in enumerate(zip(self.xs, ys)):
-            pen.ball(x, y, self.R, self.colors[i % len(self.colors)])
-        return img
-
-    def sound(self, mx):
-        self.setup()
-        for i, n in enumerate(self.ns):
-            f = midi(penta(i, 60))
-            for k in range(n):   # jedes Pendel spielt seinen Ton am oberen Umkehrpunkt
-                mx.add(k * self.period / n, snd_pluck(f, 1.6, 0.6), 0.16, pan_of(self.xs[i]))
-
-
-class Marbles(Scene):
-    """Murmeln rollen gemaechlich ueber eine Zickzack-Bahn (echte Roll-Physik), endloser Strom."""
-    name, hook = "marbles", "This could run forever"
-    period = 12.5
-    thumb = 0.5
-    R = 22
-    SPACING = 1.25        # Sekunden zwischen zwei Murmeln (period ist ein Vielfaches)
-    RAMPS = 5
-    TOP_Y, GAP_Y, X0, X1 = 620, 185, 205, 875
-    SLOPE = math.radians(7)
-    G = 2000.0
-
-    def ramp(self, k):
-        """Bahn k als (x_start, y_start, x_end, y_end) entlang der Rollrichtung."""
-        y0 = self.TOP_Y + k * self.GAP_Y
-        dy = (self.X1 - self.X0) * math.tan(self.SLOPE)
-        if k % 2 == 0:
-            return self.X0, y0, self.X1, y0 + dy
-        return self.X1, y0, self.X0, y0 + dy
-
-    def simulate(self):
-        """Bahn einer einzelnen Murmel; alle anderen laufen dieselbe Bahn zeitversetzt."""
-        dt = 1 / 600
-        pts, events, rolls = [], [], []
-        x, y = self.X0, 400.0                 # faellt aus dem Rohr auf die erste Bahn
-        vy, t, k, spin = 0.0, 0.0, 0, 0.0
-        acc = self.G * math.sin(self.SLOPE) * 5 / 7
+    def simulate(self, grow, record=False):
+        rng = random.Random(self.seed)
+        c = np.array([CX, CY])
+        r = self.R0
+        p = c + np.array([0.0, -self.R + 2 * self.R0 + 40])
+        v = np.array([rng.choice([-1, 1]) * rng.uniform(380, 520), 0.0])
+        g, sub = 1500.0, 10
+        dt = 1 / (FPS * sub)
+        t, done, out, hits = 0.0, None, [], []
         while True:
-            if k >= self.RAMPS:
+            for _ in range(sub):
+                v[1] += g * dt
+                p += v * dt
+                d = p - c
+                dist = np.linalg.norm(d)
+                if dist + r >= self.R:
+                    n = d / dist
+                    vn = v @ n
+                    if vn > 0:
+                        v -= 2 * vn * n
+                        sp = np.linalg.norm(v)
+                        if sp < 1000:
+                            v *= 1000 / sp
+                        r = min(self.R, r + grow)
+                        hits.append((t, float(p[0] + n[0] * r), float(p[1] + n[1] * r), r))
+                    p = c + n * (self.R - r)
+                t += dt
+            if record:
+                out.append((p.copy(), r, len(hits)))
+            if r >= self.R - 1 and done is None:
+                done = t
+            if done is not None and t >= done + 0.9:
                 break
-            xs, ys, xe, ye = self.ramp(k)
-            surface = ys - self.R / math.cos(self.SLOPE)
-            # Fallen bis zur Bahn, mit kleinem Huepfer
-            bounced = 0
-            while True:
-                vy += self.G * dt
-                y += vy * dt
-                t += dt
-                if y >= surface:
-                    y = surface
-                    if bounced == 0 and vy > 120:
-                        events.append((t, "land", k, x, vy))
-                        vy = -vy * 0.28
-                        bounced = 1
-                    else:
-                        break
-                pts.append((t, x, y, spin))
-            d = 1 if xe > xs else -1
-            s, v = 0.0, 0.0
-            L = abs(xe - xs) / math.cos(self.SLOPE)
-            t_roll0 = t
-            while s < L:
-                v += acc * dt
-                s += v * dt
-                t += dt
-                spin += d * v * dt / self.R
-                x = xs + d * s * math.cos(self.SLOPE)
-                y = surface + s * math.sin(self.SLOPE)
-                pts.append((t, x, y, spin))
-            rolls.append((t_roll0, t, k, d))
-            # Loch am Ende: Murmel faellt senkrecht durch
-            vy = v * math.sin(self.SLOPE)
-            k += 1
-        while y < H + 60:   # letzte Bahn: ab in das Rohr nach unten
-            vy += self.G * dt
-            y += vy * dt
-            t += dt
-            pts.append((t, x, y, spin))
-        self.track = np.array(pts)
-        self.events, self.rolls, self.life = events, rolls, t
+            if t > 24:
+                return None, None, None
+        return t, out, hits
 
-    def pos(self, tau):
-        i = int(np.searchsorted(self.track[:, 0], tau))
-        i = min(max(i, 0), len(self.track) - 1)
-        return self.track[i, 1:]
-
-    def frame(self, t):
-        if not hasattr(self, "track"):
-            self.simulate()
-        img, pen = self.pen()
-        dark = mix(self.bg_bottom, (40, 30, 60), 0.22)
-        for k in range(self.RAMPS):
-            xs, ys, xe, ye = self.ramp(k)
-            d = 1 if xe > xs else -1
-            back = xs - d * 40
-            pen.line([(back + 10, ys + 22), (xe - d * (self.R + 8) + 10, ye + 22)], self.shadow, 18)
-            pen.line([(back, ys), (xe - d * (self.R + 8), ye)], dark, 16)
-            pen.line([(back, ys - 3), (xe - d * (self.R + 8), ye - 3)], mix(dark, (255, 255, 255), 0.25), 5)
-            pen.rect(xe + d * (self.R + 4) - 6, ye - 60, xe + d * (self.R + 4) + 6, ye + 8, dark, 4)  # Anschlag
-        marbles = []
-        for j in range(-int(self.life / self.SPACING) - 2, 1):
-            tau = t - j * self.SPACING
-            if 0 <= tau < self.life:
-                marbles.append((j, self.pos(tau)))
-        for j, (x, y, spin) in marbles:
-            pen.ball_shadow(x, y, self.R)
-        for j, (x, y, spin) in marbles:
-            pen.ball(x, y, self.R, self.colors[j % 5], spin)   # 5 teilt die Murmeln pro Loop -> Loop passt
-        # Rohre vor den Murmeln: oben kommen sie heraus, unten verschwinden sie
-        tube = mix(dark, (255, 255, 255), 0.35)
-        x0 = self.X0
-        pen.rect(x0 - self.R - 12 + 12, 370 + 12, x0 + self.R + 12 + 12, 530 + 12, self.shadow, 8)
-        pen.rect(x0 - self.R - 12, 370, x0 + self.R + 12, 530, tube, 8)
-        pen.rect(x0 - self.R - 16, 516, x0 + self.R + 16, 534, dark, 6)
-        xe, ye = self.ramp(self.RAMPS - 1)[2:]
-        pen.rect(xe - self.R - 12 + 12, ye + 90 + 12, xe + self.R + 12 + 12, H + 20, self.shadow, 8)
-        pen.rect(xe - self.R - 12, ye + 90, xe + self.R + 12, H + 20, tube, 8)
-        pen.rect(xe - self.R - 16, ye + 86, xe + self.R + 16, ye + 104, dark, 6)
-        return img
+    def frames(self):
+        best = None
+        for grow in np.linspace(4, 16, 25):
+            t, _, _ = self.simulate(grow)
+            if t and 10 <= t <= 14:
+                best = grow
+                break
+        if best is None:
+            best = 9.0
+        _, states, hits = self.simulate(best, record=True)
+        self.hits = hits
+        self.duration = len(states) / FPS + 0.6
+        n_loop = int(0.6 * FPS)
+        start_p, start_r = states[0][0], states[0][1]
+        trail = []
+        for k in range(len(states) + n_loop):
+            img = BASE.copy()
+            pen = Pen(img)
+            t = k / FPS
+            if k < len(states):
+                p, r, nh = states[k]
+            else:  # Loop: Ball schrumpft zurueck an die Startposition
+                q = ease((k - len(states)) / n_loop)
+                p = states[-1][0] * (1 - q) + start_p * q
+                r = self.R * (1 - q) + start_r * q
+                nh = len(hits)
+            col = hsv(self.hue + nh * 0.021)
+            pen.circle(CX, CY, self.R + 7, outline=(235, 235, 245), width=7)
+            for (ht, hx, hy, _) in hits:   # Wellen am Aufprallpunkt
+                age = t - ht
+                if 0 <= age < 0.35:
+                    a = age / 0.35
+                    pen.circle(hx, hy, 10 + 70 * a, outline=mix(col, BG_BOTTOM, a), width=5 * (1 - a) + 1)
+            trail.append((p.copy(), r, col))
+            trail = trail[-9:]
+            for i, (tp, tr, tc) in enumerate(trail[:-1]):
+                k2 = (i + 1) / len(trail)
+                pen.circle(tp[0], tp[1], tr, fill=mix(BG_BOTTOM, tc, 0.25 * k2))
+            pen.circle(p[0], p[1], r, fill=col, outline=(255, 255, 255), width=5)
+            yield img
 
     def sound(self, mx):
-        self.simulate()
-        rng = mx.rng
-        track = np.zeros(int((self.life + 2) * RATE))
-        for (t0, t1, k, d) in self.rolls:   # leises Rollgeraeusch, lauter mit Tempo
-            a, b = int(t0 * RATE), int(t1 * RATE)
-            noise = lowpass(rng.standard_normal(b - a), 350)
-            ramp = np.linspace(0.15, 1.0, b - a) ** 0.7
-            track[a:b] += noise * ramp * 0.5
-        clicks = []
-        for (t, kind, k, x, vy) in self.events:
-            clicks.append((t, k, x, min(1.0, vy / 900)))
-        for j in range(int(round(self.period / self.SPACING))):
-            t0 = j * self.SPACING
-            mx.add(t0, track, 0.10, 0.0)
-            for (t, k, x, strength) in clicks:
-                mx.add(t0 + t, snd_tok(midi(penta(k + 2 * (j % 2), 72))), 0.22 * (0.5 + strength), pan_of(x))
-                mx.add(t0 + t, snd_pluck(midi(penta(k + 2 * (j % 2), 60)), 1.2, 0.5), 0.10, pan_of(x))
+        last = -1
+        for i, (t, x, y, r) in enumerate(self.hits):
+            if t - last < 0.035:
+                continue
+            last = t
+            mx.add(t, snd_pluck(midi(arpeggio(i))), 0.5, pan_of(x))
+        end = self.hits[-1][0] if self.hits else 5
+        for j, n in enumerate((72, 76, 79, 84)):
+            mx.add(end + 0.05 + j * 0.05, snd_pluck(midi(n), 2.0), 0.35, (j - 1.5) / 2)
 
 
-class Stack(Scene):
-    """Endloser Turm: jeder Block gleitet herein und landet exakt auf dem vorigen."""
-    name, hook = "stack", "This tower never ends"
-    P, N = 1.3, 10                   # Sekunden pro Block, Bloecke pro Loop
-    period = P * N
+class Escape(Scene):
+    """Ball in rotierenden Ringen mit Luecke; jeder entkommene Ring zerplatzt."""
+    name, hook = "escape", "Can the ball escape?"
     thumb = 0.3
-    BH, BW, TOP_SCREEN = 74, 440, 1090
-    LAND = 0.9                       # Landezeitpunkt innerhalb eines Blocktakts
 
-    def land_time(self, i):
-        return i * self.P + self.LAND
+    def setup(self, rng):
+        self.rings = []
+        n = 6
+        for i in range(n):
+            rad = 150 + i * 55
+            self.rings.append({"r": rad, "w": rng.uniform(0.7, 1.2) * (1 if i % 2 else -1),
+                               "ph": rng.uniform(0, 2 * math.pi), "gap": math.radians(rng.uniform(42, 52))})
 
-    def cam(self, t):
-        i = math.floor((t - self.LAND) / self.P)
-        q = smooth((t - self.land_time(i)) / 0.75)
-        return self.BH * (i + q)
-
-    def frame(self, t):
-        t = t + 40 * self.period     # mitten im "unendlichen" Turm beginnen
-        img, pen = self.pen()
-        cam = self.cam(t)
-
-        def sy(h):
-            return self.TOP_SCREEN + cam - h
-
-        last = math.floor((t - self.LAND) / self.P)    # zuletzt gelandeter Block
-        boxes = []
-        for i in range(last, last - 20, -1):
-            y1 = sy(i * self.BH)
-            if y1 - self.BH > H:
+    def simulate(self, seed, record=False):
+        rng = random.Random(seed)
+        self.setup(rng)
+        p = np.array([CX, CY])
+        ang = rng.uniform(-2.4, -0.7)
+        v = np.array([math.cos(ang), math.sin(ang)]) * 700
+        r, g, sub = 16, 1100.0, 10
+        dt = 1 / (FPS * sub)
+        cur, t, hits, pops, out = 0, 0.0, [], [], []
+        while t < 15:
+            for _ in range(sub):
+                v[1] += g * dt
+                p += v * dt
+                t += dt
+                if cur >= len(self.rings):
+                    continue
+                ring = self.rings[cur]
+                d = p - np.array([CX, CY])
+                dist = np.linalg.norm(d)
+                if dist + r >= ring["r"] - 4:
+                    th = math.atan2(d[1], d[0])
+                    rel = (th - ring["ph"] - ring["w"] * t + math.pi) % (2 * math.pi) - math.pi
+                    if abs(rel) < ring["gap"] / 2 - r / ring["r"]:
+                        pops.append((t, cur, float(p[0]), float(p[1])))
+                        cur += 1
+                        continue
+                    n = d / dist
+                    vn = v @ n
+                    if vn > 0:
+                        v -= 2 * vn * n
+                        tang = np.array([-n[1], n[0]])
+                        v += tang * rng.uniform(-120, 120)
+                        sp = np.linalg.norm(v)
+                        target = max(sp, 720 + 30 * cur)
+                        v *= target / sp
+                        hits.append((t, cur, float(p[0]), float(p[1])))
+                    p = np.array([CX, CY]) + n * (ring["r"] - 4 - r)
+            if record:
+                out.append((p.copy(), cur))
+            if cur >= len(self.rings) and (abs(p[0] - CX) > 700 or abs(p[1] - CY) > 1100):
                 break
-            sq = 0.0
-            if i == last:
-                a = (t - self.land_time(i)) / 0.18
-                if 0 <= a < 1:
-                    sq = math.sin(math.pi * a) * 0.08
-            boxes.append((i, CX, y1, sq))
-        j = last + 1                 # naechster Block im Anflug
-        u = t - (self.land_time(j) - 1.0)
-        if u >= 0:
-            side = -1 if j % 2 else 1
-            if u < 0.62:
-                x = CX + side * 820 * (1 - smooth(u / 0.62))
-                lift = 160
-            elif u < 0.75:
-                x, lift = CX, 160
-            else:
-                x = CX
-                f = min(1.0, (u - 0.75) / 0.25)
-                lift = 160 * (1 - f * f)
-            boxes.append((j, x, sy(j * self.BH) - lift, 0.0))
-        for (i, x, y1, sq) in boxes:
-            h = self.BH * (1 - sq)
-            w = self.BW * (1 + sq * 0.5)
-            pen.rect(x - w / 2 + 16, y1 - h + 16, x + w / 2 + 16, y1 + 16, self.shadow, 10)
-        for (i, x, y1, sq) in sorted(boxes, key=lambda b: b[0]):
-            h = self.BH * (1 - sq)
-            w = self.BW * (1 + sq * 0.5)
-            pen.block(x - w / 2, y1 - h, x + w / 2, y1 - 1, self.colors[i % 5], 10)
-        return img
+        return t, cur, hits, pops, out
+
+    def frames(self):
+        seed = self.seed
+        for k in range(200):
+            t, cur, hits, pops, _ = self.simulate(seed)
+            if cur == len(self.rings) and 8 <= t <= 14 and pops[-1][0] < t - 0.4:
+                break
+            seed = self.seed * 1000 + k + 1
+        t, cur, hits, pops, states = self.simulate(seed, record=True)
+        self.hits, self.pops = hits, pops
+        n_loop = int(0.7 * FPS)
+        self.duration = (len(states) + n_loop) / FPS
+        rng = random.Random(seed)
+        shards = []
+        for (pt, idx, _, _) in pops:
+            ring = self.rings[idx]
+            for j in range(48):
+                a = j / 48 * 2 * math.pi
+                sp = rng.uniform(150, 520)
+                shards.append((pt, idx, CX + ring["r"] * math.cos(a), CY + ring["r"] * math.sin(a),
+                               math.cos(a) * sp, math.sin(a) * sp - 200))
+        for k in range(len(states) + n_loop):
+            t = k / FPS
+            img = BASE.copy()
+            pen = Pen(img)
+            if k < len(states):
+                p, cur = states[k]
+                fade = 1.0
+            else:  # Loop: Ringe blenden wieder ein, Ball zurueck in die Mitte
+                q = ease((k - len(states)) / n_loop)
+                cur, fade = 0, q
+                p = np.array([CX, CY])
+            for i, ring in enumerate(self.rings):
+                if i < cur:
+                    continue
+                col = mix(BG_BOTTOM, hsv(self.hue + i * 0.09), fade)
+                ph = ring["ph"] + ring["w"] * (t if k < len(states) else 0)
+                g = ring["gap"] / 2
+                pen.arc(CX, CY, ring["r"], math.degrees(ph + g), math.degrees(ph + 2 * math.pi - g), col, 9)
+            for (pt, idx, x0, y0, vx, vy) in shards:
+                age = t - pt
+                if 0 <= age < 1.1 and k < len(states):
+                    x, y = x0 + vx * age, y0 + vy * age + 900 * age * age
+                    pen.circle(x, y, 7 * (1 - age / 1.1) + 1, fill=mix(hsv(self.hue + idx * 0.09), BG_BOTTOM, age / 1.1))
+            if k >= len(states) or fade:
+                pen.circle(p[0], p[1], 16 * (fade if k >= len(states) else 1), fill=(255, 255, 255))
+            yield img
+
+    def sound(self, mx):
+        last = -1
+        for i, (t, ring, x, y) in enumerate(self.hits):
+            if t - last < 0.04:
+                continue
+            last = t
+            mx.add(t, snd_pluck(midi(arpeggio(i) + ring * 2)), 0.42, pan_of(x))
+        for (t, ring, x, y) in self.pops:
+            mx.add(t, snd_pop(mx.rng), 0.6, pan_of(x))
+            for j, n in enumerate((84, 88, 91)):
+                mx.add(t + 0.03 * j, snd_pluck(midi(n + ring), 0.8, 1.4), 0.18, pan_of(x))
+
+
+class Galton(Scene):
+    """Kugeln fallen durch Nagelbrett und bilden eine perfekte Glockenkurve."""
+    name, hook = "galton", "250 balls. One perfect curve."
+    thumb = 0.75
+    ROWS, DX, DY, TOP = 12, 66, 52, 470
+    BIN_TOP, FLOOR = 1150, 1580
+    BALL = 9.5
+
+    def frames(self):
+        rng = self.rng
+        rows = self.ROWS
+        n = 250
+        counts = [round(n * math.comb(rows, b) / 2 ** rows) for b in range(rows + 1)]
+        bins = [b for b in range(rows + 1) for _ in range(counts[b])]
+        rng.shuffle(bins)
+        n = len(bins)
+        spawn_end = 9.0
+        balls = []
+        for i, b in enumerate(bins):
+            u = i / n
+            ts = spawn_end * (u ** 0.62)        # wird schneller
+            path = [1] * b + [0] * (rows - b)
+            rng.shuffle(path)
+            balls.append({"ts": ts, "bin": b, "path": path})
+        hop = 0.1
+        filled = [0] * (rows + 1)
+        for bl in balls:   # Landezeit und Stapelplatz
+            fall_start = bl["ts"] + (rows + 1) * hop
+            bl["slot"] = filled[bl["bin"]]
+            filled[bl["bin"]] += 1
+            bx, by = self.slot_pos(bl["bin"], bl["slot"])
+            y0 = self.TOP + rows * self.DY
+            bl["fall0"] = fall_start
+            bl["land"] = fall_start + math.sqrt(2 * max(0, by - y0) / 2400)
+            bl["target"] = (bx, by)
+        self.balls = balls
+        last_land = max(b["land"] for b in balls)
+        curve_t = last_land + 0.15
+        drain = curve_t + 1.2
+        self.curve_t, self.drain_t = curve_t, drain
+        self.duration = drain + 0.75
+        base = BASE.copy()
+        bp = Pen(base)
+        for j in range(rows):
+            for i in range(j + 1):
+                x = CX + (i - j / 2) * self.DX
+                bp.circle(x, self.TOP + j * self.DY + self.DY * 0.5, 5.5, fill=(150, 150, 175))
+        for b in range(rows + 2):
+            x = CX + (b - (rows + 1) / 2) * self.DX
+            bp.rect(x - 2.5, self.BIN_TOP, x + 2.5, self.FLOOR, fill=(70, 70, 100))
+        bp.rect(CX - (rows + 1) / 2 * self.DX - 3, self.FLOOR, CX + (rows + 1) / 2 * self.DX + 3, self.FLOOR + 6,
+                fill=(90, 90, 120))
+        bp.poly([(CX - 120, self.TOP - 120), (CX - 14, self.TOP - 20), (CX - 8, self.TOP - 20), (CX - 110, self.TOP - 120)],
+                (90, 90, 120))
+        bp.poly([(CX + 120, self.TOP - 120), (CX + 14, self.TOP - 20), (CX + 8, self.TOP - 20), (CX + 110, self.TOP - 120)],
+                (90, 90, 120))
+        empty = base.copy()
+        baked = set()
+        order = sorted(range(len(balls)), key=lambda i: balls[i]["land"])
+        oi = 0
+        total = int(self.duration * FPS)
+        for k in range(total):
+            t = k / FPS
+            while oi < len(order) and balls[order[oi]]["land"] <= t:
+                bl = balls[order[oi]]
+                Pen(base).circle(*bl["target"], self.BALL, fill=self.col(bl["bin"]))
+                baked.add(order[oi])
+                oi += 1
+            if t >= drain:   # Loop: Boden oeffnet sich, alle Kugeln fallen raus
+                dy = 0.5 * 4000 * (t - drain) ** 2
+                img = empty.copy()
+                pen = Pen(img)
+                pen.rect(CX - (rows + 1) / 2 * self.DX - 3, self.FLOOR, CX + (rows + 1) / 2 * self.DX + 3, self.FLOOR + 6,
+                         fill=BG_BOTTOM)
+                for bl in balls:
+                    x, y = bl["target"]
+                    if y + dy < H + 20:
+                        pen.circle(x, y + dy, self.BALL, fill=self.col(bl["bin"]))
+                yield img
+                continue
+            img = base.copy()
+            pen = Pen(img)
+            for i, bl in enumerate(balls):
+                if i in baked or t < bl["ts"]:
+                    continue
+                pen.circle(*self.pos(bl, t), self.BALL, fill=self.col(bl["bin"]))
+            if t >= curve_t:
+                q = ease((t - curve_t) / 0.8)
+                pts = []
+                for j in range(int(q * 120) + 1):
+                    xb = -0.5 + (rows + 1) * j / 120
+                    mu, sd = rows / 2, math.sqrt(rows) / 2
+                    c = n * math.exp(-((xb - mu) ** 2) / (2 * sd * sd)) / (sd * math.sqrt(2 * math.pi))
+                    layers = c / 3
+                    pts.append((CX + (xb - rows / 2) * self.DX, self.FLOOR - layers * self.BALL * 1.75 - self.BALL * 2))
+                if len(pts) > 1:
+                    pen.line(pts, (255, 255, 255), 7)
+            yield img
+
+    def col(self, b):
+        return hsv(self.hue + b / (self.ROWS + 1) * 0.75, 0.7)
+
+    def slot_pos(self, b, slot):
+        lay, k = divmod(slot, 3)
+        x = CX + (b - self.ROWS / 2) * self.DX + (k - 1) * (self.BALL * 2.05)
+        y = self.FLOOR - self.BALL - 1 - lay * self.BALL * 1.75
+        if lay % 2:
+            x += 0 if k != 1 else 0
+        return x, y
+
+    def pos(self, bl, t):
+        rows, hop = self.ROWS, 0.1
+        s = (t - bl["ts"]) / hop
+        if s < 1:   # aus dem Trichter auf den ersten Nagel
+            return CX, self.TOP - 30 + s * 25
+        s -= 1
+        if s < rows:
+            j = int(s)
+            f = s - j
+            i = sum(bl["path"][:j])
+            x0 = CX + (i - j / 2) * self.DX
+            x1 = CX + (i + bl["path"][j] - (j + 1) / 2) * self.DX
+            y0 = self.TOP + j * self.DY - 5
+            x = x0 + (x1 - x0) * f
+            y = y0 + self.DY * f * f - 26 * math.sin(math.pi * f) * (1 - f)
+            return x, y
+        x0, y0 = bl["target"][0], self.TOP + rows * self.DY
+        dt = t - bl["fall0"]
+        bx = CX + (bl["bin"] - rows / 2) * self.DX
+        return bx + (x0 - bx) * min(1, dt * 6), min(bl["target"][1], y0 + 0.5 * 2400 * dt * dt)
 
     def sound(self, mx):
         rng = mx.rng
-        melody = [0, 2, 4, 2, 5, 4, 7, 5, 9, 7][: self.N]
-        for i in range(self.N):
-            t = self.land_time(i)
-            mx.add(t, snd_tok(midi(penta(melody[i], 67))), 0.32, 0.0)
-            mx.add(t, snd_pluck(midi(penta(melody[i], 60)), 1.4, 0.5), 0.22, 0.0)
-            mx.add(t - 1.0, snd_whoosh(0.6, rng), 0.05, 0.7 if i % 2 else -0.7)
+        hop = 0.1
+        for bl in self.balls:
+            for j in range(self.ROWS):
+                if rng.random() < 0.45:
+                    t = bl["ts"] + (j + 1) * hop
+                    x = CX + (sum(bl["path"][:j]) - j / 2) * self.DX
+                    mx.add(t, snd_tick(rng.uniform(2600, 4200), rng), 0.05, pan_of(x))
+            mx.add(bl["land"], snd_tok(rng.uniform(700, 1000)), 0.10, pan_of(bl["target"][0]))
+        for j, n in enumerate((60, 64, 67, 72, 76, 79, 84)):
+            mx.add(self.curve_t + j * 0.11, snd_pluck(midi(n), 2.0), 0.3, -0.8 + j * 0.27)
+        mx.add(self.drain_t, snd_whoosh(0.6, rng), 0.5)
 
 
 class Slice(Scene):
-    """Bunter Sandblock wird in Ruhe Scheibe fuer Scheibe geschnitten; jede Scheibe kippt natuerlich ab."""
-    name, hook = "slice", "That sound though..."
-    KX = 470
-    TOP, BOTTOM = 860, 1250
-    SW = 64
-    P = 1.5
-    CYCLES = 8
-    period = P * CYCLES
-    thumb = 0.45
+    """Ein Block aus bunten Schichten wird Scheibe fuer Scheibe zerschnitten (perfekter Loop)."""
+    name, hook = "slice", "Sound on. Trust me."
+    thumb = 0.4
+    KX = 430            # Messerposition
+    TOP, BOTTOM = 840, 1240
+    SW = 64             # Scheibendicke
+    PERIOD = 1.15
 
-    def setup(self):
+    def make_texture(self, length):
         rng = np.random.default_rng(self.seed)
         h = int((self.BOTTOM - self.TOP) * S)
-        L = int(self.CYCLES * self.SW * S)
+        L = int(length * S)
         tex = np.zeros((h, L, 3))
-        tex[:] = self.colors[0]
-        y, li = 0, 0
-        xs = np.arange(L)
+        y = 0
+        layers = []
+        palette = [hsv(self.hue + k * 0.13, 0.45 + 0.1 * (k % 2), 0.95) for k in range(8)]
         while y < h:
-            th = int(rng.uniform(0.08, 0.16) * h)
-            c = self.colors[li % len(self.colors)]
-            wav = (np.sin(xs / L * 2 * np.pi * 2 + li) * 5 * S).astype(int)   # periodisch -> Loop
-            for x in range(0, L, 2):
-                tex[max(0, y + wav[x]):, x:x + 2] = c      # bis unten fuellen, naechste Schicht ueberdeckt
+            th = int(rng.uniform(0.07, 0.18) * h)
+            layers.append((y, min(h, y + th), palette[len(layers) % len(palette)]))
             y += th
-            li += 1
-        grain = rng.standard_normal((h, L))
-        tex *= (1 + 0.05 * grain)[:, :, None]
-        tex = np.clip(tex, 0, 255).astype(np.uint8)
-        reps = int(math.ceil((W / self.SW + 4) / self.CYCLES)) + 1
-        self.tex = Image.fromarray(np.tile(tex, (1, reps, 1)))
-        self.L = self.CYCLES * self.SW
-        self.fall = self.simulate_fall()
+        xs = np.arange(L)
+        for (y0, y1, c) in layers:
+            wav = (np.sin(xs / L * 2 * np.pi * 3) * 6 * S).astype(int)   # periodisch -> Loop
+            for x in range(0, L, 4):
+                a, b = max(0, y0 + wav[x]), min(h, y1 + wav[x])
+                tex[a:b, x:x + 4] = c
+        grain = rng.standard_normal((h // 2 + 1, L // 2 + 1))
+        grain = np.repeat(np.repeat(grain, 2, 0), 2, 1)[:h, :L]
+        tex *= (1 + 0.07 * grain)[:, :, None]
+        return Image.fromarray(np.clip(tex, 0, 255).astype(np.uint8))
 
-    def simulate_fall(self):
-        """Scheibe kippt um die Plattformkante (starrer Koerper), dann freier Fall."""
-        w, h, g = self.SW, self.BOTTOM - self.TOP, 2600.0
-        px, py = self.KX - w, self.BOTTOM
-        I = (w * w + h * h) / 3
-        th, om, dt, t = 0.0, 0.9, 1 / 600, 0.0
-        out = []
-        while th < math.pi / 2 - 0.25:
-            rx, ry = w / 2, -h / 2
-            off_x = rx * math.cos(th) + ry * math.sin(th)
-            om += -g * off_x / I * dt
-            th += om * dt
-            t += dt
-            cx = px + rx * math.cos(th) + ry * math.sin(th)
-            cy = py - rx * math.sin(th) + ry * math.cos(th)
-            out.append((t, cx, cy, th))
-        # loesen: Schwerpunkt-Geschwindigkeit aus der Drehung
-        rx, ry = w / 2, -h / 2
-        vx = om * (-rx * math.sin(th) + ry * math.cos(th))
-        vy = om * (-rx * math.cos(th) - ry * math.sin(th))
-        cx, cy = out[-1][1], out[-1][2]
-        while cy < H + 400 and t < 4:
-            vy += g * dt
-            cx += vx * dt
-            cy += vy * dt
-            th += om * dt
-            t += dt
-            out.append((t, cx, cy, th))
-        return np.array(out)
-
-    def frame(self, t):
-        if not hasattr(self, "tex"):
-            self.setup()
-        img, pen = self.pen()
-        P, hgt = self.P, self.BOTTOM - self.TOP
-        dark = mix(self.bg_bottom, (40, 30, 60), 0.25)
-        pen.rect(self.KX - self.SW + 14, self.BOTTOM + 14, W + 20, self.BOTTOM + 60, self.shadow)
-        pen.rect(self.KX - self.SW, self.BOTTOM, W + 20, self.BOTTOM + 46, dark, 6)
-        pen.rect(self.KX - self.SW, self.BOTTOM, W + 20, self.BOTTOM + 8, mix(dark, (255, 255, 255), 0.3), 4)
-        c = math.floor(t / P)
-        ph = t / P - c
-        push = smooth(ph / 0.33)
-        cut_done = ph >= 0.6
-        stick = 0 if cut_done else self.SW * push
-        edge = (c % self.CYCLES) * self.SW + self.SW      # Texturposition am Messer
-        src0 = edge - stick
-        vis = W - self.KX + stick + 10
-        pen.rect(self.KX - stick + 14, self.TOP + 14, W + 20, self.BOTTOM, self.shadow)
-        crop = self.tex.crop((int(src0 * S), 0, int((src0 + vis) * S), int(hgt * S)))
-        img.paste(crop, (int((self.KX - stick) * S), int(self.TOP * S)))
-        for cc in range(c - 3, c + 1):                      # abkippende Scheiben
-            rel = t - (cc * P + 0.6 * P)
-            if rel < 0 or rel > self.fall[-1, 0]:
-                continue
-            i = min(int(np.searchsorted(self.fall[:, 0], rel)), len(self.fall) - 1)
-            _, cx, cy, th = self.fall[i]
-            off = (cc % self.CYCLES) * self.SW
-            sl = self.tex.crop((int(off * S), 0, int((off + self.SW) * S), int(hgt * S))).convert("RGBA")
-            rot = sl.rotate(math.degrees(th), resample=Image.BICUBIC, expand=True)
-            img.paste(rot, (int(cx * S - rot.width / 2), int(cy * S - rot.height / 2)), rot)
-        for cc in range(c - 1, c + 1):                      # ein paar Kruemel an der Schnittkante
-            r2 = random.Random(self.seed * 100 + cc % self.CYCLES)
-            for _ in range(7):
-                t0 = cc * P + 0.42 * P + r2.uniform(0, 0.25 * P)
-                y0 = self.TOP + r2.uniform(0.2, 1.0) * hgt
-                vx, sz = r2.uniform(-90, -20), r2.uniform(3, 6)
-                age = t - t0
-                if 0 <= age < 0.6:
-                    x, y = self.KX - 4 + vx * age, min(self.BOTTOM - sz, y0 + 900 * age * age)
-                    pen.rect(x - sz, y - sz, x + sz, y + sz, self.colors[int((y0 - self.TOP) / hgt * 6) % len(self.colors)])
-        # Messer: ruhig runter, langsam durch den Block, wieder hoch
-        up = self.TOP - 300
-        if ph < 0.36:
-            ky = up
-        elif ph < 0.42:
-            ky = up + 300 * smooth((ph - 0.36) / 0.06)
-        elif ph < 0.6:
-            ky = self.TOP + hgt * ((ph - 0.42) / 0.18)
-        else:
-            ky = self.BOTTOM - (self.BOTTOM - up) * smooth((ph - 0.6) / 0.4)
-        bx = self.KX
-        pen.poly([(bx - 5 + 10, ky - 640 + 10), (bx + 5 + 10, ky - 640 + 10), (bx + 5 + 10, ky + 10), (bx - 5 + 10, ky - 50 + 10)],
-                 self.shadow)
-        pen.poly([(bx - 5, ky - 640), (bx + 5, ky - 640), (bx + 5, ky), (bx - 5, ky - 50)], (205, 210, 222))
-        pen.poly([(bx, ky - 640), (bx + 5, ky - 640), (bx + 5, ky)], (240, 243, 250))
-        pen.rect(bx - 18, ky - 850, bx + 18, ky - 640, (70, 58, 66), 9)
-        return img
+    def frames(self):
+        n_vis = int((W - self.KX) / self.SW) + 3
+        cycles = 10
+        L = (cycles) * self.SW
+        tex = self.make_texture(L)
+        tex = Image.fromarray(np.tile(np.asarray(tex), (1, (n_vis // cycles) + 3, 1)))
+        self.duration = cycles * self.PERIOD
+        P = self.PERIOD
+        self.cuts = []
+        crumbs = []
+        warm = 3
+        for c in range(-warm, cycles + 2):
+            self.cuts.append(c * P + 0.48 * P)
+            rng = random.Random(self.seed * 100 + c % cycles)   # gleiche Kruemel je Loop-Runde
+            for _ in range(26):
+                crumbs.append((c * P + 0.48 * P + rng.uniform(0, 0.18 * P), rng.uniform(self.TOP, self.BOTTOM),
+                               rng.uniform(-260, -60), rng.uniform(-200, 50), rng.uniform(3, 7)))
+        hgt = self.BOTTOM - self.TOP
+        total = int(self.duration * FPS)
+        for k in range(total):
+            t = k / FPS
+            img = BASE.copy()
+            pen = Pen(img)
+            pen.rect(self.KX - 6, self.BOTTOM, W + 10, self.BOTTOM + 34, fill=(60, 62, 84), radius=0)
+            pen.rect(self.KX - 6, self.BOTTOM, W + 10, self.BOTTOM + 8, fill=(110, 112, 140))
+            c = math.floor(t / P)
+            ph = t / P - c
+            push = ease(ph / 0.38)                 # Block schiebt sich um eine Scheibe vor
+            stick = self.SW * push if ph < 0.62 else 0
+            cut_x0 = (c % cycles) * self.SW        # Texturposition der Schnittkante
+            src0 = cut_x0 + self.SW - stick if ph < 0.62 else cut_x0 + self.SW
+            if ph >= 0.62:
+                stick = 0
+            vis = W - self.KX + stick + 10
+            crop = tex.crop((int(src0 * S), 0, int((src0 + vis) * S), int(hgt * S)))
+            img.paste(crop, (int((self.KX - stick) * S), int(self.TOP * S)))
+            for cc in range(c - 3, c + 1):          # fallende Scheiben
+                rel = t - (cc * P + 0.62 * P)
+                if rel < 0:
+                    continue
+                off = ((cc % cycles) * self.SW + self.SW) % L
+                sl = tex.crop((int(off * S), 0, int((off + self.SW) * S), int(hgt * S))).convert("RGBA")
+                ang = min(90, 60 * rel + 260 * rel * rel)
+                cx = self.KX - self.SW / 2 - 140 * rel
+                cy = (self.TOP + self.BOTTOM) / 2 + 0.5 * 2600 * rel * rel
+                if cy - hgt > H:
+                    continue
+                rot = sl.rotate(ang, resample=Image.BICUBIC, expand=True)
+                img.paste(rot, (int(cx * S - rot.width / 2), int(cy * S - rot.height / 2)), rot)
+            for (ct, cy0, vx, vy, sz) in crumbs:
+                age = t - ct
+                if 0 <= age < 1.2:
+                    x, y = self.KX + vx * age, cy0 + vy * age + 1400 * age * age
+                    if y < H:
+                        lay = int((cy0 - self.TOP) / hgt * 7)
+                        pen.rect(x - sz / 2, y - sz / 2, x + sz / 2, y + sz / 2,
+                                 fill=hsv(self.hue + (lay % 8) * 0.13, 0.5, 0.95))
+            # Messer
+            if ph < 0.42:
+                ky = self.TOP - 330
+            elif ph < 0.6:
+                ky = self.TOP - 330 + (hgt + 330) * ease((ph - 0.42) / 0.18) ** 0.6
+            else:
+                ky = self.BOTTOM - (hgt + 330) * ease((ph - 0.6) / 0.4)
+            bx = self.KX
+            pen.poly([(bx - 4, ky - 620), (bx + 4, ky - 620), (bx + 4, ky), (bx - 4, ky - 40)], (215, 220, 232))
+            pen.poly([(bx - 1, ky - 620), (bx + 4, ky - 620), (bx + 4, ky)], (250, 252, 255))
+            pen.rect(bx - 16, ky - 820, bx + 16, ky - 620, fill=(40, 36, 46), radius=8)
+            yield img
 
     def sound(self, mx):
-        P = self.P
-        for c in range(self.CYCLES):
-            t = c * P + 0.42 * P
-            mx.add(t, snd_crunch(0.18 * P, mx.rng, 3500), 0.6, pan_of(self.KX))
-            mx.add(c * P + 0.02, snd_whoosh(0.45, mx.rng), 0.05, 0.4)
+        P = self.PERIOD
+        for c in range(-2, int(self.duration / P) + 1):
+            t = c * P + 0.48 * P
+            mx.add(t, snd_crunch(0.18 * P / 0.9 + 0.05, mx.rng), 0.55, pan_of(self.KX))
+            mx.add(c * P + 0.05, snd_whoosh(0.3, mx.rng), 0.08, 0.3)
+            mx.add(c * P + 0.62 * P + 0.25, snd_thud(), 0.15, -0.6)
 
 
-SCENES = {c.name: c for c in (Pendulum, Marbles, Stack, Slice)}
+class Stack(Scene):
+    """Bloecke gleiten herein und landen perfekt uebereinander."""
+    name, hook = "stack", "Perfectly stacked. Every time."
+    thumb = 0.85
+    BH, BW, GROUND = 64, 430, 1560
+
+    def frames(self):
+        n = 16
+        times, t = [], 0.15
+        for i in range(n):
+            times.append(t)
+            t += max(0.55, 0.95 - i * 0.03)
+        self.lands = []
+        slide, drop = 0.32, 0.22
+        for i, t0 in enumerate(times):
+            self.lands.append(t0 + slide + drop)
+        zoom_t = self.lands[-1] + 0.4
+        sink_t = zoom_t + 1.1
+        self.duration = sink_t + 0.7
+        self.sink_t = sink_t
+        total = int(self.duration * FPS)
+        cam = 0.0
+        for k in range(total):
+            t = k / FPS
+            img = BASE.copy()
+            pen = Pen(img)
+            landed = sum(1 for lt in self.lands if lt <= t)
+            top_h = landed * self.BH
+            target = max(0.0, top_h - 520)
+            cam += (target - cam) * 0.18
+            z = 1.0
+            if t >= zoom_t:
+                fit = min(1.0, (self.GROUND - 520) / (n * self.BH + 40))
+                q = ease((t - zoom_t) / 0.7)
+                z = 1 + (fit - 1) * q
+                cam_z = cam * (1 - q)
+            else:
+                cam_z = cam
+            sink = 0.0
+            if t >= sink_t:
+                sink = 0.5 * 5000 * (t - sink_t) ** 2
+            ground = self.GROUND + cam_z
+            floor = ground + sink
+
+            def blk(i, x, h_bottom, alpha=1.0):
+                y1 = floor - h_bottom * z
+                y0 = y1 - self.BH * z
+                x0 = CX + (x - self.BW / 2 - CX) * z
+                x1 = CX + (x + self.BW / 2 - CX) * z
+                col = hsv(self.hue + i * 0.025, 0.62)
+                pen.rect(x0, y0, x1, y1 - 1, fill=mix(BG_BOTTOM, col, alpha), radius=6 * z)
+                pen.rect(x0 + 6 * z, y0 + 5 * z, x1 - 6 * z, y0 + 13 * z, fill=mix(BG_BOTTOM, mix(col, (255, 255, 255), 0.45), alpha))
+            pen.rect(0, ground, W, ground + 18, fill=(70, 72, 98))
+            for i, t0 in enumerate(times):
+                if t < t0:
+                    break
+                hb = i * self.BH
+                if t >= self.lands[i]:
+                    sq = t - self.lands[i]
+                    blk(i, CX, hb)
+                    if sq < 0.3:
+                        a = sq / 0.3
+                        y = ground - hb * z
+                        pen.line([(CX - self.BW / 2 * z - 30 * a * 3, y), (CX - self.BW / 2 * z - 5, y)],
+                                 mix((255, 255, 255), BG_BOTTOM, a), 4)
+                        pen.line([(CX + self.BW / 2 * z + 5, y), (CX + self.BW / 2 * z + 30 * a * 3, y)],
+                                 mix((255, 255, 255), BG_BOTTOM, a), 4)
+                    continue
+                side = -1 if i % 2 else 1
+                u = (t - t0)
+                if u < slide:
+                    x = CX + side * 700 * (1 - ease(u / slide))
+                    blk(i, x, hb + 200)
+                else:
+                    d = (u - slide) / drop
+                    blk(i, CX, hb + 200 * (1 - d * d))
+            if sink:   # Loop: Turm versinkt im Boden, danach ist alles wie am Anfang
+                gy = int(ground * S)
+                img.paste(BASE.crop((0, gy, W * S, H * S)), (0, gy))
+                pen.rect(0, ground, W, ground + 18, fill=(70, 72, 98))
+            yield img
+
+    def sound(self, mx):
+        scale = [0, 2, 4, 7, 9]
+        for i, t in enumerate(self.lands):
+            note = 60 + 12 * (i // 5) % 24 + scale[i % 5]
+            mx.add(t, snd_tok(midi(note + 12)), 0.30, 0.0)
+            mx.add(t, snd_pluck(midi(note), 0.9), 0.32, (i % 2) * 0.6 - 0.3)
+            mx.add(t - 0.4, snd_whoosh(0.3, mx.rng), 0.06, -0.7 if i % 2 else 0.7)
+        mx.add(self.sink_t, snd_whoosh(0.6, mx.rng), 0.4)
+
+
+SCENES = {c.name: c for c in (Grow, Escape, Galton, Slice, Stack)}
 CAPTIONS = {
-    "pendulum": "12 pendulums, slightly different lengths. Every 15 seconds they meet again",
-    "marbles": "Could watch this all day. Sound on",
-    "stack": "Not one block out of place. How long did you watch?",
-    "slice": "Sound on and watch it loop",
+    "grow": "Each bounce makes it bigger... wait for the last one",
+    "escape": "Did you think it would make it out?",
+    "galton": "250 random balls and still a perfect curve. Math is satisfying.",
+    "slice": "Turn the sound on and watch it loop",
+    "stack": "Not a single block off. Watch it again.",
 }
 TAGS = "#oddlysatisfying #satisfying #asmr #satisfyingvideo #relaxing"
+
+BASE = None
 
 
 def hook_layer(text):
     img = Image.new("RGBA", (W, 420), (0, 0, 0, 0))
     d = ImageDraw.Draw(img)
-    size = 70
+    size = 78
     f = ImageFont.truetype(BOLD, size)
-    while d.textlength(text, font=f) > 880 and size > 44:
+    while d.textlength(text, font=f) > 900 and size > 44:
         size -= 4
         f = ImageFont.truetype(BOLD, size)
-    d.text((W / 2, 300), text, font=f, fill=TEXT, anchor="mm")
+    d.text((W / 2, 300), text, font=f, fill=(255, 255, 255), anchor="mm", stroke_width=6, stroke_fill=(0, 0, 0))
+    return img
+
+
+def finish(img_s, hook):
+    img = img_s.reduce(S)
+    small = img.resize((W // 6, H // 6), Image.BILINEAR).filter(ImageFilter.GaussianBlur(5))
+    glow = small.resize((W, H), Image.BILINEAR).point(lambda v: int(v * 0.85))
+    img = ImageChops.screen(img, glow)
+    img.paste(hook, (0, 0), hook)
     return img
 
 
 def render(scene_name, seed, out_path):
+    global BASE
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
+    BASE = background()
     scene = SCENES[scene_name](seed)
     hook = hook_layer(scene.hook)
     silent, audio = out_path + ".silent.mp4", out_path + ".wav"
@@ -677,15 +848,15 @@ def render(scene_name, seed, out_path):
          "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p",
          "-movflags", "+faststart", silent], stdin=subprocess.PIPE)
-    n = int(round(scene.period * FPS))
-    for k in range(n):       # Bild n waere wieder Bild 0 -> nahtloser Loop
-        img = scene.frame(k / FPS).reduce(S)
-        img.paste(hook, (0, 0), hook)
-        enc.stdin.write(img.tobytes())
+    count = 0
+    for img in scene.frames():
+        enc.stdin.write(finish(img, hook).tobytes())
+        count += 1
     enc.stdin.close()
     if enc.wait() != 0:
         raise RuntimeError("ffmpeg (Video) fehlgeschlagen")
-    mx = Mixer(n / FPS, seed)
+    scene.duration = count / FPS
+    mx = Mixer(scene.duration, seed)
     scene.sound(mx)
     write_wav(audio, mx.master())
     tmp = out_path + ".tmp.mp4"
@@ -695,7 +866,7 @@ def render(scene_name, seed, out_path):
     os.replace(tmp, out_path)
     os.remove(silent)
     os.remove(audio)
-    return {"path": out_path, "duration": n / FPS, "thumb_ms": int(n / FPS * scene.thumb * 1000),
+    return {"path": out_path, "duration": scene.duration, "thumb_ms": int(scene.duration * scene.thumb * 1000),
             "caption": CAPTIONS[scene_name], "tags": TAGS}
 
 
