@@ -8,10 +8,18 @@
     {
       "date": "2026-11-12",
       "followers": 3,
-      "posts": 6
+      "posts": 7
     }
   ],
   "media": [
+    {
+      "id": "18120258389090547",
+      "comments_count": 0,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/DfpsHTEhktP/",
+      "timestamp": "2026-11-12T18:22:49+0000",
+      "insights_error": "Instagram API 18120258389090547/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+    },
     {
       "id": "17998120649843920",
       "comments_count": 0,
@@ -64,7 +72,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-12T17:54Z",
+    "checked": "2026-11-12T18:22Z",
     "granted": [
       "ads_management",
       "ads_read",
