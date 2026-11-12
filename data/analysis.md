@@ -41,3 +41,10 @@
 - Likes stagnieren bei 1-2 pro Reel unabhaengig von Spieler/Caption -> Reichweite schwach, aber noch kein Unterschied messbar.
 - Markt-Check: Instagram erlaubt seit Dez. 2025 nur noch 5 Hashtags; wir nutzten 7 (#careerpath, #futbol zu allgemein/schwach).
 - Geaendert: Hashtags auf 5 gezielte reduziert (#footballquiz #guesstheplayer #football #soccer #footballtrivia). Video unveraendert, damit der Effekt messbar bleibt. 27 Quizze in der Warteschlange.
+
+## 2026-11-12 20:45 (Wien), erste Insights
+- Insights funktionieren seit neuem Token (Recht instagram_manage_insights ueber die Login-Konfiguration).
+- 7 Reels: 113-139 Views, 92-117 Reach je Reel, 0 Shares, 0 Saves, 0-2 Likes; 3 Follower.
+- Alle Reels bleiben bei ~100 Reach haengen = Instagram zeigt sie nur der ersten Testgruppe, ohne Shares/Saves gibt es keinen Push.
+- Erstes Satisfying-Reel (18:22 UTC): 139 Views nach 1,3 h, also schnellster Start; Quiz-Reels brauchten dafuer ~1 Tag. Noch zu frueh fuer ein Urteil.
+- Geaendert: stats.py fragt zusaetzlich die durchschnittliche Wiedergabezeit ab (zeigt, ob Leute bis zur Aufloesung bleiben).

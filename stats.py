@@ -46,7 +46,10 @@ def main():
     for m in media:
         m.pop("caption", None)
         try:
-            ins = get(f"{m['id']}/insights", metric="views,reach,shares,saved")
+            try:  # Wiedergabedauer zeigt, ob Leute bis zur Aufloesung dranbleiben
+                ins = get(f"{m['id']}/insights", metric="views,reach,shares,saved,ig_reels_avg_watch_time")
+            except Exception:
+                ins = get(f"{m['id']}/insights", metric="views,reach,shares,saved")
             m["insights"] = {d["name"]: d["values"][0]["value"] for d in ins.get("data", [])}
         except Exception as e:
             m["insights_error"] = str(e)[:120]
