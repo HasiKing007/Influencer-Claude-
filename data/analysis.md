@@ -49,3 +49,7 @@
 - Erstes Satisfying-Reel (18:22 UTC): 139 Views nach 1,3 h, also schnellster Start; Quiz-Reels brauchten dafuer ~1 Tag. Noch zu frueh fuer ein Urteil.
 - Geaendert: stats.py fragt zusaetzlich die durchschnittliche Wiedergabezeit ab (zeigt, ob Leute bis zur Aufloesung bleiben).
 - Wiedergabezeit im Schnitt 4,1-7,3 s, das Quiz-Reel dauert aber ~15 s (Aufloesung erst ab ~12 s) -> die meisten springen vor der Aufloesung ab. Kandidat fuer die naechste Aenderung: kuerzer/schneller bis zum Countdown.
+
+## 2026-11-12 20:50 (Wien), Sofortmassnahme
+- Jacob: ~130 Views sind viel zu wenig, Ziel >=10.000 pro Reel. Hauptproblem laut Daten: Wiedergabe 4-7 s bei ~15 s Laenge.
+- Geaendert: Quiz-Reel von ~15 s auf ~9 s gekuerzt (Stationen max. 4,5 s statt 9 s, Countdown 2 s statt 3 s, Aufloesung 2,2 s statt 3,6 s). Ziel: Durchschauquote und Loops rauf. Messen: ig_reels_avg_watch_time im Verhaeltnis zur Laenge, Views nach 24 h.

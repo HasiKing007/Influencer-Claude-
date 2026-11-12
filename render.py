@@ -28,8 +28,10 @@ SAFE_LEFT, SAFE_RIGHT = 70, 930
 LIST_TOP, LIST_BOTTOM = 520, 1440
 
 INTRO = 0.3   # erste Station sofort zeigen (vorher 0.9 s leerer Einstieg)
-COUNTDOWN = 3.0
-REVEAL = 3.6
+# 2026-11-12: Zuschauer blieben im Schnitt nur 4-7 s, Reel war ~15 s -> auf ~9 s gekuerzt
+COUNTDOWN = 2.0
+REVEAL = 2.2
+STATIONS_MAX = 4.5   # alle Stationen zusammen hoechstens so lange
 
 
 def font(path, size):
@@ -51,7 +53,7 @@ def ease(t):
 
 
 def timing(n):
-    step = min(1.0, 9.0 / n)
+    step = min(0.6, STATIONS_MAX / n)
     stations_end = INTRO + n * step
     countdown_end = stations_end + COUNTDOWN
     total = countdown_end + REVEAL
@@ -110,7 +112,7 @@ def draw_countdown(img, t):
     img = dim(img, 0.86 * ease(t / 0.25))
     d = ImageDraw.Draw(img)
     d.text((W / 2, 700), "WHO IS IT?", font=font(BOLD, 96), fill=WHITE, anchor="mm")
-    number = 3 - int(t)
+    number = int(COUNTDOWN) - int(t)
     frac = t - int(t)
     cx, cy, rad = W / 2, 1010, 190
     d.ellipse((cx - rad, cy - rad, cx + rad, cy + rad), outline=ROW_BG, width=22)
@@ -190,7 +192,7 @@ def write_audio(path, quiz):
     samples = [0.0] * int(total * rate)
     for i in range(n):
         tone(samples, INTRO + i * step, 520 + 28 * i, 0.16)
-    for k in range(3):
+    for k in range(int(COUNTDOWN)):
         tone(samples, stations_end + k, 440, 0.22, 0.4)
     for freq in (523.25, 659.25, 783.99, 1046.5):
         tone(samples, countdown_end, freq, 1.4, 0.22)
