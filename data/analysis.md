@@ -30,3 +30,10 @@
 - Problem: Alle Titelbilder im Profil sind identisch und leer (nur "GUESS THE PLAYER"), erster Frame 0.9 s ohne Inhalt.
 - Geaendert: Titelbild jetzt = komplette Karriere-Liste (thumb_offset kurz vor Countdown); erste Station erscheint nach 0.3 s statt 0.9 s.
 - Keine Spielszenen-Clips: Urheberrecht der Ligen/Sender, Gefahr von Sperren.
+
+## 2026-11-12 14:45 (Wien)
+- 5 Reels insgesamt, heute bisher 1 (beckham 10:39 UTC, Waechter-Start; der 10:17-Cron fiel wieder aus). Likes: beckham 2 (3 h), tevez 2, henry 2, ronaldinho 1, ibrahimovic 2; 0 Kommentare; weiter 3 Follower.
+- Views/Reach weiterhin nicht abrufbar: Token hat noch keine Berechtigung instagram_business_manage_insights (Fehler #10).
+- Likes stagnieren bei 1-2 pro Reel unabhaengig von Spieler/Caption -> Reichweite schwach, aber noch kein Unterschied messbar.
+- Markt-Check: Instagram erlaubt seit Dez. 2025 nur noch 5 Hashtags; wir nutzten 7 (#careerpath, #futbol zu allgemein/schwach).
+- Geaendert: Hashtags auf 5 gezielte reduziert (#footballquiz #guesstheplayer #football #soccer #footballtrivia). Video unveraendert, damit der Effekt messbar bleibt. 27 Quizze in der Warteschlange.

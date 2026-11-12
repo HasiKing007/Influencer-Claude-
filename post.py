@@ -28,7 +28,8 @@ CAPTIONS = [
     "One career, one player. Did you get it before the reveal?",
     "Send this to the friend who thinks he knows football.",
 ]
-TAGS = "#football #soccer #footballquiz #guesstheplayer #footballtrivia #careerpath #futbol"
+# Instagram erlaubt seit Dez. 2025 nur noch 5 Hashtags pro Reel
+TAGS = "#footballquiz #guesstheplayer #football #soccer #footballtrivia"
 
 
 def load(path, default):
