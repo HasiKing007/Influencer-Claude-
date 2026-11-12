@@ -4,13 +4,26 @@
       "date": "2026-11-11",
       "followers": 3,
       "posts": 4
+    },
+    {
+      "date": "2026-11-12",
+      "followers": 3,
+      "posts": 5
     }
   ],
   "media": [
     {
-      "id": "18027983867924052",
+      "id": "18106251824375753",
       "comments_count": 0,
       "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/Dfo3HkxTsQf/",
+      "timestamp": "2026-11-12T10:39:39+0000",
+      "insights_error": "Instagram API 18106251824375753/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
+    },
+    {
+      "id": "18027983867924052",
+      "comments_count": 0,
+      "like_count": 2,
       "permalink": "https://www.instagram.com/reel/Dfnca78Tzlf/",
       "timestamp": "2026-11-11T21:27:08+0000",
       "insights_error": "Instagram API 18027983867924052/insights: {\"message\": \"(#10) Application does not have permission for this action\", \"cod"
