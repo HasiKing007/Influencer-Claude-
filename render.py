@@ -31,6 +31,7 @@ INTRO = 0.3   # erste Station sofort zeigen (vorher 0.9 s leerer Einstieg)
 # 2026-11-12: Zuschauer blieben im Schnitt nur 4-7 s, Reel war ~15 s -> auf ~9 s gekuerzt
 COUNTDOWN = 2.0
 REVEAL = 2.2
+ASK = 1.6  # Kommentar-Variante: Schlussbild ohne Aufloesung
 STATIONS_MAX = 4.5   # alle Stationen zusammen hoechstens so lange
 
 
@@ -52,11 +53,11 @@ def ease(t):
     return 1 - (1 - t) ** 3
 
 
-def timing(n):
+def timing(n, reveal=True):
     step = min(0.6, STATIONS_MAX / n)
     stations_end = INTRO + n * step
     countdown_end = stations_end + COUNTDOWN
-    total = countdown_end + REVEAL
+    total = countdown_end + (REVEAL if reveal else ASK)
     return step, stations_end, countdown_end, total
 
 
@@ -145,6 +146,18 @@ def draw_reveal(img, answer, t):
     return img
 
 
+def draw_ask(img, t):
+    """Kommentar-Variante: keine Aufloesung im Video, Antwort kommt spaeter als Kommentar."""
+    img = dim(img, 0.86)
+    d = ImageDraw.Draw(img)
+    p = ease(t / 0.35)
+    d.text((W / 2, 760), "WHO IS IT?", font=font(BOLD, int(96 + 30 * p)), fill=WHITE, anchor="mm")
+    d.text((W / 2, 960), "COMMENT", font=font(BOLD, 150), fill=ACCENT, anchor="mm")
+    d.text((W / 2, 1110), "YOUR ANSWER", font=font(BOLD, 90), fill=ACCENT, anchor="mm")
+    d.text((W / 2, 1300), "Answer revealed in the comments", font=font(REGULAR, 46), fill=MUTED, anchor="mm")
+    return img
+
+
 def draw_progress(img, t, until):
     d = ImageDraw.Draw(img)
     d.rectangle((SAFE_LEFT, 478, SAFE_RIGHT, 486), fill=ROW_BG)
@@ -152,7 +165,7 @@ def draw_progress(img, t, until):
     d.rectangle((SAFE_LEFT, 478, SAFE_LEFT + int((SAFE_RIGHT - SAFE_LEFT) * k), 486), fill=ACCENT)
 
 
-def frame_at(t, quiz, base, baked):
+def frame_at(t, quiz, base, baked, reveal=True):
     """base = Hintergrund mit allen fertig eingeblendeten Stationen (wird fortgeschrieben)."""
     clubs = quiz["clubs"]
     n = len(clubs)
@@ -172,7 +185,7 @@ def frame_at(t, quiz, base, baked):
     if stations_end <= t < countdown_end:
         img = draw_countdown(img, t - stations_end)
     elif t >= countdown_end:
-        img = draw_reveal(img, quiz["answer"], t - countdown_end)
+        img = draw_reveal(img, quiz["answer"], t - countdown_end) if reveal else draw_ask(img, t - countdown_end)
     return img
 
 
@@ -185,17 +198,17 @@ def tone(samples, start, freq, length, volume=0.35, rate=44100):
         samples[s0 + k] += volume * env * math.sin(2 * math.pi * freq * k / rate)
 
 
-def write_audio(path, quiz):
+def write_audio(path, quiz, reveal=True):
     rate = 44100
     n = len(quiz["clubs"])
-    step, stations_end, countdown_end, total = timing(n)
+    step, stations_end, countdown_end, total = timing(n, reveal)
     samples = [0.0] * int(total * rate)
     for i in range(n):
         tone(samples, INTRO + i * step, 520 + 28 * i, 0.16)
     for k in range(int(COUNTDOWN)):
         tone(samples, stations_end + k, 440, 0.22, 0.4)
-    for freq in (523.25, 659.25, 783.99, 1046.5):
-        tone(samples, countdown_end, freq, 1.4, 0.22)
+    for freq in ((523.25, 659.25, 783.99, 1046.5) if reveal else (392.0, 466.16)):
+        tone(samples, countdown_end, freq, 1.4 if reveal else 1.0, 0.22)
     with wave.open(path, "wb") as w:
         w.setnchannels(1)
         w.setsampwidth(2)
@@ -203,10 +216,10 @@ def write_audio(path, quiz):
         w.writeframes(b"".join(struct.pack("<h", int(max(-1, min(1, s)) * 32767)) for s in samples))
 
 
-def render(quiz, out_path):
+def render(quiz, out_path, reveal=True):
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     n = len(quiz["clubs"])
-    total = timing(n)[3]
+    total = timing(n, reveal)[3]
     silent = out_path + ".silent.mp4"
     audio = out_path + ".wav"
     enc = subprocess.Popen(
@@ -217,11 +230,11 @@ def render(quiz, out_path):
         stdin=subprocess.PIPE)
     base, baked = background(), set()
     for k in range(int(total * FPS)):
-        enc.stdin.write(frame_at(k / FPS, quiz, base, baked).tobytes())
+        enc.stdin.write(frame_at(k / FPS, quiz, base, baked, reveal).tobytes())
     enc.stdin.close()
     if enc.wait() != 0:
         raise RuntimeError("ffmpeg (Video) fehlgeschlagen")
-    write_audio(audio, quiz)
+    write_audio(audio, quiz, reveal)
     tmp = out_path + ".tmp.mp4"
     subprocess.run(
         ["ffmpeg", "-y", "-loglevel", "error", "-i", silent, "-i", audio,

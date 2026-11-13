@@ -31,6 +31,12 @@ CAPTIONS = [
     "One career, one player. Did you get it before the reveal?",
     "Send this to the friend who thinks he knows football.",
 ]
+# Kommentar-Variante (keine Aufloesung im Video, Antwort folgt als Kommentar)
+ASK_CAPTIONS = [
+    "Who is it? Comment your answer. The solution goes up in the comments in a few hours.",
+    "Name the player in the comments. No googling! Answer revealed in the comments later.",
+    "Most people get this wrong. Who is it? Answer in the comments soon.",
+]
 # Instagram erlaubt seit Dez. 2025 nur noch 5 Hashtags pro Reel
 TAGS = "#footballquiz #guesstheplayer #football #soccer #footballtrivia"
 
@@ -171,11 +177,17 @@ def main():
         print("Gerendert: Satisfying", scene, seed, f"{info['duration']:.1f}s")
     else:
         quiz = pick(quizzes, state)
-        render.render(quiz, out_path)
+        # Experiment 13.11.: Aufloesung nicht im Video, sondern spaeter als Kommentar (stats.py)
+        reveal = cfg.get("quiz_reveal", True)
+        render.render(quiz, out_path, reveal)
         quiz_posts = [p for p in state["posted"] if p.get("format", "quiz") == "quiz"]
-        caption_idx = len(quiz_posts) % len(CAPTIONS)
-        caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
-        entry = {"id": quiz["id"], "format": "quiz", "caption": caption_idx}
+        if reveal:
+            caption_idx = len(quiz_posts) % len(CAPTIONS)
+            caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
+        else:
+            caption_idx = len(quiz_posts) % len(ASK_CAPTIONS)
+            caption = ASK_CAPTIONS[caption_idx] + "\n\n" + TAGS
+        entry = {"id": quiz["id"], "format": "quiz", "caption": caption_idx, "reveal": reveal}
         # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
         thumb_ms = int((render.timing(len(quiz["clubs"]))[1] - 0.05) * 1000)
         print("Gerendert: Quiz", quiz["id"])

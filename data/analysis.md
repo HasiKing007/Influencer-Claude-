@@ -63,3 +63,10 @@
 - Schluss: Uns fehlt ein Grund zum Kommentieren und Zuendeschauen. Top-Reels im Physik-Nischenbereich sind "Ball-Battles" (zwei Farben/Teams, wer gewinnt?): Zuschauer waehlen eine Seite, kommentieren und schauen bis zum Ende.
 - MUTIGES EXPERIMENT (Markierung scene=duel): neue Szene "duel" = zwei Laender-Baelle (z. B. BRAZIL vs ARGENTINA, nur Namen/Farben, keine Logos) in rotierenden Ringen, echte Physik inkl. Ball-gegen-Ball-Stoss; Hook "X vs Y / Who escapes first?", Caption ruft zum Tippen in den Kommentaren auf, am Ende "X WINS!". Verbindet Fussball-Nische mit Satisfying-Physik.
 - Geaendert: duel steht in formats.json als naechste Satisfying-Szene (morgen frueh). Messen: Kommentare + Views nach 24 h gegen fill (139) und Quiz (113-138). Quiz-Kuerzung (9 s) laeuft parallel, erstes kurzes Quiz morgen.
+
+## 2026-11-13 15:45 (Wien)
+- 9 Reels: alle 113-139 Views / 93-117 Reach, 0 Shares, 0 Saves, 0 Kommentare, 0-2 Likes, weiter 3 Follower. Duel (Experiment, 00:54 Wien gepostet): 133 Views, 6,7 s Wiedergabe = gleich wie fill (139). Kaka (erstes 9-s-Quiz, 10:39 UTC) noch ohne Insights.
+- Format, Spieler, Caption und Laenge aendern nichts: jedes Reel friert bei ~110 Reach ein. Instagram testet es an einer kleinen Gruppe und bekommt null Interaktion zurueck -> kein zweiter Schub. Engpass ist Interaktion, nicht Optik.
+- 14:17-UTC-Slot ist heute ausgefallen (weder Cron noch Waechter) -> manuell nachgestartet.
+- MUTIGES EXPERIMENT (Markierung reveal=false): Quiz-Reels zeigen die Loesung NICHT mehr im Video, sondern enden mit "WHO IS IT? COMMENT YOUR ANSWER" (7,5 s statt 9 s). stats.py postet >=2 h spaeter die Antwort als Kommentar. Wer die Loesung wissen will, muss in die Kommentare -> Kommentare + Rueckkehr-Besuche + Loops.
+- Messen: Kommentare und Views nach 24 h der reveal=false-Quizze gegen kaka (9 s mit Aufloesung) und die alten Quizze (113-138). Rotation bleibt 2x satisfying : 1x quiz.

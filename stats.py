@@ -33,6 +33,32 @@ def auth_info(ig_id):
     return info
 
 
+ANSWER_AFTER_H = 2  # Kommentar-Variante: so lange duerfen Zuschauer raten
+
+
+def post_answers(stats):
+    """Postet bei Quiz-Reels ohne Aufloesung die Antwort als Kommentar (einmal pro Reel)."""
+    with open(os.path.join(ROOT, "data", "state.json"), encoding="utf-8") as f:
+        posted = json.load(f)["posted"]
+    with open(os.path.join(ROOT, "data", "quizzes.json"), encoding="utf-8") as f:
+        answers = {q["id"]: q["answer"] for q in json.load(f)}
+    done = stats.setdefault("answer_comments", {})
+    now = datetime.datetime.utcnow()
+    for p in posted:
+        if p.get("reveal", True) or not p.get("media_id") or p["media_id"] in done or p["id"] not in answers:
+            continue
+        age_h = (now - datetime.datetime.strptime(p["date"], "%Y-%m-%dT%H:%MZ")).total_seconds() / 3600
+        if age_h < ANSWER_AFTER_H:
+            continue
+        try:
+            igapi.call("POST", f"{p['media_id']}/comments",
+                       message=f"ANSWER: {answers[p['id']]}! Did you get it? Follow for a new one every day.")
+            done[p["media_id"]] = now.strftime("%Y-%m-%dT%H:%MZ")
+            print("Antwort-Kommentar gepostet:", p["id"])
+        except Exception as e:
+            print("Antwort-Kommentar fehlgeschlagen:", p["id"], str(e)[:120])
+
+
 def main():
     path = os.path.join(ROOT, "data", "stats.json")
     stats = {"history": []}
@@ -57,6 +83,7 @@ def main():
     stats["history"] = [h for h in stats["history"] if h["date"] != today]
     stats["history"].append({"date": today, "followers": me.get("followers_count"), "posts": me.get("media_count")})
     stats["media"] = media
+    post_answers(stats)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(stats, f, indent=2, ensure_ascii=False)
     print("Follower:", me.get("followers_count"))
