@@ -13,10 +13,24 @@
     {
       "date": "2026-11-13",
       "followers": 3,
-      "posts": 9
+      "posts": 10
     }
   ],
   "media": [
+    {
+      "id": "17915295081558640",
+      "comments_count": 0,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/Dfr4AZ9h1AA/",
+      "timestamp": "2026-11-13T14:45:20+0000",
+      "insights": {
+        "views": 0,
+        "reach": 0,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 0
+      }
+    },
     {
       "id": "18129425354311236",
       "comments_count": 0,
@@ -24,11 +38,11 @@
       "permalink": "https://www.instagram.com/reel/Dfrb7QyRDvq/",
       "timestamp": "2026-11-13T10:39:48+0000",
       "insights": {
-        "views": 0,
-        "reach": 0,
+        "views": 165,
+        "reach": 113,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 0
+        "ig_reels_avg_watch_time": 5462
       }
     },
     {
@@ -66,11 +80,11 @@
       "permalink": "https://www.instagram.com/reel/DfpSuw2yqU8/",
       "timestamp": "2026-11-12T14:40:59+0000",
       "insights": {
-        "views": 122,
-        "reach": 93,
+        "views": 123,
+        "reach": 94,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5513
+        "ig_reels_avg_watch_time": 5553
       }
     },
     {
@@ -80,11 +94,11 @@
       "permalink": "https://www.instagram.com/reel/Dfo3HkxTsQf/",
       "timestamp": "2026-11-12T10:39:39+0000",
       "insights": {
-        "views": 130,
-        "reach": 109,
+        "views": 131,
+        "reach": 110,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5764
+        "ig_reels_avg_watch_time": 5718
       }
     },
     {
@@ -147,7 +161,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-13T10:39Z",
+    "checked": "2026-11-13T14:45Z",
     "granted": [
       "ads_management",
       "ads_read",
@@ -172,5 +186,6 @@
       "public_profile"
     ],
     "account_insights": "ok"
-  }
+  },
+  "answer_comments": {}
 }
