@@ -9,6 +9,11 @@
       "date": "2026-11-12",
       "followers": 3,
       "posts": 8
+    },
+    {
+      "date": "2026-11-13",
+      "followers": 3,
+      "posts": 8
     }
   ],
   "media": [
@@ -19,7 +24,7 @@
       "permalink": "https://www.instagram.com/reel/DfqSEovPhCf/",
       "timestamp": "2026-11-12T23:54:27+0000",
       "insights": {
-        "views": 0,
+        "views": 11,
         "reach": 0,
         "shares": 0,
         "saved": 0,
@@ -128,7 +133,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-12T23:54Z",
+    "checked": "2026-11-13T00:23Z",
     "granted": [
       "ads_management",
       "ads_read",
