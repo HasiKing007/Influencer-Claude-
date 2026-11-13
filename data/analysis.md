@@ -70,3 +70,4 @@
 - 14:17-UTC-Slot ist heute ausgefallen (weder Cron noch Waechter) -> manuell nachgestartet.
 - MUTIGES EXPERIMENT (Markierung reveal=false): Quiz-Reels zeigen die Loesung NICHT mehr im Video, sondern enden mit "WHO IS IT? COMMENT YOUR ANSWER" (7,5 s statt 9 s). stats.py postet >=2 h spaeter die Antwort als Kommentar. Wer die Loesung wissen will, muss in die Kommentare -> Kommentare + Rueckkehr-Besuche + Loops.
 - Messen: Kommentare und Views nach 24 h der reveal=false-Quizze gegen kaka (9 s mit Aufloesung) und die alten Quizze (113-138). Rotation bleibt 2x satisfying : 1x quiz.
+- Nachtrag 15:50: Kaka (9-s-Quiz) nach 4 h 165 Views (bisher bestes Reel), 113 Reach, Wiedergabe 5,5 s von 9 s = 61 % (alte 15-s-Quizze 27-48 %) -> Kuerzung wirkt, Reach-Deckel bleibt. Erstes reveal=false-Quiz (torres) um 14:45 UTC gepostet.
