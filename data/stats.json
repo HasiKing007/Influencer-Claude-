@@ -12,17 +12,17 @@
     },
     {
       "date": "2026-11-13",
-      "followers": 3,
-      "posts": 10
+      "followers": 4,
+      "posts": 11
     }
   ],
   "media": [
     {
-      "id": "17915295081558640",
+      "id": "17937829905408349",
       "comments_count": 0,
       "like_count": 0,
-      "permalink": "https://www.instagram.com/reel/Dfr4AZ9h1AA/",
-      "timestamp": "2026-11-13T14:45:20+0000",
+      "permalink": "https://www.instagram.com/reel/DfsMxoHhXVw/",
+      "timestamp": "2026-11-13T17:46:39+0000",
       "insights": {
         "views": 0,
         "reach": 0,
@@ -32,17 +32,31 @@
       }
     },
     {
+      "id": "17915295081558640",
+      "comments_count": 1,
+      "like_count": 3,
+      "permalink": "https://www.instagram.com/reel/Dfr4AZ9h1AA/",
+      "timestamp": "2026-11-13T14:45:20+0000",
+      "insights": {
+        "views": 173,
+        "reach": 109,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 6570
+      }
+    },
+    {
       "id": "18129425354311236",
       "comments_count": 0,
       "like_count": 0,
       "permalink": "https://www.instagram.com/reel/Dfrb7QyRDvq/",
       "timestamp": "2026-11-13T10:39:48+0000",
       "insights": {
-        "views": 165,
-        "reach": 113,
+        "views": 168,
+        "reach": 114,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5462
+        "ig_reels_avg_watch_time": 5490
       }
     },
     {
@@ -52,7 +66,7 @@
       "permalink": "https://www.instagram.com/reel/DfqSEovPhCf/",
       "timestamp": "2026-11-12T23:54:27+0000",
       "insights": {
-        "views": 133,
+        "views": 134,
         "reach": 108,
         "shares": 0,
         "saved": 0,
@@ -66,7 +80,7 @@
       "permalink": "https://www.instagram.com/reel/DfpsHTEhktP/",
       "timestamp": "2026-11-12T18:22:49+0000",
       "insights": {
-        "views": 139,
+        "views": 140,
         "reach": 106,
         "shares": 0,
         "saved": 0,
@@ -80,7 +94,7 @@
       "permalink": "https://www.instagram.com/reel/DfpSuw2yqU8/",
       "timestamp": "2026-11-12T14:40:59+0000",
       "insights": {
-        "views": 123,
+        "views": 124,
         "reach": 94,
         "shares": 0,
         "saved": 0,
@@ -94,7 +108,7 @@
       "permalink": "https://www.instagram.com/reel/Dfo3HkxTsQf/",
       "timestamp": "2026-11-12T10:39:39+0000",
       "insights": {
-        "views": 131,
+        "views": 132,
         "reach": 110,
         "shares": 0,
         "saved": 0,
@@ -108,7 +122,7 @@
       "permalink": "https://www.instagram.com/reel/Dfnca78Tzlf/",
       "timestamp": "2026-11-11T21:27:08+0000",
       "insights": {
-        "views": 113,
+        "views": 114,
         "reach": 103,
         "shares": 0,
         "saved": 0,
@@ -122,7 +136,7 @@
       "permalink": "https://www.instagram.com/reel/DfnJanqhcR8/",
       "timestamp": "2026-11-11T18:41:13+0000",
       "insights": {
-        "views": 134,
+        "views": 135,
         "reach": 117,
         "shares": 0,
         "saved": 0,
@@ -136,11 +150,11 @@
       "permalink": "https://www.instagram.com/reel/Dfm7jVXsgI_/",
       "timestamp": "2026-11-11T16:39:57+0000",
       "insights": {
-        "views": 138,
-        "reach": 102,
+        "views": 140,
+        "reach": 103,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 7268
+        "ig_reels_avg_watch_time": 7202
       }
     },
     {
@@ -150,7 +164,7 @@
       "permalink": "https://www.instagram.com/reel/Dfl4TDTOJiK/",
       "timestamp": "2026-11-11T06:52:17+0000",
       "insights": {
-        "views": 138,
+        "views": 139,
         "reach": 108,
         "shares": 0,
         "saved": 0,
@@ -161,7 +175,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-13T14:45Z",
+    "checked": "2026-11-13T17:46Z",
     "granted": [
       "ads_management",
       "ads_read",
@@ -187,5 +201,7 @@
     ],
     "account_insights": "ok"
   },
-  "answer_comments": {}
+  "answer_comments": {
+    "17915295081558640": "2026-11-13T17:46Z"
+  }
 }
