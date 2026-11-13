@@ -71,3 +71,9 @@
 - MUTIGES EXPERIMENT (Markierung reveal=false): Quiz-Reels zeigen die Loesung NICHT mehr im Video, sondern enden mit "WHO IS IT? COMMENT YOUR ANSWER" (7,5 s statt 9 s). stats.py postet >=2 h spaeter die Antwort als Kommentar. Wer die Loesung wissen will, muss in die Kommentare -> Kommentare + Rueckkehr-Besuche + Loops.
 - Messen: Kommentare und Views nach 24 h der reveal=false-Quizze gegen kaka (9 s mit Aufloesung) und die alten Quizze (113-138). Rotation bleibt 2x satisfying : 1x quiz.
 - Nachtrag 15:50: Kaka (9-s-Quiz) nach 4 h 165 Views (bisher bestes Reel), 113 Reach, Wiedergabe 5,5 s von 9 s = 61 % (alte 15-s-Quizze 27-48 %) -> Kuerzung wirkt, Reach-Deckel bleibt. Erstes reveal=false-Quiz (torres) um 14:45 UTC gepostet.
+
+## 2026-11-13 22:45 (Wien)
+- 11 Reels, 4 Follower (+1 heute). Frische Insights 21:44 UTC: torres (erstes Quiz ohne Aufloesung) 176 Views/110 Reach, 3 Likes, 2 Kommentare (einer davon unsere Antwort) = bestes Reel bisher und erstes mit Kommentar. kaka (9-s-Quiz) 168, escape 165 (7,7 s Wiedergabe, beste Haltezeit), duel 134, fill 140, alte 15-s-Quizze 114-140.
+- Reach-Deckel ~110 bleibt bei allen Formaten, 0 Shares/Saves. Aber: die kurzen Quizze (kaka, torres) holen die meisten Views, und nur das Quiz ohne Aufloesung erzeugt Interaktion. Duel brachte keine Kommentare.
+- Geaendert: Rotation von 2x Satisfying : 1x Quiz auf 1x Satisfying : 2x Quiz (naechste Posts: Quiz anelka, dann Satisfying, dann 2 Quizze). Szene duel pausiert, Satisfying rotiert ueber escape/grow/slice/stack/fill.
+- Messen: Kommentare/Likes je reveal=false-Quiz nach 24 h; wenn sie konstant >=1 echten Kommentar holen und ueber 170 Views liegen, Quiz als Hauptformat festlegen. Naechstes mutiges Experiment danach: staerkerer Hook in Sekunde 1 (Challenge-Text).

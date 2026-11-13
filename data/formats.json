@@ -1,12 +1,11 @@
 {
-  "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (escape, grow, fill, slice, stack, duel). Die Auswertung passt das anhand der Views an. quiz_reveal=false: Quiz ohne Aufloesung im Video, stats.py postet die Antwort >=2 h spaeter als Kommentar.",
+  "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (escape, grow, fill, slice, stack, duel; duel seit 13.11. pausiert). Die Auswertung passt das anhand der Views an. quiz_reveal=false: Quiz ohne Aufloesung im Video, stats.py postet die Antwort >=2 h spaeter als Kommentar.",
   "rotation": [
     "satisfying",
-    "satisfying",
+    "quiz",
     "quiz"
   ],
   "scenes": [
-    "duel",
     "escape",
     "grow",
     "slice",
