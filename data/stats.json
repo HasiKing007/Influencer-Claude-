@@ -18,18 +18,18 @@
     {
       "date": "2026-11-14",
       "followers": 4,
-      "posts": 15
+      "posts": 16
     }
   ],
   "media": [
     {
-      "id": "18082698674377604",
+      "id": "17980498560148993",
       "comments_count": 0,
       "like_count": 0,
-      "permalink": "https://www.instagram.com/reel/DfupqZ1hMsj/",
-      "timestamp": "2026-11-14T16:37:34+0000",
+      "permalink": "https://www.instagram.com/reel/Dfu3s4XzUYO/",
+      "timestamp": "2026-11-14T18:40:08+0000",
       "insights": {
-        "views": 76,
+        "views": 0,
         "reach": 0,
         "shares": 0,
         "saved": 0,
@@ -37,14 +37,28 @@
       }
     },
     {
+      "id": "18082698674377604",
+      "comments_count": 1,
+      "like_count": 2,
+      "permalink": "https://www.instagram.com/reel/DfupqZ1hMsj/",
+      "timestamp": "2026-11-14T16:37:34+0000",
+      "insights": {
+        "views": 145,
+        "reach": 106,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 5166
+      }
+    },
+    {
       "id": "18126338083938411",
-      "comments_count": 3,
+      "comments_count": 4,
       "like_count": 3,
       "permalink": "https://www.instagram.com/reel/DfucNiTykUt/",
       "timestamp": "2026-11-14T14:40:00+0000",
       "insights": {
         "views": 171,
-        "reach": 108,
+        "reach": 109,
         "shares": 0,
         "saved": 0,
         "ig_reels_avg_watch_time": 6968
@@ -58,10 +72,10 @@
       "timestamp": "2026-11-14T10:40:49+0000",
       "insights": {
         "views": 157,
-        "reach": 125,
+        "reach": 126,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6107
+        "ig_reels_avg_watch_time": 6125
       }
     },
     {
@@ -236,7 +250,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-14T17:08Z",
+    "checked": "2026-11-14T18:40Z",
     "granted": [
       "ads_management",
       "ads_read",
@@ -265,6 +279,7 @@
   "answer_comments": {
     "17915295081558640": "2026-11-13T17:46Z",
     "18131393134860573": "2026-11-14T10:41Z",
-    "18126338083938411": "2026-11-14T17:08Z"
+    "18126338083938411": "2026-11-14T17:08Z",
+    "18082698674377604": "2026-11-14T18:40Z"
   }
 }
