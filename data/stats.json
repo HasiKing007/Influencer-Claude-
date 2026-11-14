@@ -14,21 +14,26 @@
       "date": "2026-11-13",
       "followers": 4,
       "posts": 12
+    },
+    {
+      "date": "2026-11-14",
+      "followers": 4,
+      "posts": 12
     }
   ],
   "media": [
     {
       "id": "18131393134860573",
       "comments_count": 0,
-      "like_count": 0,
+      "like_count": 2,
       "permalink": "https://www.instagram.com/reel/Dfs03VOP9x1/",
       "timestamp": "2026-11-13T23:36:56+0000",
       "insights": {
-        "views": 0,
-        "reach": 0,
+        "views": 147,
+        "reach": 34,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 0
+        "ig_reels_avg_watch_time": 2754
       }
     },
     {
@@ -189,7 +194,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-13T23:37Z",
+    "checked": "2026-11-14T00:20Z",
     "granted": [
       "ads_management",
       "ads_read",
