@@ -1,7 +1,7 @@
 {
-  "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (escape, grow, fill, slice, stack, duel; duel seit 13.11. pausiert). Die Auswertung passt das anhand der Views an. quiz_reveal=false: Quiz ohne Aufloesung im Video, stats.py postet die Antwort >=2 h spaeter als Kommentar. quiz_hook=true (seit 14.11.): Titel ist ein Challenge-Hook (render.HOOKS) statt 'GUESS THE PLAYER'.",
+  "_hinweis": "rotation wird reihum pro Post abgearbeitet (quiz | satisfying). scenes: erlaubte Satisfying-Szenen (escape, grow, fill, slice, stack, duel; duel seit 13.11. pausiert). Die Auswertung passt das anhand der Views an. quiz_reveal=false: Quiz ohne Aufloesung im Video, stats.py postet die Antwort >=2 h spaeter als Kommentar. quiz_hook=true (seit 14.11.): Titel ist ein Challenge-Hook (render.HOOKS) statt 'GUESS THE PLAYER'. Seit 14.11. abends: rotation nur quiz (Satisfying pausiert: 6 Reels, 0 Kommentare).",
   "rotation": [
-    "satisfying",
+    "quiz",
     "quiz",
     "quiz"
   ],

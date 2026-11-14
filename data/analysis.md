@@ -83,3 +83,10 @@
 - Alle Reels weiter bei 110-125 Reach, 0 Shares/Saves. Quiz ohne Aufloesung haelt mit 7,3 s Wiedergabe von 7,5 s (anelka, ~97 %) sehr gut, aber nur 1 von 2 holte einen echten Kommentar -> Hook reicht nicht, um zum Mitmachen zu provozieren.
 - MUTIGES EXPERIMENT (Markierung hook in state.json, quiz_hook=true): Quiz-Titel ist jetzt ein Challenge-Hook statt "GUESS THE PLAYER": rotierend "ONLY 1% CAN / NAME HIM", "TRUE FANS / GET THIS", "BET YOU CAN'T / GUESS HIM". Ziel: Ego-Reiz in Sekunde 1 -> mehr Kommentare/Shares. Video sonst unveraendert (7,5 s, reveal=false).
 - Messen: echte Kommentare + Views nach 24 h je Hook-Variante gegen torres/anelka (165-184 Views, 0-1 echter Kommentar).
+
+## 2026-11-14 22:45 (Wien)
+- 16 Reels, 4 Follower (unveraendert). Frische Insights 21:45 UTC: robben (Hook "ONLY 1% CAN NAME HIM") 176 Views/110 Reach, 3 echte Kommentare = meiste Interaktion bisher; ronaldo-nazario (Hook "TRUE FANS GET THIS") 145 Views, 1 echter Kommentar, nur 5,2 s Wiedergabe; slice 152 Views/115 Reach nach 3 h.
+- Reach-Deckel bleibt bei 106-126, weiter 0 Shares/0 Saves. Aber Quiz mit Challenge-Hook holt jetzt verlaessig echte Kommentare (4 in 2 Reels), Satisfying in 6 Reels 0 Kommentare und 0-3 Likes bei gleichen Views (134-166).
+- Schluss: Kommentare sind das einzige Signal, das wir bewegen; Satisfying verwaessert ausserdem die Fussball-Nische des Accounts.
+- Geaendert: Rotation nur noch Quiz (["quiz","quiz","quiz"]), Satisfying pausiert. Hook-Experiment laeuft weiter, damit "BET YOU CAN'T GUESS HIM" (Hook 2) auch Daten bekommt.
+- Messen: echte Kommentare und Views je Hook nach 24 h; ob 3 Quizze/Tag mit Kommentaren den 110-Reach-Deckel knacken. 21 Quizze uebrig (~7 Tage bei 3/Tag) -> naechste Laeufe Vorrat auffuellen.
