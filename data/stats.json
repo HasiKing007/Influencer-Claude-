@@ -250,7 +250,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-14T21:44Z",
+    "checked": "2026-11-14T22:25Z",
     "granted": [
       "ads_management",
       "ads_read",
