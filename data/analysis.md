@@ -77,3 +77,9 @@
 - Reach-Deckel ~110 bleibt bei allen Formaten, 0 Shares/Saves. Aber: die kurzen Quizze (kaka, torres) holen die meisten Views, und nur das Quiz ohne Aufloesung erzeugt Interaktion. Duel brachte keine Kommentare.
 - Geaendert: Rotation von 2x Satisfying : 1x Quiz auf 1x Satisfying : 2x Quiz (naechste Posts: Quiz anelka, dann Satisfying, dann 2 Quizze). Szene duel pausiert, Satisfying rotiert ueber escape/grow/slice/stack/fill.
 - Messen: Kommentare/Likes je reveal=false-Quiz nach 24 h; wenn sie konstant >=1 echten Kommentar holen und ueber 170 Views liegen, Quiz als Hauptformat festlegen. Naechstes mutiges Experiment danach: staerkerer Hook in Sekunde 1 (Challenge-Text).
+
+## 2026-11-14 14:45 (Wien)
+- 13 Reels, 4 Follower (unveraendert). Frische Insights 13:50 UTC: torres 184 Views (2 Kommentare, davon 1 echter), anelka (2. Quiz ohne Aufloesung) 165 Views/109 Reach, 2 Likes, 0 echte Kommentare (nur unsere Antwort), grow 153 Views/123 Reach nach 3 h (hoechster Reach bisher), escape 166.
+- Alle Reels weiter bei 110-125 Reach, 0 Shares/Saves. Quiz ohne Aufloesung haelt mit 7,3 s Wiedergabe von 7,5 s (anelka, ~97 %) sehr gut, aber nur 1 von 2 holte einen echten Kommentar -> Hook reicht nicht, um zum Mitmachen zu provozieren.
+- MUTIGES EXPERIMENT (Markierung hook in state.json, quiz_hook=true): Quiz-Titel ist jetzt ein Challenge-Hook statt "GUESS THE PLAYER": rotierend "ONLY 1% CAN / NAME HIM", "TRUE FANS / GET THIS", "BET YOU CAN'T / GUESS HIM". Ziel: Ego-Reiz in Sekunde 1 -> mehr Kommentare/Shares. Video sonst unveraendert (7,5 s, reveal=false).
+- Messen: echte Kommentare + Views nach 24 h je Hook-Variante gegen torres/anelka (165-184 Views, 0-1 echter Kommentar).

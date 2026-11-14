@@ -179,8 +179,10 @@ def main():
         quiz = pick(quizzes, state)
         # Experiment 13.11.: Aufloesung nicht im Video, sondern spaeter als Kommentar (stats.py)
         reveal = cfg.get("quiz_reveal", True)
-        render.render(quiz, out_path, reveal)
         quiz_posts = [p for p in state["posted"] if p.get("format", "quiz") == "quiz"]
+        # Experiment 14.11.: Challenge-Hook im Titel (Variante rotiert, steht in state.json)
+        hook = len(quiz_posts) % len(render.HOOKS) if cfg.get("quiz_hook") else None
+        render.render(quiz, out_path, reveal, hook)
         if reveal:
             caption_idx = len(quiz_posts) % len(CAPTIONS)
             caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
@@ -188,6 +190,8 @@ def main():
             caption_idx = len(quiz_posts) % len(ASK_CAPTIONS)
             caption = ASK_CAPTIONS[caption_idx] + "\n\n" + TAGS
         entry = {"id": quiz["id"], "format": "quiz", "caption": caption_idx, "reveal": reveal}
+        if hook is not None:
+            entry["hook"] = hook
         # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
         thumb_ms = int((render.timing(len(quiz["clubs"]))[1] - 0.05) * 1000)
         print("Gerendert: Quiz", quiz["id"])

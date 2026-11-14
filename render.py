@@ -61,7 +61,15 @@ def timing(n, reveal=True):
     return step, stations_end, countdown_end, total
 
 
-def background():
+# Experiment 14.11.: Challenge-Hook statt neutralem Titel ("GUESS THE PLAYER") in Sekunde 1
+HOOKS = [
+    ("ONLY 1% CAN", "NAME HIM"),
+    ("TRUE FANS", "GET THIS"),
+    ("BET YOU CAN'T", "GUESS HIM"),
+]
+
+
+def background(hook=None):
     img = Image.new("RGB", (W, H))
     px = img.load()
     for y in range(H):
@@ -72,6 +80,11 @@ def background():
     d = ImageDraw.Draw(img)
     d.ellipse((W // 2 - 260, 1500, W // 2 + 260, 2020), outline=(20, 32, 62), width=6)
     d.line((0, 1760, W, 1760), fill=(20, 32, 62), width=6)
+    if hook is not None:
+        top, big = HOOKS[hook % len(HOOKS)]
+        d.text((SAFE_LEFT, 262), top, font=fit_font(d, top, BOLD, 76, SAFE_RIGHT - SAFE_LEFT), fill=WHITE)
+        d.text((SAFE_LEFT, 340), big, font=fit_font(d, big, BOLD, 120, SAFE_RIGHT - SAFE_LEFT), fill=ACCENT)
+        return img
     d.text((SAFE_LEFT, 270), "GUESS THE", font=font(BOLD, 64), fill=WHITE)
     d.text((SAFE_LEFT, 340), "PLAYER", font=font(BOLD, 112), fill=ACCENT)
     d.text((SAFE_LEFT + 470, 388), "from his\ncareer path", font=font(REGULAR, 40), fill=MUTED, spacing=6)
@@ -216,7 +229,7 @@ def write_audio(path, quiz, reveal=True):
         w.writeframes(b"".join(struct.pack("<h", int(max(-1, min(1, s)) * 32767)) for s in samples))
 
 
-def render(quiz, out_path, reveal=True):
+def render(quiz, out_path, reveal=True, hook=None):
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     n = len(quiz["clubs"])
     total = timing(n, reveal)[3]
@@ -228,7 +241,7 @@ def render(quiz, out_path, reveal=True):
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
          "-movflags", "+faststart", silent],
         stdin=subprocess.PIPE)
-    base, baked = background(), set()
+    base, baked = background(hook), set()
     for k in range(int(total * FPS)):
         enc.stdin.write(frame_at(k / FPS, quiz, base, baked, reveal).tobytes())
     enc.stdin.close()
@@ -259,7 +272,8 @@ if __name__ == "__main__":
     if "--frames" in sys.argv:
         n = len(quiz["clubs"])
         step, stations_end, countdown_end, total = timing(n)
-        base, baked = background(), set()
+        hook = 0 if "--hook" in sys.argv else None
+        base, baked = background(hook), set()
         os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)
         for name, t in (("a_intro", 0.3), ("b_list", stations_end - 0.05),
                         ("c_count", stations_end + 1.4), ("d_reveal", countdown_end + 2.0)):
