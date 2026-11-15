@@ -34,7 +34,7 @@
       "permalink": "https://www.instagram.com/reel/Dfx5J2xJxGM/",
       "timestamp": "2026-11-15T22:50:38+0000",
       "insights": {
-        "views": 0,
+        "views": 37,
         "reach": 0,
         "shares": 0,
         "saved": 0,
@@ -311,7 +311,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-15T22:50Z",
+    "checked": "2026-11-15T23:23Z",
     "granted": [
       "ads_management",
       "ads_read",
