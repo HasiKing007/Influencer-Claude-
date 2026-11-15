@@ -97,4 +97,4 @@
 - Schluss: Weitergeleitete Reels (Sends pro Reach) sind laut Instagram das wichtigste Signal fuer Reichweite bei Nicht-Followern, und genau das fehlt komplett. Wir haben nie zum Teilen aufgefordert.
 - Geaendert (1): Hook fest auf "ONLY 1% CAN NAME HIM" (quiz_hook_fixed=0).
 - MUTIGES EXPERIMENT (2, Markierung share_cta=true): Schlussbild zeigt "SEND THIS TO A FRIEND who thinks he knows football", Captions rotieren 3 Share-Aufforderungen. Messen: Shares und Views nach 24 h gegen robben (178 Views, 0 Shares).
-- Vorrat: 5 Quizze ergaenzt (rooney, aguero, shevchenko, batistuta, ribery) -> 24 unveroeffentlicht.
+- Vorrat: 5 Quizze ergaenzt (rooney, aguero, shevchenko, batistuta, ribery) -> 25 unveroeffentlicht.
