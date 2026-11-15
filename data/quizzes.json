@@ -30,5 +30,10 @@
   {"id": "raul", "answer": "Raúl", "clubs": ["Real Madrid", "Schalke 04", "Al Sadd", "New York Cosmos"]},
   {"id": "gomez", "answer": "Mario Gómez", "clubs": ["VfB Stuttgart", "Bayern Munich", "Fiorentina", "Beşiktaş (loan)", "VfL Wolfsburg", "VfB Stuttgart"]},
   {"id": "cech", "answer": "Petr Čech", "clubs": ["Chmel Blšany", "Sparta Prague", "Rennes", "Chelsea", "Arsenal"]},
-  {"id": "schweinsteiger", "answer": "Bastian Schweinsteiger", "clubs": ["Bayern Munich", "Manchester United", "Chicago Fire"]}
+  {"id": "schweinsteiger", "answer": "Bastian Schweinsteiger", "clubs": ["Bayern Munich", "Manchester United", "Chicago Fire"]},
+  {"id": "rooney", "answer": "Wayne Rooney", "clubs": ["Everton", "Manchester United", "Everton", "DC United", "Derby County"]},
+  {"id": "aguero", "answer": "Sergio Agüero", "clubs": ["Independiente", "Atlético Madrid", "Manchester City", "Barcelona"]},
+  {"id": "shevchenko", "answer": "Andriy Shevchenko", "clubs": ["Dynamo Kyiv", "AC Milan", "Chelsea", "AC Milan (loan)", "Dynamo Kyiv"]},
+  {"id": "batistuta", "answer": "Gabriel Batistuta", "clubs": ["Newell's Old Boys", "River Plate", "Boca Juniors", "Fiorentina", "Roma", "Inter (loan)", "Al-Arabi"]},
+  {"id": "ribery", "answer": "Franck Ribéry", "clubs": ["Boulogne", "Alès", "Brest", "Metz", "Galatasaray", "Marseille", "Bayern Munich", "Fiorentina", "Salernitana"]}
 ]

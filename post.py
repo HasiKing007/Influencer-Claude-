@@ -37,6 +37,12 @@ ASK_CAPTIONS = [
     "Name the player in the comments. No googling! Answer revealed in the comments later.",
     "Most people get this wrong. Who is it? Answer in the comments soon.",
 ]
+# Experiment 15.11. (quiz_share_cta): Captions, die zum Weiterschicken auffordern
+SHARE_CAPTIONS = [
+    "Send this to the friend who thinks he knows football. Who is it? Answer in the comments later.",
+    "Tag or send this to someone who will get it wrong. Comment your answer, solution in the comments soon.",
+    "Only true fans get this. Send it to your football group and see who's first. Answer in the comments later.",
+]
 # Instagram erlaubt seit Dez. 2025 nur noch 5 Hashtags pro Reel
 TAGS = "#footballquiz #guesstheplayer #football #soccer #footballtrivia"
 
@@ -182,8 +188,16 @@ def main():
         quiz_posts = [p for p in state["posted"] if p.get("format", "quiz") == "quiz"]
         # Experiment 14.11.: Challenge-Hook im Titel (Variante rotiert, steht in state.json)
         hook = len(quiz_posts) % len(render.HOOKS) if cfg.get("quiz_hook") else None
+        # 15.11.: bester Hook fest einstellbar (quiz_hook_fixed = Index in render.HOOKS)
+        if cfg.get("quiz_hook") and cfg.get("quiz_hook_fixed") is not None:
+            hook = int(cfg["quiz_hook_fixed"])
+        share = bool(cfg.get("quiz_share_cta")) and not reveal
+        render.SHARE_CTA = share
         render.render(quiz, out_path, reveal, hook)
-        if reveal:
+        if share:
+            caption_idx = len([p for p in quiz_posts if p.get("share_cta")]) % len(SHARE_CAPTIONS)
+            caption = SHARE_CAPTIONS[caption_idx] + "\n\n" + TAGS
+        elif reveal:
             caption_idx = len(quiz_posts) % len(CAPTIONS)
             caption = CAPTIONS[caption_idx] + "\n\n" + TAGS
         else:
@@ -192,6 +206,8 @@ def main():
         entry = {"id": quiz["id"], "format": "quiz", "caption": caption_idx, "reveal": reveal}
         if hook is not None:
             entry["hook"] = hook
+        if share:
+            entry["share_cta"] = True
         # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
         thumb_ms = int((render.timing(len(quiz["clubs"]))[1] - 0.05) * 1000)
         print("Gerendert: Quiz", quiz["id"])

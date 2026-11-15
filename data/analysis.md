@@ -90,3 +90,11 @@
 - Schluss: Kommentare sind das einzige Signal, das wir bewegen; Satisfying verwaessert ausserdem die Fussball-Nische des Accounts.
 - Geaendert: Rotation nur noch Quiz (["quiz","quiz","quiz"]), Satisfying pausiert. Hook-Experiment laeuft weiter, damit "BET YOU CAN'T GUESS HIM" (Hook 2) auch Daten bekommt.
 - Messen: echte Kommentare und Views je Hook nach 24 h; ob 3 Quizze/Tag mit Kommentaren den 110-Reach-Deckel knacken. 21 Quizze uebrig (~7 Tage bei 3/Tag) -> naechste Laeufe Vorrat auffuellen.
+
+## 2026-11-15 14:55 (Wien)
+- 17 Reels, 5 Follower (+1). Frische Insights 13:44 UTC: pirlo (Hook "BET YOU CAN'T GUESS HIM") nach 3 h 146 Views/111 Reach, 0 Likes, 0 echte Kommentare (nur unsere Antwort), Wiedergabe 4,9 s von 7,5 s. robben (Hook "ONLY 1%") 178 Views, 3 echte Kommentare, 7,4 s; ronaldo-nazario (Hook "TRUE FANS") 147 Views, 1 echter Kommentar, 5,2 s.
+- Hook-Vergleich klar: "ONLY 1% CAN NAME HIM" gewinnt bei Views, Kommentaren und Haltezeit. Reach-Deckel 106-127 bleibt, 0 Shares und 0 Saves in allen 17 Reels.
+- Schluss: Weitergeleitete Reels (Sends pro Reach) sind laut Instagram das wichtigste Signal fuer Reichweite bei Nicht-Followern, und genau das fehlt komplett. Wir haben nie zum Teilen aufgefordert.
+- Geaendert (1): Hook fest auf "ONLY 1% CAN NAME HIM" (quiz_hook_fixed=0).
+- MUTIGES EXPERIMENT (2, Markierung share_cta=true): Schlussbild zeigt "SEND THIS TO A FRIEND who thinks he knows football", Captions rotieren 3 Share-Aufforderungen. Messen: Shares und Views nach 24 h gegen robben (178 Views, 0 Shares).
+- Vorrat: 5 Quizze ergaenzt (rooney, aguero, shevchenko, batistuta, ribery) -> 24 unveroeffentlicht.

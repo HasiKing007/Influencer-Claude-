@@ -33,6 +33,9 @@ COUNTDOWN = 2.0
 REVEAL = 2.2
 ASK = 1.6  # Kommentar-Variante: Schlussbild ohne Aufloesung
 STATIONS_MAX = 4.5   # alle Stationen zusammen hoechstens so lange
+# Experiment 15.11.: Schlussbild fordert zum Teilen auf (Sends/Reach ist laut Instagram das
+# wichtigste Signal fuer Reichweite bei Nicht-Followern; bisher 0 Shares in 17 Reels)
+SHARE_CTA = False
 
 
 def font(path, size):
@@ -167,7 +170,13 @@ def draw_ask(img, t):
     d.text((W / 2, 760), "WHO IS IT?", font=font(BOLD, int(96 + 30 * p)), fill=WHITE, anchor="mm")
     d.text((W / 2, 960), "COMMENT", font=font(BOLD, 150), fill=ACCENT, anchor="mm")
     d.text((W / 2, 1110), "YOUR ANSWER", font=font(BOLD, 90), fill=ACCENT, anchor="mm")
-    d.text((W / 2, 1300), "Answer revealed in the comments", font=font(REGULAR, 46), fill=MUTED, anchor="mm")
+    if SHARE_CTA:
+        q = ease((t - 0.3) / 0.35)
+        colour = tuple(int(BG_BOTTOM[i] + (WHITE[i] - BG_BOTTOM[i]) * q) for i in range(3))
+        d.text((W / 2, 1290), "SEND THIS TO A FRIEND", font=font(BOLD, 62), fill=colour, anchor="mm")
+        d.text((W / 2, 1370), "who thinks he knows football", font=font(REGULAR, 46), fill=MUTED, anchor="mm")
+    else:
+        d.text((W / 2, 1300), "Answer revealed in the comments", font=font(REGULAR, 46), fill=MUTED, anchor="mm")
     return img
 
 
