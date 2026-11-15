@@ -23,13 +23,27 @@
     {
       "date": "2026-11-15",
       "followers": 5,
-      "posts": 17
+      "posts": 18
     }
   ],
   "media": [
     {
+      "id": "17945592492367852",
+      "comments_count": 0,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/DfxBASehPMj/",
+      "timestamp": "2026-11-15T14:40:01+0000",
+      "insights": {
+        "views": 0,
+        "reach": 0,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 0
+      }
+    },
+    {
       "id": "18118030466020875",
-      "comments_count": 1,
+      "comments_count": 2,
       "like_count": 0,
       "permalink": "https://www.instagram.com/reel/DfwlkBThw9S/",
       "timestamp": "2026-11-15T10:40:29+0000",
@@ -269,7 +283,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-15T13:44Z",
+    "checked": "2026-11-15T14:40Z",
     "granted": [
       "ads_management",
       "ads_read",
