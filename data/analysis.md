@@ -98,3 +98,9 @@
 - Geaendert (1): Hook fest auf "ONLY 1% CAN NAME HIM" (quiz_hook_fixed=0).
 - MUTIGES EXPERIMENT (2, Markierung share_cta=true): Schlussbild zeigt "SEND THIS TO A FRIEND who thinks he knows football", Captions rotieren 3 Share-Aufforderungen. Messen: Shares und Views nach 24 h gegen robben (178 Views, 0 Shares).
 - Vorrat: 5 Quizze ergaenzt (rooney, aguero, shevchenko, batistuta, ribery) -> 25 unveroeffentlicht.
+
+## 2026-11-15 22:50 (Wien)
+- 19 Reels, 5 Follower (unveraendert seit Mittag). Frische Insights 21:45 UTC: sneijder (erstes Reel mit Share-CTA "SEND THIS TO A FRIEND") nach 7 h 227 Views/149 Reach, 1 Share, 1 echter Kommentar = bestes Reel bisher, erster Share ueberhaupt und erstmals ueber dem ~110-Reach-Deckel. forlan (Share-CTA) nach 4,5 h 179 Views/124 Reach, 1 echter Kommentar. Vergleich robben (gleicher Hook, ohne CTA) 178 Views/111 Reach nach 31 h.
+- Schluss: Share-Aufforderung wirkt (beide CTA-Reels ueber Reach-Deckel), auch wenn 1 Share noch duenn ist. Bleibt unveraendert, damit es weiter messbar ist.
+- Geaendert: Warteschlange nach Bekanntheit sortiert, die Bekanntesten zuerst (rooney, aguero, buffon, fabregas, shevchenko, raul, van-nistelrooy, etoo, figo, owen). Bekanntere Spieler = mehr Leute, die die Antwort wissen und kommentieren/weiterschicken. Messen: Reach/Shares/Kommentare dieser 10 gegen sneijder/forlan.
+- Vorrat: 23 unveroeffentlicht (ca. 7 Tage). Naechster mutiger Schritt, falls Reach wieder bei ~120 stehen bleibt: Share-CTA schon in Sekunde 1 statt erst im Schlussbild.
