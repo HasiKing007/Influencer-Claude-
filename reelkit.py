@@ -17,6 +17,7 @@ import render as r
 
 RATE = 44100
 VOICE = os.environ.get("REEL_VOICE", "en-US-AndrewNeural")
+_VOICE_BROKEN = False   # nach dem ersten Fehler im selben Lauf nicht weiter probieren
 
 
 def gradient(top, bottom):
@@ -101,18 +102,26 @@ def add_pulse(buf, bpm=118, volume=0.12, start=0.0, end=None):
 
 def voice(text):
     """Sprachclip als numpy-Array (mono, 44,1 kHz) oder None, wenn die Stimme nicht verfuegbar ist."""
-    if os.environ.get("REEL_NO_VOICE") == "1" or not shutil.which("edge-tts"):
+    global _VOICE_BROKEN
+    if _VOICE_BROKEN or os.environ.get("REEL_NO_VOICE") == "1" or not shutil.which("edge-tts"):
         return None
     tmp = tempfile.mkdtemp()
     mp3, raw = os.path.join(tmp, "v.mp3"), os.path.join(tmp, "v.raw")
     try:
-        subprocess.run(["edge-tts", "--voice", VOICE, "--rate", "+8%", "--text", text, "--write-media", mp3],
-                       check=True, capture_output=True, timeout=45)
+        for attempt in range(2):   # ein Wiederholversuch (Dienst bricht gelegentlich ab)
+            try:
+                subprocess.run(["edge-tts", "--voice", VOICE, "--rate", "+20%", "--text", text, "--write-media", mp3],
+                               check=True, capture_output=True, timeout=25)
+                break
+            except subprocess.SubprocessError:
+                if attempt:
+                    raise
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", mp3, "-f", "s16le", "-ac", "1",
                         "-ar", str(RATE), raw], check=True, timeout=45)
         data = np.fromfile(raw, dtype="<i2").astype(np.float64) / 32768.0
         return data if len(data) > RATE * 0.2 else None
     except Exception as e:  # noqa: BLE001 - Stimme ist optional
+        _VOICE_BROKEN = True
         print("Stimme nicht verfuegbar:", str(e)[:200])
         return None
     finally:

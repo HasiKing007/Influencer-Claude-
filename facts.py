@@ -85,7 +85,7 @@ def plan(fset):
         slot = n - 1 - idx          # #5 ... #1
         clip = k.voice(f"Number {slot + 1}. " + facts[slot])
         words = len(facts[slot].split())
-        dur = max(2.3, k.clip_len(clip) + 0.3) if clip is not None else max(2.4, 0.3 * words)
+        dur = max(2.2, k.clip_len(clip) + 0.15) if clip is not None else max(2.4, 0.3 * words)
         steps.append({"slot": slot, "start": t, "clip": clip})
         t += dur
     end_clip = k.voice("Which one did you know? Comment the number.")
