@@ -104,3 +104,10 @@
 - Schluss: Share-Aufforderung wirkt (beide CTA-Reels ueber Reach-Deckel), auch wenn 1 Share noch duenn ist. Bleibt unveraendert, damit es weiter messbar ist.
 - Geaendert: Warteschlange nach Bekanntheit sortiert, die Bekanntesten zuerst (rooney, aguero, buffon, fabregas, shevchenko, raul, van-nistelrooy, etoo, figo, owen). Bekanntere Spieler = mehr Leute, die die Antwort wissen und kommentieren/weiterschicken. Messen: Reach/Shares/Kommentare dieser 10 gegen sneijder/forlan.
 - Vorrat: 23 unveroeffentlicht (ca. 7 Tage). Naechster mutiger Schritt, falls Reach wieder bei ~120 stehen bleibt: Share-CTA schon in Sekunde 1 statt erst im Schlussbild.
+
+## 2026-11-16 14:50 (Wien)
+- 21 Reels, 5 Follower (unveraendert seit 15.11.). Frische Insights 13:46 UTC: rooney (Share-CTA, bekanntester Spieler, aber von verspaetetem Cron um 23:50 Wien gepostet) 151 Views/109 Reach, 0 Shares, 1 echter Kommentar. aguero (10:41 UTC) nach 3 h nur 5 Views/0 Reach: auffaellig (sonst ~140 nach 3 h), vermutlich verzoegerte Insights; abends pruefen, ob das Reel nicht ausgespielt wurde.
+- Share-CTA im Schlussbild: 3 Reels, zusammen 1 Share (sneijder 228/151). Shares bleiben fast null, weil die Aufforderung erst in den letzten 1,6 s kommt, wenn viele schon weg sind (Wiedergabe 4,2-6,2 s von 7,5 s).
+- Geaendert (1): Geplante Cron-Laeufe posten nur noch 08-21 UTC (post.py Nachtruhe); rooney zeigt, dass Nacht-Posts schwach sind. Waechter/manuelle Starts unveraendert, 3 Reels/Tag bleiben.
+- MUTIGES EXPERIMENT (2, Markierung share_early=true): neongruener Balken "SEND THIS TO A FRIEND WHO KNOWS BALL" ab Sekunde 0 unter der Liste, Schlussbild bleibt. Messen: Shares und Reach nach 24 h gegen sneijder/forlan/rooney.
+- Vorrat: 21 unveroeffentlicht.

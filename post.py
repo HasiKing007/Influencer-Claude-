@@ -130,6 +130,7 @@ def post_reel(urls, caption, thumb_offset_ms=None):
 
 SLOT_GAP_MIN = 90    # Slots liegen 4 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
 MAX_PER_DAY = 4     # Sicherheitsgrenze (Regel: nie mehr als 5)
+QUIET_START_UTC, QUIET_END_UTC = 21, 8   # geplante Laeufe posten nur zwischen 08 und 21 UTC
 
 
 def already_posted_in_slot(state):
@@ -140,6 +141,11 @@ def already_posted_in_slot(state):
     dates = [datetime.datetime.strptime(p["date"], "%Y-%m-%dT%H:%MZ") for p in state["posted"] if p.get("date")]
     if any((now - d).total_seconds() < SLOT_GAP_MIN * 60 for d in dates):
         print("In diesem Slot wurde schon gepostet, ueberspringe.")
+        return True
+    # 16.11.: verspaetete GitHub-Crons posteten nachts (rooney 23:50 Wien: 151 Views/109 Reach,
+    # schwaechstes Share-CTA-Reel). Geplante Laeufe posten nur 08-21 UTC; manuelle/Waechter-Starts duerfen.
+    if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and not (QUIET_END_UTC <= now.hour < QUIET_START_UTC):
+        print("Nachtruhe fuer geplante Laeufe (verspaeteter Cron), ueberspringe.")
         return True
     if sum(d.date() == now.date() for d in dates) >= MAX_PER_DAY:
         print("Tageslimit erreicht, ueberspringe.")
@@ -193,6 +199,9 @@ def main():
             hook = int(cfg["quiz_hook_fixed"])
         share = bool(cfg.get("quiz_share_cta")) and not reveal
         render.SHARE_CTA = share
+        # Experiment 16.11. (quiz_share_early): Weiterschick-Aufforderung schon ab Sekunde 0 im Bild
+        early = share and bool(cfg.get("quiz_share_early"))
+        render.SHARE_EARLY = early
         render.render(quiz, out_path, reveal, hook)
         if share:
             caption_idx = len([p for p in quiz_posts if p.get("share_cta")]) % len(SHARE_CAPTIONS)
@@ -208,6 +217,8 @@ def main():
             entry["hook"] = hook
         if share:
             entry["share_cta"] = True
+        if early:
+            entry["share_early"] = True
         # Titelbild = alle Stationen sichtbar, kurz vor dem Countdown (statt leerem ersten Frame)
         thumb_ms = int((render.timing(len(quiz["clubs"]))[1] - 0.05) * 1000)
         print("Gerendert: Quiz", quiz["id"])

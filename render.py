@@ -36,6 +36,7 @@ STATIONS_MAX = 4.5   # alle Stationen zusammen hoechstens so lange
 # Experiment 15.11.: Schlussbild fordert zum Teilen auf (Sends/Reach ist laut Instagram das
 # wichtigste Signal fuer Reichweite bei Nicht-Followern; bisher 0 Shares in 17 Reels)
 SHARE_CTA = False
+SHARE_EARLY = False  # Experiment 16.11.: Share-Aufforderung ab Sekunde 0 (unter der Liste)
 
 
 def font(path, size):
@@ -83,6 +84,11 @@ def background(hook=None):
     d = ImageDraw.Draw(img)
     d.ellipse((W // 2 - 260, 1500, W // 2 + 260, 2020), outline=(20, 32, 62), width=6)
     d.line((0, 1760, W, 1760), fill=(20, 32, 62), width=6)
+    if SHARE_EARLY:
+        text = "SEND THIS TO A FRIEND WHO KNOWS BALL"
+        f = fit_font(d, text, BOLD, 50, SAFE_RIGHT - SAFE_LEFT - 60)
+        d.rounded_rectangle((SAFE_LEFT, 1462, SAFE_RIGHT, 1552), radius=45, fill=ACCENT)
+        d.text(((SAFE_LEFT + SAFE_RIGHT) / 2, 1507), text, font=f, fill=BG_BOTTOM, anchor="mm")
     if hook is not None:
         top, big = HOOKS[hook % len(HOOKS)]
         d.text((SAFE_LEFT, 262), top, font=fit_font(d, top, BOLD, 76, SAFE_RIGHT - SAFE_LEFT), fill=WHITE)
@@ -282,6 +288,7 @@ if __name__ == "__main__":
         n = len(quiz["clubs"])
         step, stations_end, countdown_end, total = timing(n)
         hook = 0 if "--hook" in sys.argv else None
+        SHARE_EARLY = "--share-early" in sys.argv
         base, baked = background(hook), set()
         os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)
         for name, t in (("a_intro", 0.3), ("b_list", stations_end - 0.05),
