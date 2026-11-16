@@ -18,6 +18,7 @@ import requests
 import igapi
 import render
 import satisfying
+import pick as pickfmt
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
@@ -187,6 +188,18 @@ def main():
         entry = {"id": f"sat-{scene}-{seed}", "format": "satisfying", "scene": scene, "seed": seed}
         thumb_ms = info["thumb_ms"]
         print("Gerendert: Satisfying", scene, seed, f"{info['duration']:.1f}s")
+    elif fmt == "pick":
+        # Experiment 16.11. abends: "Pick one per row"-Dream-Team (Meinungsfrage, Markierung format=pick)
+        used = {p["id"] for p in state["posted"]}
+        sets = pickfmt.load_sets()
+        pset = next((s for s in sets if s["id"] not in used), sets[len(state["posted"]) % len(sets)])
+        info = pickfmt.render_pick(pset, out_path)
+        n_pick = len([p for p in state["posted"] if p.get("format") == "pick"])
+        caption_idx = n_pick % len(pickfmt.CAPTIONS)
+        caption = pickfmt.CAPTIONS[caption_idx] + "\n\n" + pickfmt.TAGS
+        entry = {"id": pset["id"], "format": "pick", "caption": caption_idx}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: Pick", pset["id"], f"{info['duration']:.1f}s")
     else:
         quiz = pick(quizzes, state)
         # Experiment 13.11.: Aufloesung nicht im Video, sondern spaeter als Kommentar (stats.py)

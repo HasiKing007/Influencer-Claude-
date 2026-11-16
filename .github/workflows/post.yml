@@ -18,7 +18,7 @@ on:
         type: boolean
         default: false
       format:
-        description: "Leer = laut data/formats.json, sonst quiz oder satisfying"
+        description: "Leer = laut data/formats.json, sonst quiz, pick oder satisfying"
         type: string
         default: ""
       scene:

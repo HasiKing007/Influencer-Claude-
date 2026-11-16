@@ -111,3 +111,10 @@
 - Geaendert (1): Geplante Cron-Laeufe posten nur noch 08-21 UTC (post.py Nachtruhe); rooney zeigt, dass Nacht-Posts schwach sind. Waechter/manuelle Starts unveraendert, 3 Reels/Tag bleiben.
 - MUTIGES EXPERIMENT (2, Markierung share_early=true): neongruener Balken "SEND THIS TO A FRIEND WHO KNOWS BALL" ab Sekunde 0 unter der Liste, Schlussbild bleibt. Messen: Shares und Reach nach 24 h gegen sneijder/forlan/rooney.
 - Vorrat: 21 unveroeffentlicht.
+
+## 2026-11-16 22:45 (Wien)
+- 24 Reels, 5 Follower (seit 15.11. unveraendert). Frische Insights 21:02 UTC: buffon (erstes Reel mit Share-Balken ab Sekunde 0) nach 6,5 h 194 Views/119 Reach, 1 Share, 4 Likes, 3 echte Kommentare = zweitbestes Reel bisher. fabregas (Share-Balken) nach 2,5 h 148/108, 0 Shares, nur 3,9 s Wiedergabe. aguero bleibt nach 10 h bei 6 Views/0 Reach: Reel wurde praktisch nicht ausgespielt (Ursache unklar, kein Muster bei Caption/Video). shevchenko (20:30 UTC) noch zu frisch.
+- Share-Balken ab Sekunde 0: 1 Share in 2 auswertbaren Reels, gleiches Niveau wie Share-CTA nur im Schlussbild (sneijder). Laeuft weiter, Urteil morgen.
+- Schluss: Seit 24 Reels Reach-Deckel 107-151 und kaum Follower. Das Quiz ist eine Wissensfrage, bei der die meisten nichts beitragen koennen; Debatten-/Meinungsformate sind im Fussball-Nischen-Markt die klassischen Kommentar- und Weiterschick-Treiber.
+- MUTIGES EXPERIMENT (Markierung format=pick): neues Format "PICK ONE from each row" (Dream-Team: GK/DEF/MID/WING/ST je 3 Legenden, 5 s, "COMMENT YOUR TEAM" + "SEND THIS TO A FRIEND AND COMPARE"). Rotation quiz, pick, quiz: morgen 14:41 Wien erstes Pick-Reel, Quiz-Einstellungen unveraendert.
+- Messen: Kommentare, Shares, Reach und Wiedergabe-Quote (5-s-Video, Loops) des Pick-Reels gegen Quiz-Schnitt (~150-190 Views, 0-1 Share). Vorrat: 18 Quizze, 6 Pick-Sets.
