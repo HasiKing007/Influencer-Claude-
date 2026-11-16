@@ -2,11 +2,10 @@ name: Post daily reel
 
 on:
   schedule:
-    # 3 Reels pro Tag: 11:17, 15:17, 19:17 Wiener Winterzeit.
-    # GitHub laesst geplante Laeufe manchmal ausfallen; die Zusatztermine sind
+    # Seit 17.11.: 5 Reels pro Tag: 10:17, 12:17, 14:17, 16:17, 19:17 Wiener Winterzeit.
+    # GitHub laesst geplante Laeufe manchmal ausfallen; die :47-Termine sind
     # Ersatz und posten nur, wenn im aktuellen Slot noch nichts gepostet wurde.
-    - cron: "17,47 10,14,18 * * *"
-    - cron: "17 11,15,19 * * *"
+    - cron: "17,47 9,11,13,15,18 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -18,7 +17,7 @@ on:
         type: boolean
         default: false
       format:
-        description: "Leer = laut data/formats.json, sonst quiz, pick oder satisfying"
+        description: "Leer = laut data/formats.json, sonst quiz, pick, facts, odd, rank oder satisfying"
         type: string
         default: ""
       scene:
@@ -46,7 +45,7 @@ jobs:
         timeout-minutes: 5
         run: |
           # ffmpeg als statisches Binary von PyPI (apt-get hing am 2026-11-11 ueber 15 min)
-          pip install -q -r requirements.txt imageio-ffmpeg
+          pip install -q -r requirements.txt imageio-ffmpeg edge-tts
           mkdir -p "$HOME/bin"
           ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$HOME/bin/ffmpeg"
           echo "$HOME/bin" >> "$GITHUB_PATH"

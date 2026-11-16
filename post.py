@@ -19,6 +19,9 @@ import igapi
 import render
 import satisfying
 import pick as pickfmt
+import facts as factsfmt
+import odd as oddfmt
+import rank as rankfmt
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
@@ -129,8 +132,8 @@ def post_reel(urls, caption, thumb_offset_ms=None):
     raise SystemExit(f"Veroeffentlichen fehlgeschlagen: {last_error}")
 
 
-SLOT_GAP_MIN = 90    # Slots liegen 4 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
-MAX_PER_DAY = 4     # Sicherheitsgrenze (Regel: nie mehr als 5)
+SLOT_GAP_MIN = 90    # Slots liegen seit 17.11. 2-3 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
+MAX_PER_DAY = 5     # seit 17.11. 5 Slots/Tag (Regel: nie mehr als 5)
 QUIET_START_UTC, QUIET_END_UTC = 21, 8   # geplante Laeufe posten nur zwischen 08 und 21 UTC
 
 
@@ -200,6 +203,29 @@ def main():
         entry = {"id": pset["id"], "format": "pick", "caption": caption_idx}
         thumb_ms = info["thumb_ms"]
         print("Gerendert: Pick", pset["id"], f"{info['duration']:.1f}s")
+    elif fmt in ("facts", "rank"):
+        # Formate ab 17.11. (Recherche: Listen-Reels mit Versprechen in Zeile 1, Blind Ranking), mit KI-Stimme
+        mod = factsfmt if fmt == "facts" else rankfmt
+        used = {p["id"] for p in state["posted"]}
+        sets = mod.load_sets()
+        n_fmt = len([p for p in state["posted"] if p.get("format") == fmt])
+        fset = next((s for s in sets if s["id"] not in used), sets[n_fmt % len(sets)])
+        info = (factsfmt.render_facts if fmt == "facts" else rankfmt.render_rank)(fset, out_path)
+        caption_idx = n_fmt % len(mod.CAPTIONS)
+        caption = mod.CAPTIONS[caption_idx] + "\n\n" + fset["tags"]
+        entry = {"id": fset["id"], "format": fmt, "caption": caption_idx, "voice": info["voice"]}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert:", fmt, fset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
+    elif fmt == "odd":
+        seed = random.randint(1, 10 ** 6)
+        info = oddfmt.render_odd(seed, out_path)
+        n_fmt = len([p for p in state["posted"] if p.get("format") == "odd"])
+        caption_idx = n_fmt % len(oddfmt.CAPTIONS)
+        caption = oddfmt.CAPTIONS[caption_idx].format(odd=info["odd"]) + "\n\n" + oddfmt.TAGS
+        entry = {"id": f"odd-{info['normal']}{info['odd']}-{seed}", "format": "odd", "seed": seed,
+                 "caption": caption_idx, "hook": info["hook"], "voice": info["voice"]}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: odd", entry["id"], "Stimme:", info["voice"])
     else:
         quiz = pick(quizzes, state)
         # Experiment 13.11.: Aufloesung nicht im Video, sondern spaeter als Kommentar (stats.py)
