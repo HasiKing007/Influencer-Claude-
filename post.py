@@ -22,6 +22,7 @@ import pick as pickfmt
 import facts as factsfmt
 import odd as oddfmt
 import rank as rankfmt
+import wyr as wyrfmt
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
@@ -216,6 +217,18 @@ def main():
         entry = {"id": fset["id"], "format": fmt, "caption": caption_idx, "voice": info["voice"]}
         thumb_ms = info["thumb_ms"]
         print("Gerendert:", fmt, fset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
+    elif fmt == "wyr":
+        # Experiment 17.11.: "Would you rather" rot/blau (Hook ab Frame 0, ~7 s Loop, Markierung format=wyr)
+        used = {p["id"] for p in state["posted"]}
+        sets = wyrfmt.load_sets()
+        n_fmt = len([p for p in state["posted"] if p.get("format") == "wyr"])
+        wset = next((s for s in sets if s["id"] not in used), sets[n_fmt % len(sets)])
+        info = wyrfmt.render_wyr(wset, out_path)
+        caption_idx = n_fmt % len(wyrfmt.CAPTIONS)
+        caption = wyrfmt.CAPTIONS[caption_idx] + "\n\n" + wset["tags"]
+        entry = {"id": wset["id"], "format": "wyr", "caption": caption_idx, "voice": info["voice"]}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: wyr", wset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
     elif fmt == "odd":
         seed = random.randint(1, 10 ** 6)
         info = oddfmt.render_odd(seed, out_path)
