@@ -33,16 +33,16 @@
     {
       "date": "2026-11-17",
       "followers": 5,
-      "posts": 25
+      "posts": 26
     }
   ],
   "media": [
     {
-      "id": "17991729291095713",
+      "id": "18001122021101811",
       "comments_count": 0,
       "like_count": 0,
-      "permalink": "https://www.instagram.com/reel/Df1oQroNxYV/",
-      "timestamp": "2026-11-17T09:39:58+0000",
+      "permalink": "https://www.instagram.com/reel/Df12JDSAEgR/",
+      "timestamp": "2026-11-17T11:41:16+0000",
       "insights": {
         "views": 0,
         "reach": 0,
@@ -52,8 +52,22 @@
       }
     },
     {
-      "id": "17942601456401548",
+      "id": "17991729291095713",
       "comments_count": 1,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/Df1oQroNxYV/",
+      "timestamp": "2026-11-17T09:39:58+0000",
+      "insights": {
+        "views": 173,
+        "reach": 124,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 4401
+      }
+    },
+    {
+      "id": "17942601456401548",
+      "comments_count": 2,
       "like_count": 1,
       "permalink": "https://www.instagram.com/reel/Df0N8dMBTZ5/",
       "timestamp": "2026-11-16T20:30:45+0000",
@@ -391,7 +405,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-17T09:40Z",
+    "checked": "2026-11-17T11:41Z",
     "granted": [
       "ads_management",
       "ads_read",
@@ -429,6 +443,7 @@
     "18059203418662831": "2026-11-16T13:46Z",
     "18082303913394293": "2026-11-16T18:41Z",
     "18173048548481268": "2026-11-16T21:02Z",
-    "17942601456401548": "2026-11-17T09:40Z"
+    "17942601456401548": "2026-11-17T09:40Z",
+    "17991729291095713": "2026-11-17T11:41Z"
   }
 }
