@@ -89,12 +89,12 @@ def draw_row(img, i, n, row, progress):
     img.paste(layer, (int((1 - p) * 90), y0), layer)
 
 
-def draw_end(img, t):
+def draw_end(img, t, text="COMMENT YOUR TEAM"):
     d = ImageDraw.Draw(img)
     p = r.ease(t / 0.35)
     y = 1640
-    f = r.fit_font(d, "COMMENT YOUR TEAM", r.BOLD, int(64 + 14 * p), r.SAFE_RIGHT - r.SAFE_LEFT)
-    d.text(((r.SAFE_LEFT + r.SAFE_RIGHT) / 2, y), "COMMENT YOUR TEAM", font=f, fill=r.WHITE, anchor="mm")
+    f = r.fit_font(d, text, r.BOLD, int(64 + 14 * p), r.SAFE_RIGHT - r.SAFE_LEFT)
+    d.text(((r.SAFE_LEFT + r.SAFE_RIGHT) / 2, y), text, font=f, fill=r.WHITE, anchor="mm")
     return img
 
 
@@ -113,7 +113,7 @@ def frame_at(t, pset, base, baked):
             draw_row(img, i, n, rows[i], (t - s) / anim)
     rows_end, _ = timing(n)
     if t >= rows_end:
-        img = draw_end(img, t - rows_end)
+        img = draw_end(img, t - rows_end, pset.get("end", "COMMENT YOUR TEAM"))
     return img
 
 

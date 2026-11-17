@@ -23,6 +23,7 @@ import facts as factsfmt
 import odd as oddfmt
 import rank as rankfmt
 import wyr as wyrfmt
+import pause as pausefmt
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
@@ -200,7 +201,7 @@ def main():
         info = pickfmt.render_pick(pset, out_path)
         n_pick = len([p for p in state["posted"] if p.get("format") == "pick"])
         caption_idx = n_pick % len(pickfmt.CAPTIONS)
-        caption = pickfmt.CAPTIONS[caption_idx] + "\n\n" + pickfmt.TAGS
+        caption = pset.get("caption", pickfmt.CAPTIONS[caption_idx]) + "\n\n" + pset.get("tags", pickfmt.TAGS)
         entry = {"id": pset["id"], "format": "pick", "caption": caption_idx}
         thumb_ms = info["thumb_ms"]
         print("Gerendert: Pick", pset["id"], f"{info['duration']:.1f}s")
@@ -229,6 +230,18 @@ def main():
         entry = {"id": wset["id"], "format": "wyr", "caption": caption_idx, "voice": info["voice"]}
         thumb_ms = info["thumb_ms"]
         print("Gerendert: wyr", wset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
+    elif fmt == "pause":
+        # Experiment 17.11. abends: "Tap to pause" (Raster mit 12 Optionen, springende Markierung, Markierung format=pause)
+        used = {p["id"] for p in state["posted"]}
+        sets = pausefmt.load_sets()
+        n_fmt = len([p for p in state["posted"] if p.get("format") == "pause"])
+        pset = next((s for s in sets if s["id"] not in used), sets[n_fmt % len(sets)])
+        info = pausefmt.render_pause(pset, out_path)
+        caption_idx = n_fmt % len(pausefmt.CAPTIONS)
+        caption = pausefmt.CAPTIONS[caption_idx] + "\n\n" + pset["tags"]
+        entry = {"id": pset["id"], "format": "pause", "caption": caption_idx, "voice": info["voice"], "seed": info["seed"]}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: pause", pset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
     elif fmt == "odd":
         seed = random.randint(1, 10 ** 6)
         info = oddfmt.render_odd(seed, out_path)

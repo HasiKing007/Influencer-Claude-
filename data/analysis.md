@@ -139,3 +139,22 @@
 - Rotation neu (7 Plaetze, teilerfremd zu 5): pick, wyr, quiz, facts, odd, wyr, rank. So geordnet, dass heute 16:17 rank und 19:17 pick wie geplant laufen; erstes wyr morgen 10:17.
 - Vorrat: +1 Fakten-Set "space" (Venus-Tag > Venus-Jahr, Pulsar 716/s, Mond-Fussabdruecke, Saturn-Dichte, Licht 8 min; geprueft u. a. https://www.snopes.com/fact-check/one-day-on-venus-is-longer-than-a-year-on-venus/, https://www.livescience.com/facts-about-saturn). Jetzt unveroeffentlicht: 17 Quizze, 5 facts, 8 rank, 6 pick, 16 wyr.
 - Messen: wyr gegen pick/quiz bei Kommentaren je 100 Reach, Shares, Wiedergabe-Quote (Wiedergabe / Laenge, >100 % = Loops) nach 24 h. Naechster Kandidat fuer kleine Aenderung: facts auf <15 s kuerzen, falls die Quote unter 50 % bleibt.
+
+## 2026-11-17 22:50 (Wien)
+- 29 Reels, 5 Follower (unveraendert seit 15.11.). Alle 5 Slots heute gepostet. Frische Insights 21:44 UTC (Alter in Klammern):
+  - pick-legends (3 h): 184 Views/112 Reach, **5 Shares** (Rekord, bisher nie mehr als 1 pro Reel), 0 Kommentare, 5,2 s Wiedergabe bei ~5 s Laenge (>100 % = Loops).
+  - odd (8 h): 176/121, 2 Saves (erste Saves ueberhaupt), 5,5 s.
+  - quiz raul (12 h): 181/129, 2 Kommentare, 4,4 s.
+  - rank-strikers (6 h): 135/106, 0 Interaktion, 8,3 s.
+  - facts (10 h): 117/108, 0 Interaktion, 8,4 s von ~18 s.
+- Ehrlich: weiterhin alles bei 110-130 Reach, Faktor ~60 unter dem 10.000er-Ziel. Aber pick ist das erste Format mit einem echten Ausreisser bei dem Signal, das laut Instagram Reichweite bei Nicht-Followern treibt (Weiterleitungen). facts und rank sind bisher am schwaechsten (je 1 Post, noch kein Urteil).
+- Recherche (neue Blickwinkel):
+  - Instagram hat seit Maerz 2026 Tippen-zum-Pausieren (ein Tipp pausiert, Mute ist ein eigener Knopf); profitieren sollen text-lastige Reels, die man zum Lesen anhaelt (https://www.inro.social/blog/how-to-pause-instagram-reels-in-2026-tap-to-pause-is-finally-here, Herstellerblog). Darauf baut das Interaktions-Genre "Pause the video - what you land on is yours" auf.
+  - Analyse von 40 viralen KI-Reels: fast alle starken Posts haben ein Kommentar-Stichwort ("Comment X"), Kommentare/Likes bis 2,9x; Text in Safe-Zones (150 px oben, 170 px unten), Schrift >= 56 px (https://dev.to/whoffagents/i-studied-40-viral-ai-reels-to-find-what-actually-works-with-real-numbers-m6e, kleine Stichprobe, Verkaeufer).
+  - Faceless-Accounts posten 2-5 Reels/Tag; Setup-Spannung-Aufloesung auch in 15 s; "Facts you didn't know" als Nische genannt, aber ohne Zahlen (https://myinstantplay.com/blog/ai-reels-exploding-how-creators-get-10m-views-without-showing-face, Werbeblog, unbelegt).
+- Schluss: Formate ohne Vorwissen, bei denen jeder ein persoenliches Ergebnis hat (pick: "mein Team"), werden weitergeschickt. Das naechste logische Experiment ist ein Format, bei dem jeder ein *zufaelliges* persoenliches Ergebnis bekommt und es nur durch Mitmachen erfaehrt.
+- MUTIGES EXPERIMENT (Markierung format=pause): neues Format "Tap to pause" (pause.py, data/pauses.json, 8 Sets, halb Fussball, halb allgemein): 12er-Raster, gelbe Markierung springt alle 0,1 s zufaellig, "TAP TO PAUSE / WHAT YOU LAND ON IS YOUR FOOTBALL CAREER", KI-Stimme, "COMMENT WHAT YOU GOT", 6,5 s, laeuft endlos im Loop (Nochmal-Versuchen = Wiederholungen). 1 von 9 Rotationsplaetzen, erstes am 18.11. 14:17 Wien.
+- Verdoppeln: pick jetzt 2 von 9 Plaetzen (vorher 1 von 7). Neues Nicht-Fussball-Set pick-dream-life (Haus/Stadt/Job/Kraft/Haustier) als naechstes pick (18.11. 12:17), dazu pick-world-cup (alle 15 Spieler sind Weltmeister, geprueft mit https://www.wikiwand.com/en/articles/List_of_FIFA_World_Cup_winning_players). pick-Sets koennen jetzt eigene caption/tags/Endtext haben.
+- Rotation (9, teilerfremd zu 5): facts, odd, wyr, pick, pause, quiz, wyr, rank, pick. Morgen: 10:17 wyr, 12:17 pick, 14:17 pause, 16:17 quiz, 19:17 wyr.
+- Vorrat unveroeffentlicht: 17 Quizze, 5 facts, 7 rank, 7 pick, 16 wyr, 8 pause.
+- Messen nach 24 h: Shares je 100 Reach (pick-legends = 4,5) und Kommentare je 100 Reach fuer pause, wyr, pick-dream-life vs. pick-legends; Wiedergabe-Quote. Ziel: ein Format mit >= 3 Shares/100 Reach bestaetigt sich zweimal -> dann Haelfte der Rotation darauf. facts/rank: wenn die zweiten Posts wieder <140 Views und 0 Interaktion -> raus.
