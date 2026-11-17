@@ -447,7 +447,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-17T18:38Z",
+    "checked": "2026-11-17T18:39Z",
     "granted": [
       "ads_management",
       "ads_read",
