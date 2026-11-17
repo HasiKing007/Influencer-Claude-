@@ -33,22 +33,36 @@
     {
       "date": "2026-11-17",
       "followers": 5,
-      "posts": 27
+      "posts": 28
     }
   ],
   "media": [
     {
-      "id": "18108115538639705",
+      "id": "18123979834945247",
       "comments_count": 0,
       "like_count": 0,
-      "permalink": "https://www.instagram.com/reel/Df2D0dNxm-c/",
-      "timestamp": "2026-11-17T13:40:47+0000",
+      "permalink": "https://www.instagram.com/reel/Df2Ri-CBq0o/",
+      "timestamp": "2026-11-17T15:40:43+0000",
       "insights": {
         "views": 0,
         "reach": 0,
         "shares": 0,
         "saved": 0,
         "ig_reels_avg_watch_time": 0
+      }
+    },
+    {
+      "id": "18108115538639705",
+      "comments_count": 0,
+      "like_count": 1,
+      "permalink": "https://www.instagram.com/reel/Df2D0dNxm-c/",
+      "timestamp": "2026-11-17T13:40:47+0000",
+      "insights": {
+        "views": 174,
+        "reach": 119,
+        "shares": 0,
+        "saved": 2,
+        "ig_reels_avg_watch_time": 5615
       }
     },
     {
@@ -72,11 +86,11 @@
       "permalink": "https://www.instagram.com/reel/Df1oQroNxYV/",
       "timestamp": "2026-11-17T09:39:58+0000",
       "insights": {
-        "views": 178,
-        "reach": 125,
+        "views": 180,
+        "reach": 128,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 4409
+        "ig_reels_avg_watch_time": 4406
       }
     },
     {
@@ -86,11 +100,11 @@
       "permalink": "https://www.instagram.com/reel/Df0N8dMBTZ5/",
       "timestamp": "2026-11-16T20:30:45+0000",
       "insights": {
-        "views": 165,
-        "reach": 122,
+        "views": 166,
+        "reach": 123,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 4155
+        "ig_reels_avg_watch_time": 4172
       }
     },
     {
@@ -100,11 +114,11 @@
       "permalink": "https://www.instagram.com/reel/Df0BW-YBn5O/",
       "timestamp": "2026-11-16T18:40:59+0000",
       "insights": {
-        "views": 155,
-        "reach": 111,
+        "views": 156,
+        "reach": 112,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 4106
+        "ig_reels_avg_watch_time": 4113
       }
     },
     {
@@ -114,11 +128,11 @@
       "permalink": "https://www.instagram.com/reel/Dfzl7iHAUnG/",
       "timestamp": "2026-11-16T14:41:08+0000",
       "insights": {
-        "views": 195,
-        "reach": 120,
+        "views": 197,
+        "reach": 122,
         "shares": 1,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5980
+        "ig_reels_avg_watch_time": 5946
       }
     },
     {
@@ -128,11 +142,11 @@
       "permalink": "https://www.instagram.com/reel/DfzKgBquSwY/",
       "timestamp": "2026-11-16T10:41:43+0000",
       "insights": {
-        "views": 6,
-        "reach": 0,
+        "views": 7,
+        "reach": 1,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 24465
+        "ig_reels_avg_watch_time": 16456
       }
     },
     {
@@ -142,11 +156,11 @@
       "permalink": "https://www.instagram.com/reel/Dfx5J2xJxGM/",
       "timestamp": "2026-11-15T22:50:38+0000",
       "insights": {
-        "views": 152,
-        "reach": 109,
+        "views": 153,
+        "reach": 110,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 4250
+        "ig_reels_avg_watch_time": 4215
       }
     },
     {
@@ -156,11 +170,11 @@
       "permalink": "https://www.instagram.com/reel/DfxSmpqsUg4/",
       "timestamp": "2026-11-15T17:13:56+0000",
       "insights": {
-        "views": 182,
-        "reach": 125,
+        "views": 183,
+        "reach": 126,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5611
+        "ig_reels_avg_watch_time": 5569
       }
     },
     {
@@ -170,11 +184,11 @@
       "permalink": "https://www.instagram.com/reel/DfxBASehPMj/",
       "timestamp": "2026-11-15T14:40:01+0000",
       "insights": {
-        "views": 229,
-        "reach": 151,
+        "views": 230,
+        "reach": 152,
         "shares": 1,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6198
+        "ig_reels_avg_watch_time": 6160
       }
     },
     {
@@ -184,11 +198,11 @@
       "permalink": "https://www.instagram.com/reel/DfwlkBThw9S/",
       "timestamp": "2026-11-15T10:40:29+0000",
       "insights": {
-        "views": 146,
-        "reach": 111,
+        "views": 147,
+        "reach": 112,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 4930
+        "ig_reels_avg_watch_time": 4887
       }
     },
     {
@@ -198,11 +212,11 @@
       "permalink": "https://www.instagram.com/reel/Dfu3s4XzUYO/",
       "timestamp": "2026-11-14T18:40:08+0000",
       "insights": {
-        "views": 153,
-        "reach": 116,
+        "views": 154,
+        "reach": 117,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6991
+        "ig_reels_avg_watch_time": 6938
       }
     },
     {
@@ -212,11 +226,11 @@
       "permalink": "https://www.instagram.com/reel/DfupqZ1hMsj/",
       "timestamp": "2026-11-14T16:37:34+0000",
       "insights": {
-        "views": 147,
-        "reach": 107,
+        "views": 148,
+        "reach": 108,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5173
+        "ig_reels_avg_watch_time": 5130
       }
     },
     {
@@ -226,11 +240,11 @@
       "permalink": "https://www.instagram.com/reel/DfucNiTykUt/",
       "timestamp": "2026-11-14T14:40:00+0000",
       "insights": {
-        "views": 178,
-        "reach": 111,
+        "views": 179,
+        "reach": 112,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 7354
+        "ig_reels_avg_watch_time": 7290
       }
     },
     {
@@ -240,11 +254,11 @@
       "permalink": "https://www.instagram.com/reel/DfuA1U2h_LY/",
       "timestamp": "2026-11-14T10:40:49+0000",
       "insights": {
-        "views": 158,
-        "reach": 127,
+        "views": 159,
+        "reach": 128,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6088
+        "ig_reels_avg_watch_time": 6041
       }
     },
     {
@@ -254,11 +268,11 @@
       "permalink": "https://www.instagram.com/reel/Dfs03VOP9x1/",
       "timestamp": "2026-11-13T23:36:56+0000",
       "insights": {
-        "views": 168,
-        "reach": 111,
+        "views": 169,
+        "reach": 112,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 7242
+        "ig_reels_avg_watch_time": 7182
       }
     },
     {
@@ -268,11 +282,11 @@
       "permalink": "https://www.instagram.com/reel/DfsMxoHhXVw/",
       "timestamp": "2026-11-13T17:46:39+0000",
       "insights": {
-        "views": 167,
-        "reach": 113,
+        "views": 168,
+        "reach": 114,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 7748
+        "ig_reels_avg_watch_time": 7682
       }
     },
     {
@@ -282,11 +296,11 @@
       "permalink": "https://www.instagram.com/reel/Dfr4AZ9h1AA/",
       "timestamp": "2026-11-13T14:45:20+0000",
       "insights": {
-        "views": 188,
+        "views": 189,
         "reach": 115,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6657
+        "ig_reels_avg_watch_time": 6603
       }
     },
     {
@@ -296,11 +310,11 @@
       "permalink": "https://www.instagram.com/reel/Dfrb7QyRDvq/",
       "timestamp": "2026-11-13T10:39:48+0000",
       "insights": {
-        "views": 169,
-        "reach": 116,
+        "views": 170,
+        "reach": 117,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5414
+        "ig_reels_avg_watch_time": 5373
       }
     },
     {
@@ -310,11 +324,11 @@
       "permalink": "https://www.instagram.com/reel/DfqSEovPhCf/",
       "timestamp": "2026-11-12T23:54:27+0000",
       "insights": {
-        "views": 137,
-        "reach": 110,
+        "views": 138,
+        "reach": 111,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6663
+        "ig_reels_avg_watch_time": 6609
       }
     },
     {
@@ -324,11 +338,11 @@
       "permalink": "https://www.instagram.com/reel/DfpsHTEhktP/",
       "timestamp": "2026-11-12T18:22:49+0000",
       "insights": {
-        "views": 141,
-        "reach": 108,
+        "views": 142,
+        "reach": 109,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6668
+        "ig_reels_avg_watch_time": 6616
       }
     },
     {
@@ -338,11 +352,11 @@
       "permalink": "https://www.instagram.com/reel/DfpSuw2yqU8/",
       "timestamp": "2026-11-12T14:40:59+0000",
       "insights": {
-        "views": 124,
-        "reach": 96,
+        "views": 125,
+        "reach": 97,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5529
+        "ig_reels_avg_watch_time": 5481
       }
     },
     {
@@ -352,11 +366,11 @@
       "permalink": "https://www.instagram.com/reel/Dfo3HkxTsQf/",
       "timestamp": "2026-11-12T10:39:39+0000",
       "insights": {
-        "views": 132,
+        "views": 133,
         "reach": 112,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5676
+        "ig_reels_avg_watch_time": 5625
       }
     },
     {
@@ -419,7 +433,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-17T13:40Z",
+    "checked": "2026-11-17T15:40Z",
     "granted": [
       "ads_management",
       "ads_read",
