@@ -234,6 +234,13 @@
       "voice": true,
       "media_id": "18123979834945247",
       "date": "2026-11-17T15:40Z"
+    },
+    {
+      "id": "pick-legends",
+      "format": "pick",
+      "caption": 0,
+      "media_id": "18116059922620487",
+      "date": "2026-11-17T18:38Z"
     }
   ]
 }
