@@ -34,6 +34,11 @@
       "date": "2026-11-17",
       "followers": 5,
       "posts": 29
+    },
+    {
+      "date": "2026-11-18",
+      "followers": 5,
+      "posts": 29
     }
   ],
   "media": [
@@ -72,11 +77,11 @@
       "permalink": "https://www.instagram.com/reel/Df2D0dNxm-c/",
       "timestamp": "2026-11-17T13:40:47+0000",
       "insights": {
-        "views": 176,
-        "reach": 121,
+        "views": 178,
+        "reach": 122,
         "shares": 0,
         "saved": 2,
-        "ig_reels_avg_watch_time": 5550
+        "ig_reels_avg_watch_time": 5573
       }
     },
     {
@@ -447,7 +452,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-17T21:44Z",
+    "checked": "2026-11-18T01:20Z",
     "granted": [
       "ads_management",
       "ads_read",
