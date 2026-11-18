@@ -38,16 +38,16 @@
     {
       "date": "2026-11-18",
       "followers": 5,
-      "posts": 32
+      "posts": 33
     }
   ],
   "media": [
     {
-      "id": "18403668373202614",
+      "id": "18648323143033167",
       "comments_count": 0,
       "like_count": 0,
-      "permalink": "https://www.instagram.com/reel/Df4olp3R0zp/",
-      "timestamp": "2026-11-18T13:40:40+0000",
+      "permalink": "https://www.instagram.com/reel/Df42NxdhCCH/",
+      "timestamp": "2026-11-18T15:39:34+0000",
       "insights": {
         "views": 0,
         "reach": 0,
@@ -57,17 +57,31 @@
       }
     },
     {
+      "id": "18403668373202614",
+      "comments_count": 1,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/Df4olp3R0zp/",
+      "timestamp": "2026-11-18T13:40:40+0000",
+      "insights": {
+        "views": 140,
+        "reach": 107,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 3020
+      }
+    },
+    {
       "id": "18101764748087590",
       "comments_count": 0,
       "like_count": 0,
       "permalink": "https://www.instagram.com/reel/Df4azj6yS0Z/",
       "timestamp": "2026-11-18T11:40:09+0000",
       "insights": {
-        "views": 36,
-        "reach": 26,
+        "views": 69,
+        "reach": 44,
         "shares": 0,
         "saved": 1,
-        "ig_reels_avg_watch_time": 3388
+        "ig_reels_avg_watch_time": 3660
       }
     },
     {
@@ -77,11 +91,11 @@
       "permalink": "https://www.instagram.com/reel/Df4NHbpotd6/",
       "timestamp": "2026-11-18T09:40:30+0000",
       "insights": {
-        "views": 147,
-        "reach": 110,
+        "views": 149,
+        "reach": 112,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 3700
+        "ig_reels_avg_watch_time": 3686
       }
     },
     {
@@ -494,7 +508,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-18T13:40Z",
+    "checked": "2026-11-18T15:39Z",
     "granted": [
       "ads_management",
       "ads_read",
