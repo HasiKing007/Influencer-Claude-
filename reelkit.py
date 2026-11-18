@@ -108,14 +108,16 @@ def voice(text):
     tmp = tempfile.mkdtemp()
     mp3, raw = os.path.join(tmp, "v.mp3"), os.path.join(tmp, "v.raw")
     try:
-        for attempt in range(2):   # ein Wiederholversuch (Dienst bricht gelegentlich ab)
+        for attempt in range(3):   # Wiederholversuche mit Pause (Dienst bricht gelegentlich ab, 18.11. pause ohne Stimme)
             try:
                 subprocess.run(["edge-tts", "--voice", VOICE, "--rate", "+20%", "--text", text, "--write-media", mp3],
                                check=True, capture_output=True, timeout=25)
                 break
             except subprocess.SubprocessError:
-                if attempt:
+                if attempt == 2:
                     raise
+                import time
+                time.sleep(4 * (attempt + 1))
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", mp3, "-f", "s16le", "-ac", "1",
                         "-ar", str(RATE), raw], check=True, timeout=45)
         data = np.fromfile(raw, dtype="<i2").astype(np.float64) / 32768.0

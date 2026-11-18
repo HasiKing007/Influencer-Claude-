@@ -23,6 +23,7 @@ import facts as factsfmt
 import odd as oddfmt
 import rank as rankfmt
 import wyr as wyrfmt
+import flags as flagsfmt
 import pause as pausefmt
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -242,6 +243,18 @@ def main():
         entry = {"id": pset["id"], "format": "pause", "caption": caption_idx, "voice": info["voice"], "seed": info["seed"]}
         thumb_ms = info["thumb_ms"]
         print("Gerendert: pause", pset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
+    elif fmt == "flags":
+        # Experiment 18.11.: "Guess the flag" (grosses Bild statt Text-Reel, 4 Flaggen EASY->IMPOSSIBLE, Markierung format=flags)
+        used = {p["id"] for p in state["posted"]}
+        sets = flagsfmt.load_sets()
+        n_fmt = len([p for p in state["posted"] if p.get("format") == "flags"])
+        fset = next((s for s in sets if s["id"] not in used), sets[n_fmt % len(sets)])
+        info = flagsfmt.render_flags(fset, out_path)
+        caption_idx = n_fmt % len(flagsfmt.CAPTIONS)
+        caption = flagsfmt.CAPTIONS[caption_idx] + "\n\n" + fset.get("tags", flagsfmt.TAGS)
+        entry = {"id": fset["id"], "format": "flags", "caption": caption_idx, "voice": info["voice"]}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: flags", fset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
     elif fmt == "odd":
         seed = random.randint(1, 10 ** 6)
         info = oddfmt.render_odd(seed, out_path)

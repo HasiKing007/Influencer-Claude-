@@ -1,0 +1,12 @@
+[
+  {"id": "flags-1", "flags": ["japan", "ireland", "hungary", "estonia"]},
+  {"id": "flags-2", "flags": ["germany", "belgium", "finland", "gabon"]},
+  {"id": "flags-3", "flags": ["italy", "netherlands", "colombia", "armenia"]},
+  {"id": "flags-4", "flags": ["france", "norway", "bulgaria", "lithuania"]},
+  {"id": "flags-5", "flags": ["sweden", "austria", "nigeria", "sierra leone"]},
+  {"id": "flags-6", "flags": ["ukraine", "russia", "czechia", "luxembourg"]},
+  {"id": "flags-7", "flags": ["denmark", "iceland", "peru", "ivory coast"]},
+  {"id": "flags-8", "flags": ["poland", "thailand", "bangladesh", "palau"]},
+  {"id": "flags-9", "flags": ["japan", "romania", "mali", "yemen"]},
+  {"id": "flags-10", "flags": ["germany", "guinea", "estonia", "armenia"]}
+]
