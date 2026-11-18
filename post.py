@@ -25,6 +25,7 @@ import rank as rankfmt
 import wyr as wyrfmt
 import flags as flagsfmt
 import pause as pausefmt
+import illusion as illusionfmt
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(ROOT, "data", "state.json")
@@ -255,6 +256,18 @@ def main():
         entry = {"id": fset["id"], "format": "flags", "caption": caption_idx, "voice": info["voice"]}
         thumb_ms = info["thumb_ms"]
         print("Gerendert: flags", fset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
+    elif fmt == "illusion":
+        # Experiment 18.11. abends: Nachbild-Illusion "Stare at the dot" (reines Bild, Loop, Markierung format=illusion)
+        used = {p["id"] for p in state["posted"]}
+        sets = illusionfmt.load_sets()
+        n_fmt = len([p for p in state["posted"] if p.get("format") == "illusion"])
+        iset = next((s for s in sets if s["id"] not in used), sets[n_fmt % len(sets)])
+        info = illusionfmt.render_illusion(iset, out_path)
+        caption_idx = n_fmt % len(illusionfmt.CAPTIONS)
+        caption = illusionfmt.CAPTIONS[caption_idx] + "\n\n" + iset.get("tags", illusionfmt.TAGS)
+        entry = {"id": iset["id"], "format": "illusion", "caption": caption_idx, "voice": info["voice"]}
+        thumb_ms = info["thumb_ms"]
+        print("Gerendert: illusion", iset["id"], f"{info['duration']:.1f}s", "Stimme:", info["voice"])
     elif fmt == "odd":
         seed = random.randint(1, 10 ** 6)
         info = oddfmt.render_odd(seed, out_path)

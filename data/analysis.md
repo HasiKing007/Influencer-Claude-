@@ -168,3 +168,23 @@
 - Kleine Korrektur: KI-Stimme versucht es jetzt 3x mit Pause statt 2x (pause lief heute stumm).
 - Vorrat: +2 Nicht-Fussball-Pick-Sets (pick-dream-day, pick-survival). Unveroeffentlicht: 17 Quizze, 5 facts, 7 rank, 8 pick, 15 wyr, 7 pause, 10 flags.
 - Messen: flags gegen Text-Formate bei Views/Reach nach 24 h (Hypothese: Bild-Reel durchbricht den ~120-Reach-Deckel), Kommentare je 100 Reach, Wiedergabe-Quote (10,6 s). Wenn flags >= 300 Views oder >= 3 Kommentare: verdoppeln und weitere Bild-Formate bauen (Umriss-/Farb-Raetsel). wyr: zweiter Post entscheidet. facts/rank: zweiter Post <140 Views und 0 Interaktion -> raus.
+
+## 2026-11-18 22:50 (Wien)
+- 34 Reels, 5 Follower (seit 15.11. unveraendert). Alle 5 Slots heute gepostet (10:40, 12:40, 14:40, 16:39, 19:08 Wien). Frische Insights per Dry-Run 21:45 UTC.
+- Zahlen heute (Views/Reach, Shares, Kommentare, Wiedergabe von Laenge):
+  - flags-1 (erstes Bild-Format, 3,5 h): 158/116, 0 Shares, 0 Kommentare, 3 Likes, 5,6 s von 10,6 s (53 %).
+  - quiz van-nistelrooy (6 h): 156/108, 1 Kommentar, 4,9 s.
+  - pause (ohne Stimme, 8 h): 141/109, 1 Kommentar, 3,0 s von 6,5 s (46 %, schwaechste Quote).
+  - pick-dream-life (10 h): 123/84, 1 Save, 1 Kommentar, 0 Shares, 4,0 s.
+  - wyr-time-travel (12 h): 149/112, 0 Interaktion, 3,7 s von ~7 s.
+- Ehrlich: Auch das erste Bild-Format bleibt im selben Deckel. Seit 34 Reels landet JEDES Reel bei 84-129 Reach, unabhaengig von Format, Thema, Stimme oder Uhrzeit. Das sieht nach dem festen Test-Publikum aus, das Instagram jedem neuen Reel gibt; keines hat genug Signal geliefert, um in die naechste Stufe zu kommen. Faktor ~60-80 unter 10.000. Bestes Format bisher weiter pick-legends (5 Shares), aber der zweite pick (dream-life) hat den Ausreisser nicht wiederholt.
+- Recherche (neue Blickwinkel, alles Herstellerblogs, Zahlen nicht unabhaengig belegt):
+  - Mosseri (Mai 2026, zitiert bei https://virlo.ai/blog/instagram-reels-algorithm-2026-decoded) trennt "connected" (Follower) und "unconnected" Reach (Nicht-Follower) als getrennte Wertungen; mit 5 Followern ist praktisch alles unconnected. Entscheidend sei die Abschluss-/Wiedergabe-Quote der fremden Erstseher. Unsere Quoten liegen bei 46-55 %, nur pick (5 s) ueber 100 %.
+  - Illusions-/"wie geht das"-Reels: Leute schauen mehrfach, um den Effekt nochmal zu erleben; Beispiel ~4 Mio. Views, ausserdem "Loading 0-100 %"-Fortschritts-Reels als eingebauter Grund zum Dranbleiben (https://www.anijam.ai/blog/instagram-reels-trends/).
+  - Loop-Technik fuer Raetsel: "Did you catch that?" (Aufloesung so kurz, dass man nochmal schaut), kein Schwarzbild/keine Pause am Ende, Loops nur unter 15 s sinnvoll (https://joyspace.ai/looping-hack-trick-algorithm-double-views). Die dort genannten Punkt-Gewichte sind ausdruecklich Spekulation, nicht verwendet.
+- Schluss: Raetsel mit Wissenshuerde (Quiz, Flaggen) und Meinungsfragen bringen den fremden Erstsehern zu wenig Grund, bis zum Ende und nochmal zu schauen. Ein Wahrnehmungs-Effekt, den jeder am eigenen Auge erlebt, ist ohne Vorwissen, ohne Sprache und baut den Wiederholungs-Grund direkt ein.
+- MUTIGES EXPERIMENT (Markierung format=illusion): neues Format "Stare at the dot" (illusion.py, data/illusions.json, 10 Sets): selbst gezeichnete Flagge in Komplementaerfarben, 8 s auf den schwarzen Punkt starren (Countdown, KI-Stimme), dann wird der Schirm hell und das Auge sieht die echte Flagge als Nachbild (klassischer Wahrnehmungseffekt). Die echten Farben werden nie gezeigt: "WHICH FLAG DO YOU SEE? / COMMENT THE COUNTRY", 12,6 s Loop ("Didn't work? Watch again"). Ersetzt den zweiten pick-Platz.
+- Rotation (9): facts, odd, wyr, pick, pause, quiz, flags, rank, illusion -> morgen 10:17 rank, 12:17 erstes illusion, 14:17 facts, 16:17 odd, 19:17 wyr. Damit kommen auch facts, rank und wyr zu ihrem zweiten Post (Kill-Entscheid).
+- Keine kleine Aenderung diesmal (bewusst, damit flags/pause/illusion sauber vergleichbar bleiben).
+- Vorrat unveroeffentlicht: 16 Quizze, 5 facts, 7 rank, 8 pick, 15 wyr, 7 pause, 9 flags, 10 illusion.
+- Messen nach 24 h: illusion gegen flags (gleiche Flaggen-Optik, anderer Mechanismus) bei Reach, Wiedergabe-Quote (Ziel >80 %) und Kommentaren je 100 Reach. Wenn illusion >= 250 Views oder Quote >= 80 % -> verdoppeln und weitere Wahrnehmungs-Effekte bauen (Bewegungs-Nachbild, Farb-Illusionen). flags: zweiter Post entscheidet. facts/rank/wyr: zweiter Post <140 Views und 0 Interaktion -> raus.
