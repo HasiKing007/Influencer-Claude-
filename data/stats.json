@@ -38,16 +38,16 @@
     {
       "date": "2026-11-18",
       "followers": 5,
-      "posts": 33
+      "posts": 34
     }
   ],
   "media": [
     {
-      "id": "18648323143033167",
+      "id": "18170408197469823",
       "comments_count": 0,
       "like_count": 0,
-      "permalink": "https://www.instagram.com/reel/Df42NxdhCCH/",
-      "timestamp": "2026-11-18T15:39:34+0000",
+      "permalink": "https://www.instagram.com/reel/Df5HQWZOhBd/",
+      "timestamp": "2026-11-18T18:08:32+0000",
       "insights": {
         "views": 0,
         "reach": 0,
@@ -57,17 +57,31 @@
       }
     },
     {
+      "id": "18648323143033167",
+      "comments_count": 0,
+      "like_count": 0,
+      "permalink": "https://www.instagram.com/reel/Df42NxdhCCH/",
+      "timestamp": "2026-11-18T15:39:34+0000",
+      "insights": {
+        "views": 156,
+        "reach": 108,
+        "shares": 0,
+        "saved": 0,
+        "ig_reels_avg_watch_time": 4925
+      }
+    },
+    {
       "id": "18403668373202614",
       "comments_count": 1,
       "like_count": 0,
       "permalink": "https://www.instagram.com/reel/Df4olp3R0zp/",
       "timestamp": "2026-11-18T13:40:40+0000",
       "insights": {
-        "views": 140,
-        "reach": 107,
+        "views": 141,
+        "reach": 109,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 3020
+        "ig_reels_avg_watch_time": 2988
       }
     },
     {
@@ -77,11 +91,11 @@
       "permalink": "https://www.instagram.com/reel/Df4azj6yS0Z/",
       "timestamp": "2026-11-18T11:40:09+0000",
       "insights": {
-        "views": 69,
-        "reach": 44,
+        "views": 89,
+        "reach": 61,
         "shares": 0,
         "saved": 1,
-        "ig_reels_avg_watch_time": 3660
+        "ig_reels_avg_watch_time": 3877
       }
     },
     {
@@ -508,7 +522,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-18T15:39Z",
+    "checked": "2026-11-18T18:08Z",
     "granted": [
       "ads_management",
       "ads_read",
@@ -547,6 +561,7 @@
     "18082303913394293": "2026-11-16T18:41Z",
     "18173048548481268": "2026-11-16T21:02Z",
     "17942601456401548": "2026-11-17T09:40Z",
-    "17991729291095713": "2026-11-17T11:41Z"
+    "17991729291095713": "2026-11-17T11:41Z",
+    "18648323143033167": "2026-11-18T18:09Z"
   }
 }
