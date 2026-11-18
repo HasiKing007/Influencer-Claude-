@@ -256,6 +256,15 @@
       "caption": 1,
       "media_id": "18101764748087590",
       "date": "2026-11-18T11:40Z"
+    },
+    {
+      "id": "pause-football-career",
+      "format": "pause",
+      "caption": 0,
+      "voice": false,
+      "seed": 457041,
+      "media_id": "18403668373202614",
+      "date": "2026-11-18T13:40Z"
     }
   ]
 }
