@@ -188,3 +188,11 @@
 - Keine kleine Aenderung diesmal (bewusst, damit flags/pause/illusion sauber vergleichbar bleiben).
 - Vorrat unveroeffentlicht: 16 Quizze, 5 facts, 7 rank, 8 pick, 15 wyr, 7 pause, 9 flags, 10 illusion.
 - Messen nach 24 h: illusion gegen flags (gleiche Flaggen-Optik, anderer Mechanismus) bei Reach, Wiedergabe-Quote (Ziel >80 %) und Kommentaren je 100 Reach. Wenn illusion >= 250 Views oder Quote >= 80 % -> verdoppeln und weitere Wahrnehmungs-Effekte bauen (Bewegungs-Nachbild, Farb-Illusionen). flags: zweiter Post entscheidet. facts/rank/wyr: zweiter Post <140 Views und 0 Interaktion -> raus.
+
+## 2026-11-19 14:50 (Wien) - RICHTUNGSWECHSEL: eine Nische (mit Jacob abgestimmt)
+- Befund: 37 Reels in 9 Formaten, jedes Reel 84-129 Reach, Wiedergabe 3-7 s, 5 Follower. Streuung verhindert, dass Instagram eine Zielgruppe findet; 5 automatisierte Posts/Tag bei 5 Followern koennen wie Spam wirken.
+- Neu: Rotation nur noch "pick" (Fussball, pick one per row), Nicht-Fussball-Sets (topic general) werden uebersprungen. 20 neue Fussball-Sets (Vereine, Nationalteams, GOATs, Ballon d'Or, aktuelle Stars, Stuermer je Jahrzehnt) -> ~8 Tage Vorrat.
+- pick v2 (state v=2): komplettes Brett ab Frame 0 (vorher leeres Bild, Reihen flogen nacheinander rein), grosser Challenge-Hook oben (3 Varianten rotierend, state "hook": 0 "YOU CAN ONLY KEEP ONE", 1 "99% CAN'T PICK JUST ONE", 2 "THE HARDEST CHOICE EVER"), KI-Stimme liest den Hook, gelbe Markierung springt Reihe fuer Reihe, ~5,2 s Loop. Dry-Run auf Actions mit Stimme ok.
+- 3 Posts/Tag (12:17, 16:17, 19:17 Wien), MAX_PER_DAY=3. Waechter- und Analyse-Aufgabe neu angelegt (alte deaktiviert).
+- Handposts: Jacob postet 3 Abende je 1 Reel (20:30-21:30 Wien) von Hand mit Trend-Sound: manual/reel-1-goats.mp4, reel-2-man-utd.mp4, reel-3-brazil.mp4 (stumm, 6,5 s; Sets mit manual=true). In stats.json = Media-IDs, die nicht in state.json stehen.
+- Messen: v2 gegen die alten 34 Reels (Reach, Wiedergabe-Quote, Shares/100 Reach), Hooks untereinander, Handposts mit Trend-Sound gegen Bot-Posts. Erstes v2-Reel 20.11. 12:17 (heute sind die 3 Posts schon gelaufen).
