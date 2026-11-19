@@ -50,15 +50,15 @@
     {
       "id": "18183152329427427",
       "comments_count": 0,
-      "like_count": 0,
+      "like_count": 1,
       "permalink": "https://www.instagram.com/reel/Df7NmyYzmuK/",
       "timestamp": "2026-11-19T13:42:26+0000",
       "insights": {
-        "views": 0,
-        "reach": 0,
-        "shares": 0,
-        "saved": 0,
-        "ig_reels_avg_watch_time": 0
+        "views": 116,
+        "reach": 98,
+        "shares": 1,
+        "saved": 2,
+        "ig_reels_avg_watch_time": 7625
       }
     },
     {
@@ -68,11 +68,11 @@
       "permalink": "https://www.instagram.com/reel/Df6_qyACE1O/",
       "timestamp": "2026-11-19T11:41:10+0000",
       "insights": {
-        "views": 151,
-        "reach": 112,
+        "views": 153,
+        "reach": 113,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6448
+        "ig_reels_avg_watch_time": 6375
       }
     },
     {
@@ -569,7 +569,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-19T13:45Z",
+    "checked": "2026-11-19T15:39Z",
     "granted": [
       "ads_management",
       "ads_read",
