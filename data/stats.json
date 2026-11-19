@@ -569,7 +569,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-19T13:42Z",
+    "checked": "2026-11-19T13:45Z",
     "granted": [
       "ads_management",
       "ads_read",
