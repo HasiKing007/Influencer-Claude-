@@ -1,471 +1,1397 @@
 [
- {
-  "id": "pick-legends",
-  "title": "BUILD YOUR DREAM TEAM",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Buffon",
-     "Casillas",
-     "Neuer"
+  {
+    "id": "pick-legends",
+    "title": "BUILD YOUR DREAM TEAM",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Buffon",
+          "Casillas",
+          "Neuer"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Maldini",
+          "Ramos",
+          "Puyol"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Zidane",
+          "Xavi",
+          "Pirlo"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Ronaldinho",
+          "Robben",
+          "Ribery"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Ronaldo Nazario",
+          "Henry",
+          "Ibrahimovic"
+        ]
+      }
     ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Maldini",
-     "Ramos",
-     "Puyol"
+  },
+  {
+    "id": "pick-dream-life",
+    "title": "BUILD YOUR DREAM LIFE",
+    "rows": [
+      {
+        "label": "HOME",
+        "options": [
+          "Beach villa",
+          "Penthouse",
+          "Mountain cabin"
+        ]
+      },
+      {
+        "label": "CITY",
+        "options": [
+          "Tokyo",
+          "New York",
+          "Dubai"
+        ]
+      },
+      {
+        "label": "JOB",
+        "options": [
+          "Pro athlete",
+          "Movie star",
+          "CEO"
+        ]
+      },
+      {
+        "label": "POWER",
+        "options": [
+          "Fly",
+          "Teleport",
+          "Read minds"
+        ]
+      },
+      {
+        "label": "PET",
+        "options": [
+          "Tiger",
+          "Wolf",
+          "Eagle"
+        ]
+      }
+    ],
+    "caption": "Pick ONE from each row and comment your dream life. Then send this to a friend and compare!",
+    "tags": "#dreamlife #pickone #thisorthat #choose #fyp",
+    "end": "COMMENT YOUR PICKS",
+    "topic": "general"
+  },
+  {
+    "id": "pick-barcelona",
+    "title": "BARCELONA LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Valdes",
+          "Ter Stegen",
+          "Zubizarreta"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Puyol",
+          "Pique",
+          "Dani Alves"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Xavi",
+          "Iniesta",
+          "Busquets"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Ronaldinho",
+          "Neymar",
+          "Yamal"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Messi",
+          "Suarez",
+          "Eto'o"
+        ]
+      }
     ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Zidane",
-     "Xavi",
-     "Pirlo"
+  },
+  {
+    "id": "pick-premier-league",
+    "title": "PREMIER LEAGUE LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Schmeichel",
+          "Cech",
+          "Van der Sar"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Terry",
+          "Ferdinand",
+          "Vidic"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Gerrard",
+          "Lampard",
+          "Scholes"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Giggs",
+          "Pires",
+          "Hazard"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Henry",
+          "Shearer",
+          "Drogba"
+        ]
+      }
     ]
-   },
-   {
-    "label": "WING",
-    "options": [
-     "Ronaldinho",
-     "Robben",
-     "Ribery"
+  },
+  {
+    "id": "pick-real-madrid",
+    "title": "REAL MADRID LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Casillas",
+          "Courtois",
+          "Navas"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Ramos",
+          "Marcelo",
+          "Roberto Carlos"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Modric",
+          "Kroos",
+          "Zidane"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Figo",
+          "Vinicius",
+          "Bale"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "C. Ronaldo",
+          "Benzema",
+          "Raul"
+        ]
+      }
     ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Ronaldo Nazario",
-     "Henry",
-     "Ibrahimovic"
+  },
+  {
+    "id": "pick-current-stars",
+    "title": "BEST PLAYERS RIGHT NOW",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Alisson",
+          "Courtois",
+          "Donnarumma"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Van Dijk",
+          "Saliba",
+          "Hakimi"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Bellingham",
+          "Rodri",
+          "Pedri"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Yamal",
+          "Vinicius",
+          "Salah"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Haaland",
+          "Mbappe",
+          "Kane"
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "id": "pick-dream-life",
-  "title": "BUILD YOUR DREAM LIFE",
-  "rows": [
-   {
-    "label": "HOME",
-    "options": [
-     "Beach villa",
-     "Penthouse",
-     "Mountain cabin"
+  },
+  {
+    "id": "pick-world-cup",
+    "title": "WORLD CUP WINNERS XI",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Buffon",
+          "Casillas",
+          "Neuer"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Cannavaro",
+          "Ramos",
+          "Lahm"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Zidane",
+          "Xavi",
+          "Pirlo"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Iniesta",
+          "Di Maria",
+          "Mbappe"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Ronaldo R9",
+          "Messi",
+          "Klose"
+        ]
+      }
     ]
-   },
-   {
-    "label": "CITY",
-    "options": [
-     "Tokyo",
-     "New York",
-     "Dubai"
+  },
+  {
+    "id": "pick-strikers",
+    "title": "PICK ONE STRIKER",
+    "rows": [
+      {
+        "label": "90s",
+        "options": [
+          "Ronaldo R9",
+          "Batistuta",
+          "Shearer"
+        ]
+      },
+      {
+        "label": "00s",
+        "options": [
+          "Henry",
+          "Shevchenko",
+          "Van Nistelrooy"
+        ]
+      },
+      {
+        "label": "10s",
+        "options": [
+          "Suarez",
+          "Lewandowski",
+          "Benzema"
+        ]
+      },
+      {
+        "label": "NOW",
+        "options": [
+          "Haaland",
+          "Kane",
+          "Mbappe"
+        ]
+      },
+      {
+        "label": "GOAT",
+        "options": [
+          "Messi",
+          "C. Ronaldo",
+          "Pele"
+        ]
+      }
     ]
-   },
-   {
-    "label": "JOB",
-    "options": [
-     "Pro athlete",
-     "Movie star",
-     "CEO"
+  },
+  {
+    "id": "pick-2000s",
+    "title": "2000s DREAM TEAM",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Kahn",
+          "Buffon",
+          "Casillas"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Cannavaro",
+          "Nesta",
+          "Lucio"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Kaka",
+          "Ballack",
+          "Deco"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Figo",
+          "Nedved",
+          "Ronaldinho"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Shevchenko",
+          "Eto'o",
+          "Van Nistelrooy"
+        ]
+      }
     ]
-   },
-   {
-    "label": "POWER",
-    "options": [
-     "Fly",
-     "Teleport",
-     "Read minds"
+  },
+  {
+    "id": "pick-la-liga",
+    "title": "LA LIGA LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Casillas",
+          "Valdes",
+          "Oblak"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Puyol",
+          "Ramos",
+          "Hierro"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Iniesta",
+          "Modric",
+          "Xavi"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Figo",
+          "Ronaldinho",
+          "Bale"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Raul",
+          "Eto'o",
+          "Suarez"
+        ]
+      }
     ]
-   },
-   {
-    "label": "PET",
-    "options": [
-     "Tiger",
-     "Wolf",
-     "Eagle"
+  },
+  {
+    "id": "pick-serie-a",
+    "title": "SERIE A LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Buffon",
+          "Dida",
+          "Toldo"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Maldini",
+          "Nesta",
+          "Cannavaro"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Pirlo",
+          "Seedorf",
+          "Nedved"
+        ]
+      },
+      {
+        "label": "AM",
+        "options": [
+          "Totti",
+          "Del Piero",
+          "Kaka"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Batistuta",
+          "Shevchenko",
+          "Vieri"
+        ]
+      }
     ]
-   }
-  ],
-  "caption": "Pick ONE from each row and comment your dream life. Then send this to a friend and compare!",
-  "tags": "#dreamlife #pickone #thisorthat #choose #fyp",
-  "end": "COMMENT YOUR PICKS"
- },
- {
-  "id": "pick-premier-league",
-  "title": "PREMIER LEAGUE LEGENDS",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Schmeichel",
-     "Cech",
-     "Van der Sar"
+  },
+  {
+    "id": "pick-bundesliga",
+    "title": "BUNDESLIGA LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Kahn",
+          "Neuer",
+          "Lehmann"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Lahm",
+          "Hummels",
+          "Lucio"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Schweinsteiger",
+          "Ballack",
+          "Kroos"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Robben",
+          "Ribery",
+          "Reus"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Lewandowski",
+          "Müller",
+          "Klose"
+        ]
+      }
     ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Terry",
-     "Ferdinand",
-     "Vidic"
+  },
+  {
+    "id": "pick-dream-day",
+    "title": "BUILD YOUR PERFECT DAY",
+    "rows": [
+      {
+        "label": "WAKE",
+        "options": [
+          "5 AM",
+          "9 AM",
+          "NOON"
+        ]
+      },
+      {
+        "label": "FOOD",
+        "options": [
+          "SUSHI",
+          "PIZZA",
+          "TACOS"
+        ]
+      },
+      {
+        "label": "PLACE",
+        "options": [
+          "BEACH",
+          "MOUNTAINS",
+          "BIG CITY"
+        ]
+      },
+      {
+        "label": "WITH",
+        "options": [
+          "BEST FRIEND",
+          "PARTNER",
+          "ALONE"
+        ]
+      },
+      {
+        "label": "NIGHT",
+        "options": [
+          "PARTY",
+          "MOVIE",
+          "STARGAZING"
+        ]
+      }
+    ],
+    "caption": "Pick ONE from each row and comment your perfect day. Then send this to a friend and compare!",
+    "tags": "#perfectday #pickone #thisorthat #choose #fyp",
+    "end": "COMMENT YOUR PICKS",
+    "topic": "general"
+  },
+  {
+    "id": "pick-survival",
+    "title": "PICK YOUR SURVIVAL KIT",
+    "rows": [
+      {
+        "label": "PLACE",
+        "options": [
+          "DESERT",
+          "JUNGLE",
+          "ARCTIC"
+        ]
+      },
+      {
+        "label": "TOOL",
+        "options": [
+          "KNIFE",
+          "LIGHTER",
+          "ROPE"
+        ]
+      },
+      {
+        "label": "FOOD",
+        "options": [
+          "RICE",
+          "CANNED BEANS",
+          "CHOCOLATE"
+        ]
+      },
+      {
+        "label": "BUDDY",
+        "options": [
+          "DOG",
+          "DOCTOR",
+          "ENGINEER"
+        ]
+      },
+      {
+        "label": "EXTRA",
+        "options": [
+          "MAP",
+          "PHONE NO SIGNAL",
+          "TENT"
+        ]
+      }
+    ],
+    "caption": "Pick ONE from each row. Would you survive? Comment your kit and send this to the friend you'd take with you.",
+    "tags": "#survival #pickone #thisorthat #wouldyousurvive #fyp",
+    "end": "COMMENT YOUR KIT",
+    "topic": "general"
+  },
+  {
+    "id": "pick-goats",
+    "title": "PICK YOUR GOAT XI",
+    "rows": [
+      {
+        "label": "#1",
+        "options": [
+          "Messi",
+          "C. Ronaldo",
+          "Pele"
+        ]
+      },
+      {
+        "label": "#2",
+        "options": [
+          "Maradona",
+          "Zidane",
+          "Ronaldo R9"
+        ]
+      },
+      {
+        "label": "#3",
+        "options": [
+          "Cruyff",
+          "Beckenbauer",
+          "Di Stefano"
+        ]
+      },
+      {
+        "label": "#4",
+        "options": [
+          "Ronaldinho",
+          "Kaka",
+          "Henry"
+        ]
+      },
+      {
+        "label": "#5",
+        "options": [
+          "Maldini",
+          "Xavi",
+          "Iniesta"
+        ]
+      }
+    ],
+    "manual": true
+  },
+  {
+    "id": "pick-man-utd",
+    "title": "MAN UNITED LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Schmeichel",
+          "Van der Sar",
+          "De Gea"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Ferdinand",
+          "Vidic",
+          "Neville"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Scholes",
+          "Keane",
+          "Giggs"
+        ]
+      },
+      {
+        "label": "ATT",
+        "options": [
+          "Rooney",
+          "Cantona",
+          "C. Ronaldo"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Van Nistelrooy",
+          "Cole",
+          "Solskjaer"
+        ]
+      }
+    ],
+    "manual": true
+  },
+  {
+    "id": "pick-brazil",
+    "title": "BRAZIL LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Alisson",
+          "Dida",
+          "Julio Cesar"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Cafu",
+          "Roberto Carlos",
+          "Lucio"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Kaka",
+          "Rivaldo",
+          "Zico"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Ronaldinho",
+          "Neymar",
+          "Vinicius"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Ronaldo R9",
+          "Romario",
+          "Pele"
+        ]
+      }
+    ],
+    "manual": true
+  },
+  {
+    "id": "pick-argentina",
+    "title": "ARGENTINA LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "E. Martinez",
+          "Romero",
+          "Goycochea"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Zanetti",
+          "Ayala",
+          "Otamendi"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Riquelme",
+          "Mascherano",
+          "Veron"
+        ]
+      },
+      {
+        "label": "ATT",
+        "options": [
+          "Messi",
+          "Maradona",
+          "Di Maria"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Batistuta",
+          "Aguero",
+          "Crespo"
+        ]
+      }
     ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Gerrard",
-     "Lampard",
-     "Scholes"
+  },
+  {
+    "id": "pick-germany",
+    "title": "GERMANY LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Kahn",
+          "Neuer",
+          "Maier"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Lahm",
+          "Beckenbauer",
+          "Hummels"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Kroos",
+          "Ballack",
+          "Schweinsteiger"
+        ]
+      },
+      {
+        "label": "ATT",
+        "options": [
+          "T. Müller",
+          "Matthäus",
+          "Özil"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Klose",
+          "G. Müller",
+          "Klinsmann"
+        ]
+      }
     ]
-   },
-   {
-    "label": "WING",
-    "options": [
-     "Giggs",
-     "Pires",
-     "Hazard"
+  },
+  {
+    "id": "pick-france",
+    "title": "FRANCE LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Lloris",
+          "Barthez",
+          "Maignan"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Thuram",
+          "Varane",
+          "Desailly"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Zidane",
+          "Vieira",
+          "Kante"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Ribery",
+          "Pires",
+          "Griezmann"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Henry",
+          "Mbappe",
+          "Benzema"
+        ]
+      }
     ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Henry",
-     "Shearer",
-     "Drogba"
+  },
+  {
+    "id": "pick-spain",
+    "title": "SPAIN LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Casillas",
+          "De Gea",
+          "Unai Simon"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Puyol",
+          "Ramos",
+          "Pique"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Xavi",
+          "Iniesta",
+          "Busquets"
+        ]
+      },
+      {
+        "label": "YOUNG",
+        "options": [
+          "Yamal",
+          "Pedri",
+          "Gavi"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Villa",
+          "Torres",
+          "Raul"
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "id": "pick-2000s",
-  "title": "2000s DREAM TEAM",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Kahn",
-     "Buffon",
-     "Casillas"
+  },
+  {
+    "id": "pick-england",
+    "title": "ENGLAND LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Seaman",
+          "Shilton",
+          "Pickford"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Terry",
+          "Ferdinand",
+          "A. Cole"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Gerrard",
+          "Lampard",
+          "Beckham"
+        ]
+      },
+      {
+        "label": "ATT",
+        "options": [
+          "Bellingham",
+          "Saka",
+          "Owen"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Rooney",
+          "Kane",
+          "Shearer"
+        ]
+      }
     ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Cannavaro",
-     "Nesta",
-     "Lucio"
+  },
+  {
+    "id": "pick-netherlands",
+    "title": "NETHERLANDS LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Van der Sar",
+          "Stekelenburg",
+          "Van Breukelen"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Van Dijk",
+          "Stam",
+          "Koeman"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Seedorf",
+          "Sneijder",
+          "Davids"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Robben",
+          "Overmars",
+          "Gullit"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Van Basten",
+          "Bergkamp",
+          "Van Persie"
+        ]
+      }
     ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Kaka",
-     "Ballack",
-     "Deco"
+  },
+  {
+    "id": "pick-liverpool",
+    "title": "LIVERPOOL LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Alisson",
+          "Reina",
+          "Grobbelaar"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Van Dijk",
+          "Carragher",
+          "Hyypia"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Gerrard",
+          "Xabi Alonso",
+          "Dalglish"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Salah",
+          "Mane",
+          "Barnes"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Suarez",
+          "Torres",
+          "Fowler"
+        ]
+      }
     ]
-   },
-   {
-    "label": "WING",
-    "options": [
-     "Figo",
-     "Nedved",
-     "Ronaldinho"
+  },
+  {
+    "id": "pick-chelsea",
+    "title": "CHELSEA LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Cech",
+          "Courtois",
+          "Mendy"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Terry",
+          "A. Cole",
+          "Carvalho"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Lampard",
+          "Makelele",
+          "Kante"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Hazard",
+          "Robben",
+          "Duff"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Drogba",
+          "Diego Costa",
+          "Zola"
+        ]
+      }
     ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Shevchenko",
-     "Eto'o",
-     "Van Nistelrooy"
+  },
+  {
+    "id": "pick-arsenal",
+    "title": "ARSENAL LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Seaman",
+          "Lehmann",
+          "Raya"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Adams",
+          "Campbell",
+          "Saliba"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Vieira",
+          "Fabregas",
+          "Pires"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Saka",
+          "Ljungberg",
+          "Overmars"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Henry",
+          "Bergkamp",
+          "Wright"
+        ]
+      }
     ]
-   }
-  ]
- },
- {
-  "id": "pick-la-liga",
-  "title": "LA LIGA LEGENDS",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Casillas",
-     "Valdes",
-     "Oblak"
+  },
+  {
+    "id": "pick-bayern",
+    "title": "BAYERN LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Kahn",
+          "Neuer",
+          "Maier"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Lahm",
+          "Alaba",
+          "Beckenbauer"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Schweinsteiger",
+          "Kroos",
+          "Effenberg"
+        ]
+      },
+      {
+        "label": "WING",
+        "options": [
+          "Robben",
+          "Ribery",
+          "Coman"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Lewandowski",
+          "G. Müller",
+          "Elber"
+        ]
+      }
     ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Puyol",
-     "Ramos",
-     "Hierro"
+  },
+  {
+    "id": "pick-ac-milan",
+    "title": "AC MILAN LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Dida",
+          "Abbiati",
+          "Donnarumma"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Maldini",
+          "Nesta",
+          "Baresi"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Pirlo",
+          "Seedorf",
+          "Gattuso"
+        ]
+      },
+      {
+        "label": "AM",
+        "options": [
+          "Kaka",
+          "Rui Costa",
+          "Gullit"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Shevchenko",
+          "Van Basten",
+          "Inzaghi"
+        ]
+      }
     ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Iniesta",
-     "Modric",
-     "Xavi"
+  },
+  {
+    "id": "pick-juventus",
+    "title": "JUVENTUS LEGENDS",
+    "rows": [
+      {
+        "label": "GK",
+        "options": [
+          "Buffon",
+          "Zoff",
+          "Szczesny"
+        ]
+      },
+      {
+        "label": "DEF",
+        "options": [
+          "Cannavaro",
+          "Chiellini",
+          "Bonucci"
+        ]
+      },
+      {
+        "label": "MID",
+        "options": [
+          "Pirlo",
+          "Nedved",
+          "Pogba"
+        ]
+      },
+      {
+        "label": "AM",
+        "options": [
+          "Del Piero",
+          "Zidane",
+          "Baggio"
+        ]
+      },
+      {
+        "label": "ST",
+        "options": [
+          "Trezeguet",
+          "C. Ronaldo",
+          "Ibrahimovic"
+        ]
+      }
     ]
-   },
-   {
-    "label": "WING",
-    "options": [
-     "Figo",
-     "Ronaldinho",
-     "Bale"
+  },
+  {
+    "id": "pick-ballon-dor",
+    "title": "BALLON D'OR WINNERS",
+    "rows": [
+      {
+        "label": "#1",
+        "options": [
+          "Messi",
+          "C. Ronaldo",
+          "Modric"
+        ]
+      },
+      {
+        "label": "#2",
+        "options": [
+          "Zidane",
+          "Ronaldinho",
+          "Kaka"
+        ]
+      },
+      {
+        "label": "#3",
+        "options": [
+          "Ronaldo R9",
+          "Figo",
+          "Rivaldo"
+        ]
+      },
+      {
+        "label": "#4",
+        "options": [
+          "Nedved",
+          "Shevchenko",
+          "Cannavaro"
+        ]
+      },
+      {
+        "label": "#5",
+        "options": [
+          "Benzema",
+          "Rodri",
+          "Dembele"
+        ]
+      }
     ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Raul",
-     "Eto'o",
-     "Suarez"
-    ]
-   }
-  ]
- },
- {
-  "id": "pick-serie-a",
-  "title": "SERIE A LEGENDS",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Buffon",
-     "Dida",
-     "Toldo"
-    ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Maldini",
-     "Nesta",
-     "Cannavaro"
-    ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Pirlo",
-     "Seedorf",
-     "Nedved"
-    ]
-   },
-   {
-    "label": "AM",
-    "options": [
-     "Totti",
-     "Del Piero",
-     "Kaka"
-    ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Batistuta",
-     "Shevchenko",
-     "Vieri"
-    ]
-   }
-  ]
- },
- {
-  "id": "pick-bundesliga",
-  "title": "BUNDESLIGA LEGENDS",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Kahn",
-     "Neuer",
-     "Lehmann"
-    ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Lahm",
-     "Hummels",
-     "Lucio"
-    ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Schweinsteiger",
-     "Ballack",
-     "Kroos"
-    ]
-   },
-   {
-    "label": "WING",
-    "options": [
-     "Robben",
-     "Ribery",
-     "Reus"
-    ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Lewandowski",
-     "Müller",
-     "Klose"
-    ]
-   }
-  ]
- },
- {
-  "id": "pick-world-cup",
-  "title": "WORLD CUP WINNERS XI",
-  "rows": [
-   {
-    "label": "GK",
-    "options": [
-     "Buffon",
-     "Casillas",
-     "Neuer"
-    ]
-   },
-   {
-    "label": "DEF",
-    "options": [
-     "Cannavaro",
-     "Ramos",
-     "Lahm"
-    ]
-   },
-   {
-    "label": "MID",
-    "options": [
-     "Zidane",
-     "Xavi",
-     "Pirlo"
-    ]
-   },
-   {
-    "label": "WING",
-    "options": [
-     "Iniesta",
-     "Di Maria",
-     "Mbappe"
-    ]
-   },
-   {
-    "label": "ST",
-    "options": [
-     "Ronaldo R9",
-     "Messi",
-     "Klose"
-    ]
-   }
-  ]
- },
- {
-  "id": "pick-dream-day",
-  "title": "BUILD YOUR PERFECT DAY",
-  "rows": [
-   {
-    "label": "WAKE",
-    "options": [
-     "5 AM",
-     "9 AM",
-     "NOON"
-    ]
-   },
-   {
-    "label": "FOOD",
-    "options": [
-     "SUSHI",
-     "PIZZA",
-     "TACOS"
-    ]
-   },
-   {
-    "label": "PLACE",
-    "options": [
-     "BEACH",
-     "MOUNTAINS",
-     "BIG CITY"
-    ]
-   },
-   {
-    "label": "WITH",
-    "options": [
-     "BEST FRIEND",
-     "PARTNER",
-     "ALONE"
-    ]
-   },
-   {
-    "label": "NIGHT",
-    "options": [
-     "PARTY",
-     "MOVIE",
-     "STARGAZING"
-    ]
-   }
-  ],
-  "caption": "Pick ONE from each row and comment your perfect day. Then send this to a friend and compare!",
-  "tags": "#perfectday #pickone #thisorthat #choose #fyp",
-  "end": "COMMENT YOUR PICKS"
- },
- {
-  "id": "pick-survival",
-  "title": "PICK YOUR SURVIVAL KIT",
-  "rows": [
-   {
-    "label": "PLACE",
-    "options": [
-     "DESERT",
-     "JUNGLE",
-     "ARCTIC"
-    ]
-   },
-   {
-    "label": "TOOL",
-    "options": [
-     "KNIFE",
-     "LIGHTER",
-     "ROPE"
-    ]
-   },
-   {
-    "label": "FOOD",
-    "options": [
-     "RICE",
-     "CANNED BEANS",
-     "CHOCOLATE"
-    ]
-   },
-   {
-    "label": "BUDDY",
-    "options": [
-     "DOG",
-     "DOCTOR",
-     "ENGINEER"
-    ]
-   },
-   {
-    "label": "EXTRA",
-    "options": [
-     "MAP",
-     "PHONE NO SIGNAL",
-     "TENT"
-    ]
-   }
-  ],
-  "caption": "Pick ONE from each row. Would you survive? Comment your kit and send this to the friend you'd take with you.",
-  "tags": "#survival #pickone #thisorthat #wouldyousurvive #fyp",
-  "end": "COMMENT YOUR KIT"
- }
+  }
 ]

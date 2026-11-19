@@ -11,6 +11,7 @@ import subprocess
 import sys
 import wave
 
+import numpy as np
 from PIL import Image, ImageDraw
 
 import render as r
@@ -132,41 +133,114 @@ def write_audio(path, n):
         w.writeframes(b"".join(struct.pack("<h", int(max(-1, min(1, s)) * 32767)) for s in samples))
 
 
-def render_pick(pset, out_path):
-    os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
+# ---------- v2 (19.11., Nischen-Fokus) ----------
+# Befund nach 34 Reels: Wiedergabe nur 3-7 s, jedes Reel bleibt bei ~100 Reach. pick-legends war der
+# einzige Share-Ausreisser. v2 setzt auf einen staerkeren Einstieg: das komplette Brett steht ab
+# Frame 0 (kein leeres Bild), grosser Challenge-Hook oben, KI-Stimme liest den Hook, eine gelbe
+# Markierung springt Reihe fuer Reihe durch die Optionen (Bewegung + "ich muss mich entscheiden").
+HOOKS = [
+    ("YOU CAN ONLY", "KEEP ONE"),
+    ("99% CAN'T", "PICK JUST ONE"),
+    ("THE HARDEST", "CHOICE EVER"),
+]
+HOOK_VOICE = [
+    "You can only keep one from each row. Choose wisely.",
+    "Ninety nine percent can't pick just one. Can you?",
+    "The hardest choice ever. One per row. Go.",
+]
+SCAN_ROW = 0.62     # so lange springt die Markierung in jeder Reihe
+SCAN_HOP = 0.1
+V2_START = 0.25
+V2_HOLD = 1.9
+
+
+def v2_timing(n):
+    scan_end = V2_START + n * SCAN_ROW
+    return scan_end, scan_end + V2_HOLD
+
+
+def v2_header(title, hook):
+    import reelkit as k
+    img = k.gradient(r.BG_TOP, r.BG_BOTTOM)
+    d = ImageDraw.Draw(img)
+    width = r.SAFE_RIGHT - r.SAFE_LEFT
+    top, big = HOOKS[hook % len(HOOKS)]
+    d.text((r.SAFE_LEFT, 236), top, font=r.fit_font(d, top, r.BOLD, 78, width), fill=r.WHITE)
+    d.text((r.SAFE_LEFT, 318), big, font=r.fit_font(d, big, r.BOLD, 128, width), fill=r.ACCENT)
+    d.text((r.SAFE_LEFT, 468), title + "  \u2022  ONE PER ROW", font=r.fit_font(d, title + "  \u2022  ONE PER ROW", r.BOLD, 44, width),
+           fill=r.MUTED)
+    text = "SEND THIS TO A FRIEND AND COMPARE"
+    f = r.fit_font(d, text, r.BOLD, 50, width - 60)
+    d.rounded_rectangle((r.SAFE_LEFT, 1462, r.SAFE_RIGHT, 1552), radius=45, fill=r.ACCENT)
+    d.text(((r.SAFE_LEFT + r.SAFE_RIGHT) / 2, 1507), text, font=f, fill=r.BG_BOTTOM, anchor="mm")
+    return img
+
+
+def _option_box(i, j, n, n_opts):
+    top, bottom = 560, 1430
+    row_h = (bottom - top) / n
+    box_h = row_h - 16
+    y0 = top + i * row_h
+    x = r.SAFE_LEFT + 120 + 12
+    w = (r.SAFE_RIGHT - x - 12 * (n_opts - 1)) / n_opts
+    x0 = x + j * (w + 12)
+    return (x0, y0, x0 + w, y0 + box_h)
+
+
+def v2_frame(t, pset, base, seed):
+    import random
+    rows = pset["rows"]
+    n = len(rows)
+    img = base.copy()
+    d = ImageDraw.Draw(img)
+    scan_end, _ = v2_timing(n)
+    if V2_START <= t < scan_end:
+        i = int((t - V2_START) / SCAN_ROW)
+        hop = int((t - V2_START - i * SCAN_ROW) / SCAN_HOP)
+        n_opts = len(rows[i]["options"])
+        rng = random.Random(seed * 1000 + i * 50 + hop)
+        j = rng.randrange(n_opts)
+        x0, y0, x1, y1 = _option_box(i, j, n, n_opts)
+        d.rounded_rectangle((x0 - 4, y0 - 4, x1 + 4, y1 + 4), radius=28, outline=r.ACCENT, width=9)
+    if t >= scan_end:
+        p = r.ease(min(1.0, (t - scan_end) / 0.3))
+        text = pset.get("end", "COMMENT YOUR TEAM")
+        pulse = 1 + 0.04 * np.sin((t - scan_end) * 9)
+        f = r.fit_font(d, text, r.BOLD, int((62 + 16 * p) * pulse), r.SAFE_RIGHT - r.SAFE_LEFT)
+        d.text(((r.SAFE_LEFT + r.SAFE_RIGHT) / 2, 1650), text, font=f, fill=r.WHITE, anchor="mm")
+    return img
+
+
+def render_pick(pset, out_path, hook=0, silent=False, seed=7, hold=None):
+    """v2. silent=True: ohne Stimme und Toene (fuer manuelles Posten mit Trend-Sound in der App)."""
+    import reelkit as k
+    global V2_HOLD
+    if hold is not None:
+        V2_HOLD = hold
     n = len(pset["rows"])
-    rows_end, total = timing(n)
-    silent, audio = out_path + ".silent.mp4", out_path + ".wav"
-    enc = subprocess.Popen(
-        ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-         "-s", f"{r.W}x{r.H}", "-r", str(r.FPS), "-i", "-",
-         "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
-         "-movflags", "+faststart", silent], stdin=subprocess.PIPE)
-    base, baked = header(pset["title"]), set()
-    for k in range(int(total * r.FPS)):
-        enc.stdin.write(frame_at(k / r.FPS, pset, base, baked).tobytes())
-    enc.stdin.close()
-    if enc.wait() != 0:
-        raise RuntimeError("ffmpeg (Video) fehlgeschlagen")
-    write_audio(audio, n)
-    tmp = out_path + ".tmp.mp4"
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", silent, "-i", audio,
-                    "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "128k",
-                    "-ar", "44100", "-shortest", "-movflags", "+faststart", tmp], check=True)
-    os.replace(tmp, out_path)
-    os.remove(silent)
-    os.remove(audio)
-    # Titelbild: alle Reihen sichtbar
-    return {"path": out_path, "duration": total, "thumb_ms": int((rows_end + 0.2) * 1000)}
+    base = v2_header(pset["title"], hook)
+    for i, row in enumerate(pset["rows"]):
+        draw_row(base, i, n, row, 1.0)
+    scan_end, total = v2_timing(n)
+    audio = k.silence(total)
+    voiced = False
+    if not silent:
+        clip = k.voice(HOOK_VOICE[hook % len(HOOK_VOICE)])
+        if clip is not None and k.clip_len(clip) < total - 0.3:
+            k.add_clip(audio, 0.05, clip, 0.9)
+            voiced = True
+        hops = int(n * SCAN_ROW / SCAN_HOP)
+        for h in range(hops):
+            k.add_tick(audio, V2_START + h * SCAN_HOP, 0.18)
+        for freq in (392.0, 523.25, 659.25):
+            k.add_tone(audio, scan_end, freq, 1.2, 0.18)
+        k.add_pulse(audio, volume=0.08)
+    k.encode(out_path, total, lambda t: v2_frame(t, pset, base, seed), audio)
+    return {"path": out_path, "duration": total, "thumb_ms": 100, "voice": voiced, "hook": hook % len(HOOKS)}
 
 
 if __name__ == "__main__":
     sets = {s["id"]: s for s in load_sets()}
     pset = sets[sys.argv[1]]
     out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "out", "pick.mp4")
-    if "--frame" in sys.argv:
-        base, baked = header(pset["title"]), set()
-        os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)
-        frame_at(timing(len(pset["rows"]))[0] + 1.0, pset, base, baked).save(os.path.join(ROOT, "out", "pick.png"))
-    else:
-        print(render_pick(pset, out))
+    print(render_pick(pset, out, hook=int(os.environ.get("HOOK", "0")), silent="--silent" in sys.argv))

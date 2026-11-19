@@ -2,10 +2,10 @@ name: Post daily reel
 
 on:
   schedule:
-    # Seit 17.11.: 5 Reels pro Tag: 10:17, 12:17, 14:17, 16:17, 19:17 Wiener Winterzeit.
+    # Seit 19.11.: 3 Reels pro Tag: 12:17, 16:17, 19:17 Wiener Winterzeit.
     # GitHub laesst geplante Laeufe manchmal ausfallen; die :47-Termine sind
     # Ersatz und posten nur, wenn im aktuellen Slot noch nichts gepostet wurde.
-    - cron: "17,47 9,11,13,15,18 * * *"
+    - cron: "17,47 11,15,18 * * *"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -17,7 +17,7 @@ on:
         type: boolean
         default: false
       format:
-        description: "Leer = laut data/formats.json, sonst quiz, pick, facts, odd, rank oder satisfying"
+        description: "Leer = laut data/formats.json, sonst pick (Standard seit 19.11.), quiz, facts, odd, rank, wyr, pause, flags, illusion oder satisfying"
         type: string
         default: ""
       scene:

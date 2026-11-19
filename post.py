@@ -136,8 +136,8 @@ def post_reel(urls, caption, thumb_offset_ms=None):
     raise SystemExit(f"Veroeffentlichen fehlgeschlagen: {last_error}")
 
 
-SLOT_GAP_MIN = 90    # Slots liegen seit 17.11. 2-3 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
-MAX_PER_DAY = 5     # seit 17.11. 5 Slots/Tag (Regel: nie mehr als 5)
+SLOT_GAP_MIN = 90    # Slots liegen 3-4 h auseinander; Ersatzlaeufe innerhalb davon posten nicht
+MAX_PER_DAY = 3     # seit 19.11. 3 Slots/Tag (5 automatisierte Posts/Tag bei 5 Followern wirkten evtl. wie Spam)
 QUIET_START_UTC, QUIET_END_UTC = 21, 8   # geplante Laeufe posten nur zwischen 08 und 21 UTC
 
 
@@ -196,17 +196,26 @@ def main():
         thumb_ms = info["thumb_ms"]
         print("Gerendert: Satisfying", scene, seed, f"{info['duration']:.1f}s")
     elif fmt == "pick":
-        # Experiment 16.11. abends: "Pick one per row"-Dream-Team (Meinungsfrage, Markierung format=pick)
+        # Seit 19.11.: Nische "Fussball - pick one per row" (einziges Format). v2: volles Brett ab Frame 0,
+        # Challenge-Hook (pickfmt.HOOKS, rotiert, state "hook"), KI-Stimme, springende Markierung.
+        # Sets mit "manual" sind fuer Jacobs Handposts mit Trend-Sound reserviert, "topic": "general"
+        # (Nicht-Fussball) ist ausserhalb der Nische.
         used = {p["id"] for p in state["posted"]}
-        sets = pickfmt.load_sets()
+        topic = cfg.get("pick_topic", "football")
+        sets = [s for s in pickfmt.load_sets() if not s.get("manual") and (topic == "any" or s.get("topic", "football") == topic)]
         pset = next((s for s in sets if s["id"] not in used), sets[len(state["posted"]) % len(sets)])
-        info = pickfmt.render_pick(pset, out_path)
+        v2_posts = [p for p in state["posted"] if p.get("format") == "pick" and p.get("v") == 2]
+        hook = cfg.get("pick_hook_fixed")
+        if hook is None:
+            hook = len(v2_posts) % len(pickfmt.HOOKS)
+        info = pickfmt.render_pick(pset, out_path, hook=hook, seed=len(state["posted"]))
         n_pick = len([p for p in state["posted"] if p.get("format") == "pick"])
         caption_idx = n_pick % len(pickfmt.CAPTIONS)
         caption = pset.get("caption", pickfmt.CAPTIONS[caption_idx]) + "\n\n" + pset.get("tags", pickfmt.TAGS)
-        entry = {"id": pset["id"], "format": "pick", "caption": caption_idx}
+        entry = {"id": pset["id"], "format": "pick", "v": 2, "hook": info["hook"], "caption": caption_idx,
+                 "voice": info["voice"]}
         thumb_ms = info["thumb_ms"]
-        print("Gerendert: Pick", pset["id"], f"{info['duration']:.1f}s")
+        print("Gerendert: Pick v2", pset["id"], "Hook", info["hook"], f"{info['duration']:.1f}s")
     elif fmt in ("facts", "rank"):
         # Formate ab 17.11. (Recherche: Listen-Reels mit Versprechen in Zeile 1, Blind Ranking), mit KI-Stimme
         mod = factsfmt if fmt == "facts" else rankfmt
