@@ -196,3 +196,19 @@
 - 3 Posts/Tag (12:17, 16:17, 19:17 Wien), MAX_PER_DAY=3. Waechter- und Analyse-Aufgabe neu angelegt (alte deaktiviert).
 - Handposts: Jacob postet 3 Abende je 1 Reel (20:30-21:30 Wien) von Hand mit Trend-Sound: manual/reel-1-goats.mp4, reel-2-man-utd.mp4, reel-3-brazil.mp4 (stumm, 6,5 s; Sets mit manual=true). In stats.json = Media-IDs, die nicht in state.json stehen.
 - Messen: v2 gegen die alten 34 Reels (Reach, Wiedergabe-Quote, Shares/100 Reach), Hooks untereinander, Handposts mit Trend-Sound gegen Bot-Posts. Erstes v2-Reel 20.11. 12:17 (heute sind die 3 Posts schon gelaufen).
+
+## 2026-11-19 22:45 (Wien) - Auswertung Nische Pick one (Lauf 1)
+- Stand (Stats frisch per Dry-Run 22:44): 37 Reels, 5 Follower (unveraendert seit Tagen). Noch KEIN pick-v2-Reel online, erstes laeuft morgen 12:17. Heutige 3 Posts waren noch alte Formate:
+  - illusion-germany (10 h): 154 Views / 113 Reach, 0 Shares, 6,3 s von 12,6 s (50 %). Ziel (>=250 Views oder >=80 %) verfehlt.
+  - facts-world-fake (8 h): 117 / 99, 1 Share, 2 Saves, 7,6 s.
+  - rank-superpowers (12 h): 119 / 96, 0 Interaktion, 6,3 s.
+  - Ehrlich: wieder exakt im Deckel 84-154 Reach, Faktor ~65-100 unter Jacobs 10.000.
+- Handposts: In den Stats ist noch KEINE Media-ID ausserhalb von state.json. Jacobs erster Handpost (reel-1-goats mit Trend-Sound) ist um 22:44 noch nicht sichtbar, Vergleich Hand gegen Bot daher erst im naechsten Lauf.
+- Recherche (neu, keine Wiederholung):
+  - Trial Reels: Reels, die NUR Nicht-Followern gezeigt werden; man entscheidet nach 48-72 h, ob sie ins Profil wandern. Faustregel der Quelle: ~1 Share pro 50 Views = Gewinner. Laut Quelle nur in der App (API-Unterstuetzung nicht belegt) -> passt zu Jacobs Handposts: er kann sie als "Trial" posten, ohne das Profil zu belasten (https://www.socialcal.app/blog/Instagram-Growth-with-Trial-Reels).
+  - Fussball-Debatten-Formate leben vom Widerspruch: Hook mit der umstrittensten Aussage zuerst ("comments fight it out"), beim Build-your-XI absichtlich einen offensichtlichen Star weglassen und dazu herausfordern, es zu bemerken (https://fluxnote.io/guides/football-edit-ideas-and-formats). Fuer uns: Kandidat fuer ein spaeteres Hook-/Set-Experiment "Snub" (z. B. Reihe ohne den Offensichtlichen, Hook "WE LEFT ONE OUT. WHO?").
+  - This-or-that zwischen zwei Stars + Frage in die Kommentare, Kommentare werden durch Konkretheit und Widerspruch getrieben; angepinnter Kommentar mit Zusatz-Nuance; Trend-Sounds nehmen, solange sie steigen, nicht nach dem Peak (https://fluxnote.io/guides/world-cup-2026-tiktok-ideas). Fuer uns: Board-Groesse 2 statt 3 Optionen als spaeteres Einzel-Experiment.
+  - Quellen sind Hersteller-/Agenturblogs, Zahlen nicht unabhaengig belegt.
+- Schluss/Aenderung: KEINE Aenderung in diesem Lauf (bewusst). pick v2 hat 0 Posts; die Regel ist >=3 Posts je Variante vor einem Urteil. Lokaler Test: `FORCE=1 DRY_RUN=1 python post.py` rendert pick-barcelona v2, Hook 0, 5,2 s, Bild ok (Stimme lokal nicht erreichbar, auf Actions ok).
+- Vorrat: 23 unbenutzte Fussball-Sets (nicht manual) = ~7,7 Tage, reicht.
+- Naechster Lauf misst: erste v2-Reels (Hook 0/1/2) gegen den alten Schnitt (~115 Reach, ~0,2 Shares/Reel, ~45-55 % Wiedergabe), Shares je 100 Reach, Kommentare; plus Jacobs Handpost(s). Naechste Experiment-Kandidaten (je eins, erst nach >=3 v2-Posts): "Snub"-Hook, 2er-Board (this or that), angepinnter Kommentar.
