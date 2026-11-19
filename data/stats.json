@@ -68,11 +68,11 @@
       "permalink": "https://www.instagram.com/reel/Df6_qyACE1O/",
       "timestamp": "2026-11-19T11:41:10+0000",
       "insights": {
-        "views": 153,
+        "views": 154,
         "reach": 113,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 6375
+        "ig_reels_avg_watch_time": 6345
       }
     },
     {
@@ -96,11 +96,11 @@
       "permalink": "https://www.instagram.com/reel/Df5HQWZOhBd/",
       "timestamp": "2026-11-18T18:08:32+0000",
       "insights": {
-        "views": 160,
+        "views": 161,
         "reach": 118,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 5473
+        "ig_reels_avg_watch_time": 5437
       }
     },
     {
@@ -569,7 +569,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-19T18:39Z",
+    "checked": "2026-11-19T21:44Z",
     "granted": [
       "ads_management",
       "ads_read",
