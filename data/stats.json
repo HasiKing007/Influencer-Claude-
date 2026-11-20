@@ -59,11 +59,11 @@
       "permalink": "https://www.instagram.com/reel/Df9kXvWIJJ7/",
       "timestamp": "2026-11-20T11:39:53+0000",
       "insights": {
-        "views": 0,
-        "reach": 0,
+        "views": 177,
+        "reach": 114,
         "shares": 0,
         "saved": 0,
-        "ig_reels_avg_watch_time": 0
+        "ig_reels_avg_watch_time": 4595
       }
     },
     {
@@ -588,7 +588,7 @@
   "auth": {
     "token_type": "facebook-login",
     "host": "https://graph.facebook.com",
-    "checked": "2026-11-20T11:40Z",
+    "checked": "2026-11-20T13:44Z",
     "granted": [
       "ads_management",
       "ads_read",
