@@ -1393,5 +1393,97 @@
         ]
       }
     ]
+  },
+  {
+    "id": "pick-inter",
+    "title": "INTER LEGENDS",
+    "rows": [
+      {
+        "label": "#1",
+        "options": [
+          "Ronaldo R9",
+          "Ibrahimovic",
+          "Eto'o"
+        ]
+      },
+      {
+        "label": "#2",
+        "options": [
+          "Zanetti",
+          "Maicon",
+          "Materazzi"
+        ]
+      },
+      {
+        "label": "#3",
+        "options": [
+          "Sneijder",
+          "Figo",
+          "Cambiasso"
+        ]
+      },
+      {
+        "label": "#4",
+        "options": [
+          "Vieri",
+          "Adriano",
+          "Milito"
+        ]
+      },
+      {
+        "label": "#5",
+        "options": [
+          "Lautaro",
+          "Barella",
+          "Lukaku"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pick-portugal",
+    "title": "PORTUGAL LEGENDS",
+    "rows": [
+      {
+        "label": "#1",
+        "options": [
+          "C. Ronaldo",
+          "Eusebio",
+          "Figo"
+        ]
+      },
+      {
+        "label": "#2",
+        "options": [
+          "Rui Costa",
+          "Deco",
+          "Bruno Fernandes"
+        ]
+      },
+      {
+        "label": "#3",
+        "options": [
+          "Pepe",
+          "R. Carvalho",
+          "Ruben Dias"
+        ]
+      },
+      {
+        "label": "#4",
+        "options": [
+          "Bernardo Silva",
+          "Nani",
+          "Quaresma"
+        ]
+      },
+      {
+        "label": "#5",
+        "options": [
+          "Pauleta",
+          "Joao Felix",
+          "Rafael Leao"
+        ]
+      }
+    ]
   }
 ]

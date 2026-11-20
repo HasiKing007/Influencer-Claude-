@@ -208,12 +208,21 @@ def main():
         hook = cfg.get("pick_hook_fixed")
         if hook is None:
             hook = len(v2_posts) % len(pickfmt.HOOKS)
-        info = pickfmt.render_pick(pset, out_path, hook=hook, seed=len(state["posted"]))
+        cta = cfg.get("pick_cta")  # seit 20.11. abends "code": A/B/C-Kommentar-Code (state "cta")
+        seed = len(state["posted"])
+        info = pickfmt.render_pick(pset, out_path, hook=hook, seed=seed, cta=cta)
         n_pick = len([p for p in state["posted"] if p.get("format") == "pick"])
-        caption_idx = n_pick % len(pickfmt.CAPTIONS)
-        caption = pset.get("caption", pickfmt.CAPTIONS[caption_idx]) + "\n\n" + pset.get("tags", pickfmt.TAGS)
+        if cta == "code":
+            caption_idx = n_pick % len(pickfmt.CODE_CAPTIONS)
+            text = pickfmt.CODE_CAPTIONS[caption_idx].format(ex=pickfmt.code_example(pset, seed))
+        else:
+            caption_idx = n_pick % len(pickfmt.CAPTIONS)
+            text = pset.get("caption", pickfmt.CAPTIONS[caption_idx])
+        caption = text + "\n\n" + pset.get("tags", pickfmt.TAGS)
         entry = {"id": pset["id"], "format": "pick", "v": 2, "hook": info["hook"], "caption": caption_idx,
                  "voice": info["voice"]}
+        if cta:
+            entry["cta"] = cta
         thumb_ms = info["thumb_ms"]
         print("Gerendert: Pick v2", pset["id"], "Hook", info["hook"], f"{info['duration']:.1f}s")
     elif fmt in ("facts", "rank"):

@@ -227,3 +227,21 @@
 - Aenderung: KEINE (bewusst). v2 hat erst 1 Post, Regel ist >=3 Posts je Variante. Lokaler Test `FORCE=1 DRY_RUN=1 python post.py`: pick-premier-league, Hook 1, 5,2 s, Bild ok.
 - Vorrat: 22 unbenutzte Fussball-Sets = ~7,3 Tage, reicht.
 - Naechster Lauf misst: Hook 0/1/2 (je 1 Post), Kommentare+Shares je 100 Reach (bisher 0), Wiedergabe-Quote. Kandidaten fuer die erste Aenderung, wenn nach 3 Posts weiter 0 Interaktion: (a) "Snub"-Hook mit absichtlich fehlendem Star, (b) Kommentar-Mechanik konkreter machen ("COMMENT YOUR 5 LETTERS" o. ae.), (c) laengere Variante.
+
+## 2026-11-20 22:45 (Wien) - Auswertung Nische Pick one (Lauf 3)
+- Stand (Stats frisch per Dry-Run 22:44): 40 Reels, 4 Follower (-1, erstmals ein Verlust). Alle 3 Slots heute gepostet (12:40, 16:39, 19:40 Wien).
+- Die ersten 3 pick-v2-Reels (je ein Hook, Stimme an):
+  - pick-barcelona, Hook 0 "YOU CAN ONLY KEEP ONE" (11 h): 178 Views / 116 Reach, 0 Likes/Kommentare/Shares, 4,6 s von 5,2 s (88 %).
+  - pick-premier-league, Hook 1 "99% CAN'T PICK JUST ONE" (7 h): 137 / 107, 0 Interaktion, 3,1 s (59 %) -> schwaechster.
+  - pick-real-madrid, Hook 2 "THE HARDEST CHOICE EVER" (3 h): 191 / 111, 3 Shares, 0 Kommentare, 5,6 s (>100 % = Loop). Bestes v2-Reel.
+  - v2-Schnitt 169 Views / 111 Reach, 1 Share/Reel gegen alte 37 Reels Median 153 / 112, ~0,2 Shares. Wiedergabe und Shares besser, Reach identisch im Deckel. Ehrlich: 191 Views sind Faktor ~50 unter Jacobs 10.000.
+  - Hooks: je 1 Post, noch kein Urteil. Tendenz Hook 2 > Hook 0 > Hook 1, das Thema (Real Madrid) kann aber genauso der Grund sein.
+- Handposts: weiterhin KEINE Media-ID ausserhalb von state.json, d. h. Jacob hat noch keinen Handpost mit Trend-Sound gemacht. Vergleich offen.
+- Recherche (neu):
+  - Gezielte Share-Aufforderungen ("schick das dem Freund, der X macht") sollen laut Socialync ein Vielfaches der Share-Rate breiter Aussagen bringen (dort "10x", unbelegt); ein direkter Tag-Aufruf wird demnach nicht abgestraft; Hook muss in <2 s erfassbar sein (https://www.socialync.io/blog/send-this-to-friend-instagram-strategy-2026). Passt zu Real Madrid: Shares kamen beim Club-Set mit klarer Fan-Gruppe.
+  - New Engen (Stand 13.11.): Audio-Trends erreichen ihren Hoehepunkt nach 7-10 Tagen, Format-Trends halten 3-4 Wochen; Nischen-Inhalte schlagen breite Posts; keiner der 10 November-Trends ist Fussball. Fuer Jacobs Handposts heisst das: nur Sounds nehmen, die gerade erst steigen (https://newengen.com/insights/instagram-trends/).
+  - Boss Wallah: fuer Neu-Accounts zaehlen schon wenige echte Kommentare fuer die Reichweite (unbelegt); empfohlen werden 30 Tage konstantes Posten statt Formatwechsel (https://bosswallah.com/blog/creator-hub/why-reels-are-not-getting-views-on-new-instagram-accounts-the-real-reasons-beginners-struggle/). Stuetzt, die Nische jetzt nicht wieder zu wechseln.
+  - Alle drei Quellen sind Anbieter-/Agenturblogs ohne Datensatz.
+- Aenderung (eine Variable: Kommentar-Mechanik): pick_cta="code". Jede Option traegt eine A/B/C-Marke, Schluss "COMMENT YOUR CODE: BCCAA" (Beispiel je Reel), Caption fragt nach dem Buchstaben-Code (pick.CODE_CAPTIONS). State-Eintrag cta="code". Grund: 3 Reels, 0 Kommentare trotz hoher Wiedergabe; fuenf Namen zu tippen ist Aufwand, fuenf Buchstaben nicht, und gleiche Codes laden zum Vergleichen ein. Hook-Rotation laeuft unveraendert weiter (Hooks und CTA sind getrennt im state, deshalb beides auswertbar). Lokaler Test: pick-current-stars, Hook 0, 5,2 s, Bild ok (Stimme lokal nicht erreichbar).
+- Messen: Kommentare je 100 Reach der naechsten >=3 Code-Reels gegen 0 bei den 3 v2-Reels ohne Code; Shares und Wiedergabe duerfen nicht sinken. Zurueck mit pick_cta=null.
+- Vorrat: 2 neue Sets (pick-inter, pick-portugal), jetzt 22 unbenutzte Fussball-Sets = 7,3 Tage.

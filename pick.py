@@ -26,6 +26,11 @@ CAPTIONS = [
     "Your dream team, one pick per row. Comment it and send it to your football group. Who has the best XI?",
     "Only one per row. Hardest one? Comment your picks and send this to a friend to see if they agree.",
 ]
+CODE_CAPTIONS = [
+    "One per row. Comment your code (A, B or C per row, e.g. {ex}) and send this to a friend to compare!",
+    "Your picks as a code: one letter per row, like {ex}. Drop yours in the comments. Who has the same?",
+    "Hardest one per row. Comment your letters ({ex}?) and tag the friend who picks completely different.",
+]
 TAGS = "#football #soccer #dreamteam #footballfans #footballquiz"
 
 
@@ -59,7 +64,7 @@ def header(title):
     return img
 
 
-def draw_row(img, i, n, row, progress):
+def draw_row(img, i, n, row, progress, letters=False):
     top, bottom = 560, 1430
     row_h = (bottom - top) / n
     box_h = row_h - 16
@@ -74,8 +79,14 @@ def draw_row(img, i, n, row, progress):
     x = r.SAFE_LEFT + label_w + 12
     opts = row["options"]
     w = (r.SAFE_RIGHT - x - 12 * (len(opts) - 1)) / len(opts)
-    for name in opts:
+    for j, name in enumerate(opts):
         d.rounded_rectangle((x, 0, x + w, box_h), radius=24, fill=r.ROW_BG + (255,))
+        if letters:
+            # Kommentar-Code (seit 20.11. abends): A/B/C-Marke oben links, damit der Kommentar
+            # nur ein kurzer Buchstaben-Code ist ("ABCAB") statt fuenf Namen.
+            lf = r.font(r.BOLD, 34)
+            d.rounded_rectangle((x + 10, 8, x + 54, 52), radius=12, fill=r.ACCENT + (255,))
+            d.text((x + 32, 30), "ABCD"[j], font=lf, fill=r.BG_BOTTOM, anchor="mm")
         words = name.split(" ")
         lines = [name] if len(words) == 1 else [words[0], " ".join(words[1:])]
         size = min(r.fit_font(d, ln, r.BOLD, 46, w - 32).size for ln in lines)
@@ -211,16 +222,26 @@ def v2_frame(t, pset, base, seed):
     return img
 
 
-def render_pick(pset, out_path, hook=0, silent=False, seed=7, hold=None):
-    """v2. silent=True: ohne Stimme und Toene (fuer manuelles Posten mit Trend-Sound in der App)."""
+def code_example(pset, seed):
+    import random
+    rng = random.Random(seed)
+    return "".join("ABCD"[rng.randrange(len(row["options"]))] for row in pset["rows"])
+
+
+def render_pick(pset, out_path, hook=0, silent=False, seed=7, hold=None, cta=None):
+    """v2. silent=True: ohne Stimme und Toene (fuer manuelles Posten mit Trend-Sound in der App).
+    cta="code": Optionen tragen A/B/C, Schluss "COMMENT YOUR CODE" mit Beispiel (Experiment 20.11.)."""
     import reelkit as k
     global V2_HOLD
     if hold is not None:
         V2_HOLD = hold
     n = len(pset["rows"])
     base = v2_header(pset["title"], hook)
+    letters = cta == "code"
+    if letters:
+        pset = dict(pset, end="COMMENT YOUR CODE: " + code_example(pset, seed))
     for i, row in enumerate(pset["rows"]):
-        draw_row(base, i, n, row, 1.0)
+        draw_row(base, i, n, row, 1.0, letters=letters)
     scan_end, total = v2_timing(n)
     audio = k.silence(total)
     voiced = False
@@ -236,7 +257,8 @@ def render_pick(pset, out_path, hook=0, silent=False, seed=7, hold=None):
             k.add_tone(audio, scan_end, freq, 1.2, 0.18)
         k.add_pulse(audio, volume=0.08)
     k.encode(out_path, total, lambda t: v2_frame(t, pset, base, seed), audio)
-    return {"path": out_path, "duration": total, "thumb_ms": 100, "voice": voiced, "hook": hook % len(HOOKS)}
+    return {"path": out_path, "duration": total, "thumb_ms": 100, "voice": voiced, "hook": hook % len(HOOKS),
+            "cta": cta}
 
 
 if __name__ == "__main__":
