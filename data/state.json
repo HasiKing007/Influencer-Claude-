@@ -308,6 +308,16 @@
       "voice": true,
       "media_id": "18183152329427427",
       "date": "2026-11-19T13:42Z"
+    },
+    {
+      "id": "pick-barcelona",
+      "format": "pick",
+      "v": 2,
+      "hook": 0,
+      "caption": 2,
+      "voice": true,
+      "media_id": "18009033545791314",
+      "date": "2026-11-20T11:40Z"
     }
   ]
 }
