@@ -338,6 +338,17 @@
       "voice": true,
       "media_id": "18115442192207733",
       "date": "2026-11-20T18:40Z"
+    },
+    {
+      "id": "pick-current-stars",
+      "format": "pick",
+      "v": 2,
+      "hook": 0,
+      "caption": 2,
+      "voice": true,
+      "cta": "code",
+      "media_id": "17980310427149392",
+      "date": "2026-11-21T11:39Z"
     }
   ]
 }
